@@ -25,18 +25,20 @@ class Observation:
     pack: str = ""          # pack size as printed ('24 count', '16 oz'); part of a price series
     base_unit: str | None = None     # 'count' / 'g' / 'ml' if the unit price is known
     base_price: float | None = None  # minor units per base unit (e.g. per egg, per gram)
+    currency: str = "USD"  # USD and CAD prices are never compared or mixed
 
 
 def latest_by_store(observations: list[Observation]) -> dict[tuple[str, str], list[Observation]]:
     """For cross-store comparison: (product, unit) -> latest observation per store, cheapest first."""
     latest: dict[tuple, Observation] = {}
     for o in observations:
-        k = (o.description, o.unit, o.store, o.variety, o.pack)
+        k = (o.description, o.unit, o.currency, o.store, o.variety, o.pack)
         if k not in latest or o.day > latest[k].day:
             latest[k] = o
     out: dict[tuple[str, str], list[Observation]] = {}
-    for (product, unit, *_), o in latest.items():
-        out.setdefault((product, unit), []).append(o)
+    for (product, unit, currency, *_), o in latest.items():
+        # one comparison group per currency; USD groups keep the plain key so existing callers are unchanged
+        out.setdefault((product, unit) if currency == "USD" else (product, f"{unit} {currency}"), []).append(o)
     for v in out.values():
         v.sort(key=comparison_key(v))
     return out
@@ -65,6 +67,7 @@ class PriceChange:
     to_cents: int
     variety: str = ""
     pack: str = ""
+    currency: str = "USD"
 
     @property
     def change_cents(self) -> int:
@@ -102,7 +105,7 @@ def price_changes(observations: list[Observation]) -> list[PriceChange]:
     Unchanged prices produce no PriceChange.
     """
     # Whole vs 2% milk and a 12-pack vs an 18-pack are separate series: switching isn't a price change.
-    key = lambda o: (o.store, o.description, o.unit, o.variety, o.pack)
+    key = lambda o: (o.store, o.description, o.unit, o.variety, o.pack, o.currency)
     changes = []
     for k, group in groupby(sorted(observations, key=lambda o: (key(o), o.day)), key=key):
         per_day: dict[date, int] = {}
@@ -111,5 +114,6 @@ def price_changes(observations: list[Observation]) -> list[PriceChange]:
         days = sorted(per_day)
         for a, b in zip(days, days[1:]):
             if per_day[a] != per_day[b]:
-                changes.append(PriceChange(*k[:3], a, b, per_day[a], per_day[b], variety=k[3], pack=k[4]))
+                changes.append(PriceChange(*k[:3], a, b, per_day[a], per_day[b], variety=k[3], pack=k[4],
+                                           currency=k[5]))
     return changes

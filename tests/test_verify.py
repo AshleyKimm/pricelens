@@ -1,3 +1,4 @@
+import pytest
 """Totals check and the other verification rules, one edge case per test."""
 from datetime import date
 
@@ -169,7 +170,19 @@ def test_unparseable_date():
 def test_idr_receipt():
     lines = [line("NASI GORENG 25.000", "25.000"), line("ES TEH 5.000", "5.000")]
     r = verify(receipt(lines, subtotal="30.000", tax=["3.000"], total="Rp 33.000", currency="IDR"), TODAY)
-    assert r.status == "verified" and r.receipt.total_cents == 33000
+    assert r.receipt.total_cents == 33000          # still parsed correctly (the CORD eval relies on this)...
+    assert codes(r) == ["V9"]                      # ...but the app only accepts USD and CAD
+
+
+def test_cad_receipt_is_accepted():
+    r = verify(receipt([line("MILK 4.29", "4.29")], subtotal="4.29", tax=["0.00"], total="4.29", currency="cad"), TODAY)
+    assert r.status == "verified"
+
+
+@pytest.mark.parametrize("cur", ["EUR", "IDR", "", "US"])
+def test_other_currencies_are_flagged(cur):
+    r = verify(receipt([line()], currency=cur), TODAY)
+    assert "V9" in codes(r)
 
 
 def test_card_number_in_output_is_flagged_and_scrubbed():

@@ -84,5 +84,5 @@ def format_amount(amount: int | None, currency: str | None = "USD") -> str:
     cur = (currency or "USD").upper()
     if digits == 0:
         return f"{sign}{cur} {a:,}"
-    sym = "$" if cur == "USD" else f"{cur} "
+    sym = {"USD": "$", "CAD": "CA$"}.get(cur, f"{cur} ")
     return f"{sign}{sym}{a // 10**digits:,}.{a % 10**digits:0{digits}d}"

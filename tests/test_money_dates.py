@@ -65,3 +65,8 @@ def test_ambiguous_date_other_locale():
 @pytest.mark.parametrize("raw", [None, "", "no date here", "13/13/26", "02/30/2026"])
 def test_unparseable_dates(raw):
     assert parse_receipt_date(raw) is None
+
+
+def test_cad_format():
+    assert format_amount(349, "CAD") == "CA$3.49"
+    assert format_amount(-50, "cad") == "-CA$0.50"

@@ -144,20 +144,20 @@ def cmd_prices(args) -> int:
         return 0
     from .prices import comparable_by_unit_price
     from .units import format_unit_price
-    up = lambda o: format_unit_price(o.base_price, o.base_unit, args.units)
+    up = lambda o: format_unit_price(o.base_price, o.base_unit, args.units, o.currency)
     print(f"{'date':<10}  {'store':<18} {'product':<14} {'variety':<10} {'printed as':<18} {'pack':<9} "
           f"{'price':>8}  {'unit price':<14}")
     for o in sorted(obs, key=lambda o: (o.description, o.variety, o.store, o.day)):
         print(f"{o.day}  {o.store:<18} {o.description:<14} {o.variety or '-':<10} {o.printed[:18]:<18} "
-              f"{o.pack or '-':<9} {format_amount(o.unit_price_cents):>8}  {up(o) or '-':<14}")
+              f"{o.pack or '-':<9} {format_amount(o.unit_price_cents, o.currency):>8}  {up(o) or '-':<14}")
     changes = price_changes(obs)
     if changes:
         print("\nPrice changes:")
         for c in changes:
             arrow = "UP  " if c.change_cents > 0 else "DOWN"
             name = c.description + "".join(f" ({x})" for x in (c.variety, c.pack) if x)
-            print(f"  {arrow} {c.store} / {name}: {format_amount(c.from_cents)} -> "
-                  f"{format_amount(c.to_cents)} ({c.change_pct:+.1f}%) {c.from_day} -> {c.to_day}")
+            print(f"  {arrow} {c.store} / {name}: {format_amount(c.from_cents, c.currency)} -> "
+                  f"{format_amount(c.to_cents, c.currency)} ({c.change_pct:+.1f}%) {c.from_day} -> {c.to_day}")
     compare = {k: v for k, v in latest_by_store(obs).items() if len(v) > 1}
     if compare:
         print("\nLatest price by store (cheapest first):")
@@ -165,7 +165,7 @@ def cmd_prices(args) -> int:
             by_unit = comparable_by_unit_price(rows)
             print(f"  {product} ({'by unit price' if by_unit else 'per package: pack sizes unknown'}): " + ", ".join(
                 f"{o.store}{''.join(' [' + x + ']' for x in (o.variety, o.pack) if x)} "
-                f"{up(o) if by_unit else format_amount(o.unit_price_cents)} ({o.day})" for o in rows))
+                f"{up(o) if by_unit else format_amount(o.unit_price_cents, o.currency)} ({o.day})" for o in rows))
     return 0
 
 

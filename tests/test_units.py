@@ -125,3 +125,22 @@ def test_outdated_ai_labels_are_relabeled_but_human_ones_kept(conn, tmp_path):
     conn.execute("UPDATE item_labels SET prompt_version = 'categorize-v2' WHERE source = 'ai'")
     dropped = drop_outdated_ai_labels(conn, "categorize-v3")
     assert dropped == 4 and [r["source"] for r in list_labels(conn)] == ["human"]
+
+
+
+def test_usd_and_cad_are_never_compared():
+    c = db.connect(":memory:")
+    for store, cur, price in [("US MART", "USD", "3.49"), ("CA MART", "CAD", "4.29")]:
+        res = verify(receipt([line(f"MILK {price}", price, desc="MILK")], subtotal=price, total=price, store=store,
+                             currency=cur), TODAY)
+        db.save_receipt(c, sha256=store, redacted_path=None, result=res, model="f", prompt_version="f",
+                        extraction_json="{}", source="public")
+    categorize_all(c, FakeCategorizer({"MILK": ("milk", "dairy_eggs", "high")}))
+    groups = latest_by_store(db.observations(c, "milk"))
+    assert len(groups) == 2 and all(len(rows) == 1 for rows in groups.values())  # separate, not ranked together
+    assert {o.currency for o in db.observations(c, "milk")} == {"USD", "CAD"}
+
+
+def test_extraction_prompt_tells_cad_from_usd():
+    from pricelens.extract import PROMPT_VERSION, SYSTEM_PROMPT
+    assert "CAD" in SYSTEM_PROMPT and "GST" in SYSTEM_PROMPT and PROMPT_VERSION == "extract-v2"

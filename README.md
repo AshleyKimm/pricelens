@@ -72,6 +72,7 @@ never to calculate them. Code then checks the line items against those printed n
 | V4 | quantity × unit price == line total (rounding tolerance of at most qty × ½¢) |
 | V5 | code re-parses the printed date and must agree with the model; no future or >5-year-old dates; ambiguous dates are noted |
 | V6/V7 | required fields present; nothing unreadable; model didn't report poor legibility |
+| V9 | currency is USD or CAD (anything else is flagged; USD and CAD are never compared) |
 | V8 | every discount points at a real item line |
 | S1 | no card- or loyalty-number-like text in the output (scrubbed before storage) |
 
@@ -153,6 +154,10 @@ accuracy, flag rate, redaction recall, and every failure listed._
 - Items from real (private) receipts are not categorized on the free tier, by design.
 - Varieties aren't yet normalized across stores ("boneless" vs "boneless skinless", "80%" vs "80/20").
   Base names are, which is what comparison uses.
+- Canadian receipts print "$" too. The model decides CAD vs USD from tax names (GST/HST/PST) and addresses, and
+  can get it wrong. A wrong currency still passes the totals checks.
+- A pack size is only used if its number is printed: "WHOLE MILK GAL" has no number, so milk falls back to
+  per-package comparison.
 - Product granularity is a judgment call. "cheese / cheddar block" and "cheddar cheese" are both defensible.
 - Ambiguous numeric dates (03/04/26) are resolved by a configured locale (default US).
 - Tested live on synthetic receipts only so far. Accuracy numbers come with the eval.

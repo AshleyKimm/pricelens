@@ -15,7 +15,8 @@ from .chart import MAX_SLOTS, Series, legend_html, line_chart_svg
 
 def family(o: Observation) -> str:
     """What a price can be compared against: a unit price per count/g/ml, or else per package of a unit."""
-    return o.base_unit if o.base_price is not None else f"package:{o.unit}"
+    fam = o.base_unit if o.base_price is not None else f"package:{o.unit}"
+    return fam if o.currency == "USD" else f"{fam}|{o.currency}"  # never compare USD with CAD
 
 
 def value(o: Observation, units: str) -> int:
@@ -27,8 +28,8 @@ def value(o: Observation, units: str) -> int:
 
 def price_text(o: Observation, units: str) -> str:
     if o.base_price is not None:
-        return format_unit_price(o.base_price, o.base_unit, units)
-    return f"{format_amount(o.unit_price_cents)} / {o.unit}"
+        return format_unit_price(o.base_price, o.base_unit, units, o.currency)
+    return f"{format_amount(o.unit_price_cents, o.currency)} / {o.unit}"
 
 
 def main_family(rows: list[Observation]) -> str:
@@ -99,7 +100,8 @@ def product(conn, name: str, units: str = DEFAULT_SYSTEM) -> ProductPage | None:
     fam = main_family(obs)
     main = [o for o in obs if family(o) == fam]
     by_unit = not fam.startswith("package:")
-    unit_label = display(1.0, fam, units)[1] if by_unit else fam.split(":", 1)[1]
+    base = fam.split("|")[0]
+    unit_label = display(1.0, base, units)[1] if by_unit else base.split(":", 1)[1]
     slots = store_slots(conn)
     # One series per store (+ variety when a store sells several), colored by store. With unit prices,
     # different pack sizes from one store belong on the same line (that's the point of unit pricing).

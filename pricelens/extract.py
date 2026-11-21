@@ -20,7 +20,7 @@ from . import errors
 from .models import ExtractedReceipt, strict_json_schema
 from .redact import PreparedImage
 
-PROMPT_VERSION = "extract-v1"
+PROMPT_VERSION = "extract-v2"  # v2: currency hint (USD vs CAD)
 DEFAULT_MODEL = "claude-opus-5-5"
 
 SYSTEM_PROMPT = """You transcribe store receipts into structured data for a price tracker.
@@ -34,7 +34,9 @@ SUBTOTAL + tax + post-subtotal adjustments must equal the printed TOTAL. So:
   savings, refunds/returns, fees and deposits. A multi-line item (e.g. "2 @ 1.50" on the line
   under the name) is ONE line whose raw_text contains both printed lines.
 - Do not transcribe payment, card, account, loyalty or member numbers anywhere.
-- Report legibility honestly."""
+- Report legibility honestly.
+- currency: the ISO code. Canadian receipts also print "$": use CAD when you see GST/HST/PST/QST tax
+  lines, a Canadian province or postal code (e.g. "ON", "M5V 2T6") or "CAD"; otherwise USD for "$"."""
 
 USER_PROMPT = "Extract this receipt."
 

@@ -445,6 +445,29 @@ also makes tests and re-verification free and repeatable. Layer 1 therefore buil
 
 ## 5. Testing and evals
 
+**Currency (decided 2026-11-21): the app accepts US and Canadian dollars only.** Any other currency is flagged (V9)
+and kept out of prices. USD and CAD are never compared or mixed. The extraction prompt (extract-v2) tells CAD from USD
+by GST/HST/PST lines, provinces and postal codes. **CORD stays as an eval-only benchmark:** the eval calls the extractor
+directly and never stores those (rupiah) receipts.
+
+### Eval run plan (2026-11-21, waiting for approval)
+
+| Set | Receipts | Fields scored | Source of truth | API calls |
+|---|---|---|---|---|
+| **CORD-v2 sample** | 30 (seeded: 15 validation + 15 test), downloaded | item name (similarity ≥ 0.8), count, price, subtotal (18 labeled), total | CORD labels, normalized by `evals/cord.py` (tested) | **30 extraction calls** on `gemini-3.6-flash`, run as `--budget 15` per day: **2 days** |
+| **Synthetic** | 21 extracted live (+1 pending) | store, date, subtotal/tax/total, every line price, flag correctness (misprints must be flagged), categories, base names, pack sizes | generator answer keys | **0**: the saved live extractions and labels are reused |
+| **Redaction recall** | 22 synthetic images | card digits, auth code, member number | answer keys list each sensitive value | **0**: local OCR only |
+| **Label corrections** | every saved human correction | does the current prompt now get it right? | `label_corrections.jsonl` | 1 categorize call |
+
+- **Predictions are saved** (`evals/predictions/<set>/<id>.json`, model output only), so scoring can be re-run for free and
+  the README numbers are reproducible. CORD predictions are committed with attribution. CORD images never are.
+- **Redaction recall** is measured as: OCR the *original* image to confirm each sensitive value is readable, then OCR the
+  *redacted* image and count how many are still readable. Counted only where the original was readable.
+- **Report** (`evals/RESULTS.md` + a README table): per-field accuracy as `correct / scored` with a 95% Wilson interval
+  (small samples get honest error bars), the flag rate, confidence-bucket accuracy for categories, and **every failure
+  listed**. CORD and synthetic results are reported separately, because synthetic receipts are easier than photos.
+- **What CORD can't tell us:** store and date (no labels), US formats, real crumpled-photo conditions on our own receipts.
+
 - **Unit tests** (no API calls): V1–V7, cents conversion, date parsing, price-change math,
   redaction pattern matching. All edge cases from section 1 become fixtures.
 - **Eval set: 15–20 receipts** with hand-labeled JSON (`evals/labels/*.json`). The run reports

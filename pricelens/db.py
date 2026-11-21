@@ -192,7 +192,7 @@ def observations(conn, query: str) -> list[Observation]:
     """
     like = f"%{query}%"
     receipts = conn.execute(
-        """SELECT DISTINCT r.id, r.store_id, s.name AS store, r.purchase_date
+        """SELECT DISTINCT r.id, r.store_id, s.name AS store, r.purchase_date, r.currency
            FROM receipts r JOIN stores s ON s.id = r.store_id
            JOIN line_items li ON li.receipt_id = r.id
            LEFT JOIN item_labels il ON il.store_id = r.store_id AND il.description_key = li.description_key
@@ -222,5 +222,6 @@ def observations(conn, query: str) -> list[Observation]:
                                        date.fromisoformat(r["purchase_date"]), price,
                                        printed=line.description or "", category=label["category"] if label else None,
                                        variety=(label["variety"] or "") if label else "",
-                                       pack=pack, base_unit=base_unit, base_price=base_price))
+                                       pack=pack, base_unit=base_unit, base_price=base_price,
+                                       currency=r["currency"] or "USD"))
     return out

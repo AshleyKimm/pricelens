@@ -21,6 +21,9 @@ from .money import MoneyParseError, format_amount, parse_amount
 
 NEGATIVE_KINDS = {"discount", "coupon", "refund"}
 MAX_AGE_YEARS = 5
+# Decided 2026-11-21: the app accepts US and Canadian dollars only. Other currencies are flagged (V9)
+# and kept out of prices. (Money parsing still supports others, e.g. IDR for the CORD eval.)
+SUPPORTED_CURRENCIES = {"USD", "CAD"}
 
 
 @dataclass(frozen=True)
@@ -181,6 +184,10 @@ def scrub_text(text: str) -> str:
 def check(rec: Receipt, today: date) -> list[Issue]:
     issues: list[Issue] = []
     fmt = lambda amount: format_amount(amount, rec.currency)
+
+    # V9 currency
+    if (rec.currency or "").upper() not in SUPPORTED_CURRENCIES:
+        issues.append(Issue("V9", f"currency {rec.currency!r} is not supported (only USD and CAD)"))
 
     # V6 required fields
     if not rec.store_name:
