@@ -4,7 +4,7 @@ from datetime import date
 from pathlib import Path
 
 import pytest
-from helpers import line, receipt
+from helpers import line, receipt, receipt_ocr
 from PIL import Image
 
 from pricelens import db
@@ -16,7 +16,7 @@ from pricelens.redact import prepare, sha256_file
 from pricelens.reliability import Budget, Caller, CircuitBreaker, RetryPolicy
 
 TODAY = date(2026, 11, 21)
-no_ocr = lambda p: prepare(p, ocr=lambda im: [])
+no_ocr = lambda p: prepare(p, ocr=receipt_ocr)  # payment section "found"
 
 
 def rec(i):

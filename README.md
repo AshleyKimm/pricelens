@@ -150,11 +150,13 @@ generated images, so treat them as an upper bound, not as real-world accuracy:
 The model reported "high" confidence on 61 of 63 labels, so self-reported confidence carried almost no signal here.
 
 **Redaction** (local OCR before and after, 0 API calls):
-- Every card number, auth code and member number that OCR could read was hidden: **59/59**.
-- No price was covered by a redaction box: **117/117**.
-- **Privacy gap:** redaction uses the same OCR, so a number OCR *can't* read isn't hidden. On the heavily blurred
-  receipt, all three sensitive values were sent visible, while the model read the rest of that receipt perfectly.
-  On real receipts, the human preview is currently the only safeguard. See Known limitations.
+- **Sensitive values protected: 66/66.** 21 of 22 receipts had everything below TOTAL blacked out. The heavily
+  blurred one was held back for review instead of being sent.
+- **Item prices untouched by redaction: 117/117.**
+- *How it got there:* the first version only boxed numbers OCR could read, which gave **59/66**. On the heavily blurred
+  receipt it found none of the card, auth or member numbers and sent them visible, while the model read the rest of
+  that receipt perfectly. The first gate then let a noisy receipt through because one line was boxed, while the card
+  digits next to it weren't. Now only a located TOTAL counts as safe. Both cases are regression tests.
 
 **CORD-v2** (30 real receipt photos, public benchmark): runs over two days on the free tier's 20 requests/day.
 Results will appear here.
@@ -167,9 +169,15 @@ prices measures it directly.
 ## Data sent to the model, and how it's protected
 
 - **Only a redacted, re-encoded JPEG is sent**, plus a fixed prompt. No filename, user info, or metadata.
-- **Local redaction first:** Tesseract OCR runs on your machine and blacks out masked card numbers, long
-  digit runs, and numbers on CARD/ACCT/MEMBER/LOYALTY/AUTH lines (prices on those lines are kept).
-  Re-encoding drops EXIF/GPS. You see the exact image that will be sent and must confirm it (or pass `--yes`).
+- **Local redaction first, in two layers** (Tesseract OCR on your machine):
+  1. **Everything below the TOTAL line is blacked out.** Card, auth, change and loyalty lines are printed
+     there, and nothing below TOTAL is needed for extraction. Finding the word "TOTAL" is much easier for OCR than
+     reading a blurry card number. Noisy photos get a second, denoised OCR pass if the first misses it.
+  2. **If TOTAL can't be found, the image is held back.** `batch` and `add --yes` refuse to send it (recorded for
+     manual review). Interactive `add` shows the preview and requires typing `send`. An override exists only for
+     the public/fake data folders.
+  Masked card numbers, long digit runs and numbers on CARD/ACCT/MEMBER/AUTH lines anywhere else are also boxed.
+  Re-encoding drops EXIF/GPS.
 - **Backstop:** if card- or loyalty-like numbers still appear in the model output, the receipt is flagged
   and the text is replaced with `[REDACTED]` before storage.
 - **Provider policy, enforced in code:** the default provider is the free Gemini API tier, where Google
@@ -179,9 +187,9 @@ prices measures it directly.
 - **Keys:** API keys live in `.env` (gitignored) and are only read server-side.
 
 ## Known limitations
-- OCR-based redaction can miss text on blurry, crumpled or low-contrast receipts, and then those numbers are sent
-  unredacted (measured: see Eval results). `add` warns when nothing was redacted and asks before sending, but
-  `add --yes` and `batch` don't preview.
+- Redaction relies on OCR finding the TOTAL line. When it can't, the receipt is held back rather than guessed at,
+  so very poor photos need a human decision. It also assumes payment details are printed below TOTAL. A receipt
+  with a card number *above* TOTAL is only protected by the per-line rules.
 - Free Gemini tier: **20 requests/day per model**. Categorization batches per store, so 18 receipts take 3 calls.
 - Items from real (private) receipts are not categorized on the free tier, by design.
 - Varieties aren't yet normalized across stores ("boneless" vs "boneless skinless", "80%" vs "80/20").

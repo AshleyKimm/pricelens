@@ -55,3 +55,8 @@ class DuplicateReceiptError(PriceLensError):
     def __init__(self, receipt_id: int):
         super().__init__(f"image already stored as receipt #{receipt_id}")
         self.receipt_id = receipt_id
+
+
+class RedactionUncertainError(PriceLensError):
+    """Local OCR found neither the TOTAL line nor any card/account/loyalty line, so sensitive numbers may be
+    unredacted. Not sent without a human looking at the preview. Not retryable: the same image gives the same result."""

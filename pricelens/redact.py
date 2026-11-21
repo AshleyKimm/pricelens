@@ -19,7 +19,7 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageOps, UnidentifiedImageError
+from PIL import Image, ImageDraw, ImageFilter, ImageOps, UnidentifiedImageError
 
 from .errors import RedactionUnavailableError, UnreadableImageError
 
@@ -99,6 +99,12 @@ def find_sensitive_boxes(words: list[Word]) -> list[Box]:
     return out
 
 
+def _ocr_words_denoised(img: Image.Image) -> list[Word]:
+    """Second OCR pass for speckled/noisy photos: a 3x3 median filter removes salt-and-pepper noise that
+    stops Tesseract from reading even large, clear words like TOTAL."""
+    return _ocr_words(img.filter(ImageFilter.MedianFilter(3)))
+
+
 def _ocr_words(img: Image.Image) -> list[Word]:
     try:
         import pytesseract
@@ -134,12 +140,47 @@ def _ocr_words(img: Image.Image) -> list[Word]:
     ]
 
 
+_TOTAL = re.compile(r"^(GRAND\s+)?TOTAL\b(?!\s*(SAVINGS|SAVED|ITEMS|QTY|DISCOUNT))|^(BALANCE|AMOUNT)\s+DUE\b", re.I)
+_SUBTOTAL = re.compile(r"\bSUB\s*-?\s*TOTAL\b", re.I)
+
+
+def find_total_bottom(words: list[Word]) -> int | None:
+    """y just below the receipt's TOTAL line, or None if OCR didn't find one.
+
+    Payment, card, auth, change and loyalty lines are printed below TOTAL, and nothing below it is needed for
+    extraction (tax and after-subtotal adjustments come before TOTAL). Finding the word TOTAL is much easier
+    for OCR than reading a blurry card number, so blacking out everything below it protects the numbers OCR
+    can't read. Uses the first TOTAL after SUBTOTAL (so 'TOTAL SAVINGS' further down doesn't count).
+    """
+    lines: dict[tuple, list[Word]] = {}
+    for w in words:
+        lines.setdefault(w.line_key, []).append(w)
+    ordered = sorted(lines.values(), key=lambda ws: min(w.top for w in ws))
+    texts = [" ".join(w.text for w in sorted(ws, key=lambda w: w.left)) for ws in ordered]
+    start = next((i + 1 for i, t in enumerate(texts) if _SUBTOTAL.search(t)), 0)
+    for ws, text in zip(ordered[start:], texts[start:]):
+        if _TOTAL.search(text.strip()) and not _SUBTOTAL.search(text):
+            if not any(re.search(r"\d+[.,]\d{2}", t) for t in texts[:ordered.index(ws)]):
+                return None  # a "TOTAL" with no prices above it is probably a misread header
+            return max(w.top + w.height for w in ws) + PAD
+    return None
+
+
 @dataclass
 class PreparedImage:
     original_sha256: str
     jpeg_bytes: bytes          # exactly what gets sent to the API
     boxes: list[Box]           # redaction boxes, in original-image coordinates
     ocr_word_count: int
+    blacked_below: int | None = None   # y from which everything was blacked out (below TOTAL), if found
+
+    @property
+    def redaction_confident(self) -> bool:
+        """True only if the TOTAL line was located and everything below it blacked out. Otherwise OCR may
+        have missed sensitive numbers, and the image must not be sent without a human looking at it."""
+        # Boxes alone don't count: on a noisy test receipt OCR boxed the auth code but missed the card digits
+        # and member number on the lines around it. Only a located TOTAL proves the whole section is covered.
+        return self.blacked_below is not None
 
 
 def sha256_file(path: Path) -> str:
@@ -157,18 +198,29 @@ def load_image(path: Path) -> Image.Image:
     return ImageOps.exif_transpose(img).convert("RGB")
 
 
-def prepare(path: Path, ocr=_ocr_words) -> PreparedImage:
-    """Orient, redact, downscale, re-encode. `ocr` is injectable for tests."""
+def prepare(path: Path, ocr=None) -> PreparedImage:
+    """Orient, redact, downscale, re-encode. `ocr` is injectable for tests (then no second pass runs)."""
     path = Path(path)
     sha = sha256_file(path) if path.exists() else None
     img = load_image(path)
-    words = ocr(img)
+    words = (ocr or _ocr_words)(img)
+    below = find_total_bottom(words)
+    if below is None and ocr is None:
+        # Noisy photo? Try once more on a denoised copy, and keep the boxes from both passes.
+        second = _ocr_words_denoised(img)
+        below = find_total_bottom(second)
+        # Each pass numbers its lines independently: tag pass 2's line keys so its words are never grouped
+        # with a different physical line from pass 1 (that merged "2026" from the date into a fake long number).
+        words = words + [Word(w.text, w.left, w.top, w.width, w.height, ("pass2",) + tuple(w.line_key))
+                         for w in second]
     boxes = find_sensitive_boxes(words)
     draw = ImageDraw.Draw(img)
     for b in boxes:
         draw.rectangle([b.left, b.top, b.right, b.bottom], fill="black")
+    if below is not None and below < img.height:
+        draw.rectangle([0, below, img.width, img.height], fill="black")  # layer 1: everything under TOTAL
     if max(img.size) > MAX_LONG_EDGE:
         img.thumbnail((MAX_LONG_EDGE, MAX_LONG_EDGE), Image.LANCZOS)
     buf = io.BytesIO()
     img.save(buf, format="JPEG", quality=JPEG_QUALITY)  # new encode: no EXIF/GPS carried over
-    return PreparedImage(sha, buf.getvalue(), boxes, len(words))
+    return PreparedImage(sha, buf.getvalue(), boxes, len(words), below)

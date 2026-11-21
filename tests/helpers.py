@@ -14,3 +14,11 @@ def receipt(lines, subtotal="1.00", tax=(), total="1.00", store="TEST MART", dat
     return ExtractedReceipt(store_name=store, date_raw=date_raw, date_iso=date_iso, currency=currency,
                             subtotal=subtotal, tax_lines=list(tax), total=total, legibility=legibility,
                             lines=lines)
+
+
+def receipt_ocr(im):
+    """Fake OCR result for a receipt whose payment section WAS found: a price line, then TOTAL.
+    (Blank test images have no text; without this, the redaction gate rightly refuses to send them.)"""
+    from pricelens.redact import Word
+    return [Word("MILK", 2, 2, 20, 8, (1, 1, 1)), Word("1.00", 30, 2, 10, 8, (1, 1, 1)),
+            Word("TOTAL", 2, 14, 20, 8, (1, 1, 2)), Word("1.00", 30, 14, 10, 8, (1, 1, 2))]

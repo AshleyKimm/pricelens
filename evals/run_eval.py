@@ -202,29 +202,41 @@ def eval_redaction() -> dict:
     for lp in sorted((ROOT / "evals" / "synthetic" / "labels").glob("*.json")):
         L = json.loads(lp.read_text(encoding="utf-8"))
         img_path = ROOT / "evals" / "synthetic" / L["image"]
-        before = ocr_text(load_image(img_path))
-        after_img = Image.open(io.BytesIO(prepare(img_path).jpeg_bytes))
-        after = ocr_text(after_img)
-        for v in L["sensitive_values"]:
-            if v not in before:
-                t.add("sensitive value found by local OCR (redaction can only hide what OCR finds)", False, L["id"], v)
-                continue
-            t.add("sensitive value found by local OCR (redaction can only hide what OCR finds)", True)
-            t.add("sensitive value hidden after redaction (recall)", v not in after, L["id"], f"{v} still readable")
-        # Over-redaction, measured geometrically: does any black box overlap a printed price? (Comparing OCR
-        # text before/after was misleading: Tesseract reads the whole page differently once boxes are added,
-        # e.g. it "lost" a clearly visible 2.09- far from any box.)
         original = load_image(img_path)
         prepared = prepare(img_path)
+        held_back = not prepared.redaction_confident
+        t.add("payment section blacked out (TOTAL found)", not held_back, L["id"],
+              f"{L['degradation']}: TOTAL not found, image held back for review (not sent automatically)")
+        before = ocr_text(original)
+        after = ocr_text(Image.open(io.BytesIO(prepared.jpeg_bytes)))
+        for v in L["sensitive_values"]:
+            # All synthetic sensitive lines are printed below TOTAL (true by construction in the generator),
+            # so a blacked-out payment section covers them even when OCR can't read them.
+            protected = held_back or prepared.blacked_below is not None or v not in after
+            t.add("sensitive values protected (blacked out, or image held back)", protected, L["id"],
+                  f"{v} would be sent visible")
+            if v in before:
+                t.add("OCR check: sensitive value unreadable after redaction", v not in after, L["id"],
+                      f"{v} still readable")
+        if held_back:
+            continue
+        # Over-redaction, measured geometrically: does any black box, or the blacked-out area below TOTAL,
+        # overlap a printed item price? (Comparing OCR text before/after was misleading: Tesseract reads the
+        # whole page differently once boxes are added, e.g. it "lost" a clearly visible 2.09- far from any box.)
         words = _ocr_words(original)
         for x in L["lines"]:
             amount = f"{abs(x['line_total_cents']) // 100}.{abs(x['line_total_cents']) % 100:02d}"
             spots = [w for w in words if w.text.rstrip("-") == amount]
             if not spots:
                 continue  # OCR didn't locate this price; can't judge it
-            covered = any(b.left < w.left + w.width and w.left < b.right and b.top < w.top + w.height and w.top < b.bottom
-                          for w in spots for b in prepared.boxes)
-            t.add("prices not covered by a redaction box", not covered, L["id"], f"{amount} covered")
+            def hidden(w):
+                return (w.top + w.height > prepared.blacked_below or
+                        any(b.left < w.left + w.width and w.left < b.right and b.top < w.top + w.height and w.top < b.bottom
+                            for b in prepared.boxes))
+            # The same amount can be printed twice (a 2.00 coupon above TOTAL, "YOU SAVED 2.00" below it):
+            # the price is only lost if EVERY printed copy is covered.
+            covered = all(hidden(w) for w in spots)
+            t.add("item prices not covered by redaction", not covered, L["id"], f"{amount} covered")
     return {"tally": t}
 
 
@@ -363,10 +375,10 @@ def report() -> str:
     if red:
         parts.append("## Redaction (local OCR, 0 API calls)\n\nOCR reads each image before and after redaction. Recall counts "
                      "only values OCR could read in the original.\n\n" + table(red["tally"]) +
-                     "\n\n**Privacy gap:** a sensitive value that local OCR cannot read (e.g. on a heavily blurred photo) "
-                     "is not redacted, so it is sent as-is, and the model may still read it. The recall above only covers "
-                     "values OCR could find. On `corner_20261108` (heavy blur) the card digits, auth code and member "
-                     "number were all sent visible." +
+                     "\n\n**History:** the first version only boxed numbers OCR could read. On a heavily blurred receipt "
+                     "OCR read none of them, so the card digits, auth code and member number were sent visible (59/66 "
+                     "protected). Now everything below TOTAL is blacked out, and an image whose TOTAL can't be found is "
+                     "held back for human review. Assumption: the generator prints all sensitive lines below TOTAL." +
                      "\n\n### Redaction failures\n\n" + failures(red["tally"]))
     cord = load("cord")
     if cord:

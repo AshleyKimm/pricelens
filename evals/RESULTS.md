@@ -47,19 +47,14 @@ OCR reads each image before and after redaction. Recall counts only values OCR c
 
 | Field | Result |
 |---|---|
-| sensitive value found by local OCR (redaction can only hide what OCR finds) | 59/66 = 89% (95% CI 80-95%) |
-| sensitive value hidden after redaction (recall) | 59/59 = 100% (95% CI 94-100%) |
-| prices not covered by a redaction box | 117/117 = 100% (95% CI 97-100%) |
+| payment section blacked out (TOTAL found) | 21/22 = 95% (95% CI 78-99%) |
+| sensitive values protected (blacked out, or image held back) | 66/66 = 100% (95% CI 94-100%) |
+| OCR check: sensitive value unreadable after redaction | 59/59 = 100% (95% CI 94-100%) |
+| item prices not covered by redaction | 117/117 = 100% (95% CI 97-100%) |
 
-**Privacy gap:** a sensitive value that local OCR cannot read (e.g. on a heavily blurred photo) is not redacted, so it is sent as-is, and the model may still read it. The recall above only covers values OCR could find. On `corner_20261108` (heavy blur) the card digits, auth code and member number were all sent visible.
+**History:** the first version only boxed numbers OCR could read. On a heavily blurred receipt OCR read none of them, so the card digits, auth code and member number were sent visible (59/66 protected). Now everything below TOTAL is blacked out, and an image whose TOTAL can't be found is held back for human review. Assumption: the generator prints all sensitive lines below TOTAL.
 
 ### Redaction failures
 
-**sensitive value found by local OCR (redaction can only hide what OCR finds)** (7):
-- corner_20261011: 70818405
-- corner_20261108: 5182
-- corner_20261108: 392024
-- corner_20261108: 41057939
-- freshway_20261016: 940928
-- maple_20261019: 0327
-- maple_20261026: 4232
+**payment section blacked out (TOTAL found)** (1):
+- corner_20261108: heavy_blur: TOTAL not found, image held back for review (not sent automatically)

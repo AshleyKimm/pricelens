@@ -1,30 +1,29 @@
 {
  "rows": [
   [
-   "sensitive value found by local OCR (redaction can only hide what OCR finds)",
-   59,
+   "payment section blacked out (TOTAL found)",
+   21,
+   22
+  ],
+  [
+   "sensitive values protected (blacked out, or image held back)",
+   66,
    66
   ],
   [
-   "sensitive value hidden after redaction (recall)",
+   "OCR check: sensitive value unreadable after redaction",
    59,
    59
   ],
   [
-   "prices not covered by a redaction box",
+   "item prices not covered by redaction",
    117,
    117
   ]
  ],
  "fail": {
-  "sensitive value found by local OCR (redaction can only hide what OCR finds)": [
-   "corner_20261011: 70818405",
-   "corner_20261108: 5182",
-   "corner_20261108: 392024",
-   "corner_20261108: 41057939",
-   "freshway_20261016: 940928",
-   "maple_20261019: 0327",
-   "maple_20261026: 4232"
+  "payment section blacked out (TOTAL found)": [
+   "corner_20261108: heavy_blur: TOTAL not found, image held back for review (not sent automatically)"
   ]
  }
 }

@@ -34,14 +34,17 @@ def _print_issues(issues) -> None:
 
 def _confirm_interactive(prepared, preview: Path) -> bool:
     print(f"Redacted preview (exactly what will be sent): {preview}")
-    print(f"  OCR read {prepared.ocr_word_count} words; blacked out {len(prepared.boxes)} region(s).")
-    if not prepared.boxes:
-        print("  WARNING: nothing was redacted. Most receipts have a card or loyalty line - check the preview.")
+    below = "everything below TOTAL" if prepared.blacked_below is not None else "nothing below TOTAL (not found)"
+    print(f"  OCR read {prepared.ocr_word_count} words; blacked out {len(prepared.boxes)} region(s) and {below}.")
     if hasattr(os, "startfile"):
         try:
             os.startfile(preview)  # opens the preview in the default image viewer (Windows)
         except OSError:
             pass
+    if not prepared.redaction_confident:
+        print("  WARNING: redaction is UNCERTAIN. OCR found neither the TOTAL line nor any card/loyalty line,\n"
+              "  so card or member numbers may be visible. Check the preview carefully.")
+        return input("Type 'send' to send it anyway: ").strip().lower() == "send"
     return input("Send this image to the API? [y/N] ").strip().lower() == "y"
 
 
@@ -75,6 +78,7 @@ def cmd_add(args) -> int:
             confirm=None if args.yes else _confirm_interactive,
             fixture_dir=Path(args.save_fixture) if args.save_fixture else None,
             locale=args.locale,
+            allow_uncertain_redaction=args.allow_uncertain_redaction,
         )
     except Cancelled:
         print("Cancelled; nothing was sent.")
@@ -243,7 +247,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     a = sub.add_parser("add", help="extract, verify and store one receipt image")
     a.add_argument("image")
-    a.add_argument("--yes", action="store_true", help="skip the redacted-preview confirmation")
+    a.add_argument("--yes", action="store_true",
+                   help="skip the redacted-preview confirmation (refused if redaction is uncertain)")
+    _uncertain_arg(a)
     a.add_argument("--replay", metavar="DIR", help="use saved extractions instead of calling the API")
     a.add_argument("--save-fixture", metavar="DIR", help="save the raw model output for replay")
     a.add_argument("--provider", default=_env("PRICELENS_PROVIDER", "gemini"), choices=["gemini", "claude"])
@@ -327,6 +333,13 @@ def _extractor_args(sp):
     sp.add_argument("--replay", metavar="DIR", help="use saved extractions instead of calling the API")
     sp.add_argument("--save-fixture", metavar="DIR")
     sp.add_argument("--locale", default=_env("PRICELENS_LOCALE", "US"))
+    _uncertain_arg(sp)
+
+
+def _uncertain_arg(sp):
+    sp.add_argument("--allow-uncertain-redaction", action="store_true",
+                    help="send images even if OCR couldn't find the payment section: public/fake data folders ONLY "
+                         "(ignored for real receipts)")
 
 
 def cmd_batch(args) -> int:
@@ -343,7 +356,8 @@ def cmd_batch(args) -> int:
           f"No preview prompts in batch mode: images are redacted locally as usual.")
     s = run_batch(conn, paths, extractor=_extractor(args), caller=_caller(args), redacted_dir=ROOT / "data" / "redacted",
                   workers=args.workers, source=source, locale=args.locale,
-                  fixture_dir=Path(args.save_fixture) if args.save_fixture else None, on_progress=print)
+                  fixture_dir=Path(args.save_fixture) if args.save_fixture else None, on_progress=print,
+                  allow_uncertain_redaction=args.allow_uncertain_redaction)
     print(f"\nRun #{s.run_id}: {s.line()}")
     if s.stopped:
         print(f"Stopped early: {s.stopped}")

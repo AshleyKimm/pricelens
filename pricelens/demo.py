@@ -61,7 +61,7 @@ def build(root: Path, out: Path) -> dict:
             continue
         add_receipt(path, conn=conn, extractor=ReplayExtractor(fixtures), redacted_dir=scratch,
                     prepare_fn=lambda p, sha=sha, image=image: PreparedImage(sha, image.read_bytes(), [], 0),
-                    today=DEMO_AS_OF)
+                    today=DEMO_AS_OF, allow_uncertain_redaction=True)  # already-redacted committed images
         added += 1
     shutil.rmtree(scratch, ignore_errors=True)
     labels = json.loads((demo / "labels.json").read_text(encoding="utf-8")) if (demo / "labels.json").exists() else []

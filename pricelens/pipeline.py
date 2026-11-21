@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Callable
 
 from . import db
-from .errors import DuplicateReceiptError, UnreadableImageError
+from .errors import DuplicateReceiptError, RedactionUncertainError, UnreadableImageError
 from .extract import ExtractionResult, Extractor, save_fixture
 from .money import format_amount
 from .policy import check_allowed, is_public_data
@@ -58,9 +58,18 @@ def process(
     today: date | None = None,
     locale: str = "US",
     call=None,
+    allow_uncertain_redaction: bool = False,
 ) -> Processed:
     """`call(fn) -> (result, attempts)` wraps the API request (a reliability.Caller in batches)."""
     prepared = prepare_fn(path)
+    # Redaction gate: if OCR couldn't locate the payment section, it may have missed card/loyalty numbers.
+    # Never send such an image without a human looking at it (interactive confirm handles that), except
+    # fake/public data when explicitly allowed. Real receipts can never skip this.
+    if not prepared.redaction_confident and confirm is None:
+        if not (allow_uncertain_redaction and is_public_data(path)):
+            raise RedactionUncertainError(
+                "redaction uncertain: OCR found neither the TOTAL line nor a card/loyalty line, so sensitive numbers "
+                "may be visible. Review it with `pricelens add` (no --yes) to see the preview.")
     redacted_dir.mkdir(parents=True, exist_ok=True)
     redacted_path = redacted_dir / f"{sha}.jpg"
     redacted_path.write_bytes(prepared.jpeg_bytes)  # exactly the bytes that will be sent
@@ -127,6 +136,7 @@ def add_receipt(
     today: date | None = None,
     locale: str = "US",
     call=None,
+    allow_uncertain_redaction: bool = False,
 ) -> AddOutcome:
     path = Path(path)
     if not path.is_file():
@@ -139,5 +149,6 @@ def add_receipt(
         raise DuplicateReceiptError(existing)
 
     p = process(path, sha=sha, extractor=extractor, redacted_dir=redacted_dir, confirm=confirm,
-                prepare_fn=prepare_fn, fixture_dir=fixture_dir, today=today, locale=locale, call=call)
+                prepare_fn=prepare_fn, fixture_dir=fixture_dir, today=today, locale=locale, call=call,
+                allow_uncertain_redaction=allow_uncertain_redaction)
     return store(conn, p)

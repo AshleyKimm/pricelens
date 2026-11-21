@@ -85,6 +85,7 @@ def run_batch(
     today: date | None = None,
     locale: str = "US",
     on_progress: Callable[[str], None] = lambda s: None,
+    allow_uncertain_redaction: bool = False,
 ) -> BatchSummary:
     with conn:
         run_id = conn.execute("INSERT INTO ingest_runs(source, workers, rpm, budget) VALUES (?, ?, ?, ?)",
@@ -134,7 +135,7 @@ def run_batch(
             path, sha = queue.pop(0)
             fut = pool.submit(process, path, sha=sha, extractor=extractor, redacted_dir=redacted_dir,
                               prepare_fn=prepare_fn, fixture_dir=fixture_dir, today=today, locale=locale,
-                              call=caller.call)
+                              call=caller.call, allow_uncertain_redaction=allow_uncertain_redaction)
             pending[fut] = (path, sha)
 
         # Keep at most `workers` jobs in flight, so a stop leaves the rest cleanly "not attempted".

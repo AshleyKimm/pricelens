@@ -5,7 +5,7 @@ import sqlite3
 from datetime import date
 
 import pytest
-from helpers import line, receipt
+from helpers import line, receipt, receipt_ocr
 from PIL import Image
 
 from pricelens import db
@@ -16,7 +16,7 @@ from pricelens.pipeline import Cancelled, add_receipt
 from pricelens.redact import prepare, sha256_file
 
 TODAY = date(2026, 11, 20)
-no_ocr = lambda p: prepare(p, ocr=lambda im: [])
+no_ocr = lambda p: prepare(p, ocr=receipt_ocr)  # payment section "found"
 
 
 @pytest.fixture
