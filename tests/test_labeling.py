@@ -13,6 +13,8 @@ from pricelens.labeling import categorize_all, categorize_receipt, fix_label, li
 from pricelens.verify import verify
 
 TODAY = date(2026, 11, 21)
+# Newest schema version, read from the migration files so adding one doesn't break these tests.
+LATEST = max(int(f.name[:3]) for f in db.MIGRATIONS.glob('[0-9][0-9][0-9]_*.sql'))
 ANSWERS = {"MILK 1GAL": ("milk", "dairy_eggs", "high"), "BNNA ORG": ("bananas", "produce", "high"),
            "TP MINT": ("toothpaste", "personal_care", "medium")}
 
@@ -196,7 +198,7 @@ def test_migration_upgrades_a_layer1_database(tmp_path):
     old.commit()
     old.close()
     conn = db.connect(path)
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == LATEST
     assert conn.execute("SELECT description_key FROM line_items").fetchone()[0] == "MILK 1GAL"
     assert conn.execute("SELECT source FROM receipts").fetchone()[0] == "private"  # unknown origin -> safe default
     db.connect(path)  # running again is a no-op
@@ -214,7 +216,7 @@ def test_failed_migration_rolls_back(tmp_path, monkeypatch):
     with pytest.raises(sqlite3.Error):
         db.connect(path)
     conn = sqlite3.connect(path)
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3  # the last good migration
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == LATEST  # the last good migration
     assert conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE name = 'ok_table'").fetchone()[0] == 0
 
 

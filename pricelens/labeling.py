@@ -11,6 +11,7 @@ from .categories import CATEGORIES, clean_name, description_key, name_problems, 
 from .units import to_base
 from .categorize import Categorizer, ItemToLabel
 from .errors import AuthError, PriceLensError
+from .reliability import StopRun
 
 
 MAX_BATCH = 60  # items per request; keeps each response small
@@ -44,7 +45,8 @@ def _skip_reason(conn, receipt_id: int, categorizer) -> tuple[str | None, sqlite
     return None, r
 
 
-def _label_store(conn, store_id: int, store: str, receipt_ids: list[int], categorizer, s: CategorizeSummary) -> None:
+def _label_store(conn, store_id: int, store: str, receipt_ids: list[int], categorizer, s: CategorizeSummary,
+                 call=None) -> None:
     """All uncached items from these receipts (one store) -> as few requests as possible."""
     marks = ",".join("?" * len(receipt_ids))
     lines = conn.execute(f"""SELECT description_key, description, raw_text FROM line_items
@@ -66,7 +68,8 @@ def _label_store(conn, store_id: int, store: str, receipt_ids: list[int], catego
         known_names = [row[0] for row in conn.execute(
             "SELECT DISTINCT normalized_name FROM item_labels WHERE normalized_name IS NOT NULL")]
         s.calls += 1
-        outcome = categorizer.label(store, items, known_names)
+        request = lambda: categorizer.label(store, items, known_names)
+        outcome = call(request)[0] if call else request()  # Layer 4: rate limit, budget, retries
         with conn:  # one transaction per batch
             for label in outcome.labels:
                 key = chunk[label.id - 1]
@@ -107,7 +110,8 @@ def drop_outdated_ai_labels(conn, prompt_version: str) -> int:
                             (prompt_version,)).rowcount
 
 
-def categorize_all(conn, categorizer: Categorizer, receipt_ids: list[int] | None = None) -> list[CategorizeSummary]:
+def categorize_all(conn, categorizer: Categorizer, receipt_ids: list[int] | None = None,
+                   call=None) -> list[CategorizeSummary]:
     """Groups receipts by store so each store's uncached items go in one request (free tiers allow few
     requests per day). One failing store doesn't stop the rest; an auth failure does."""
     ids = receipt_ids or [row[0] for row in conn.execute("SELECT id FROM receipts ORDER BY id")]
@@ -122,8 +126,8 @@ def categorize_all(conn, categorizer: Categorizer, receipt_ids: list[int] | None
     for store_id, (store, rids) in groups.items():
         s = CategorizeSummary(rids[0], rids, store)
         try:
-            _label_store(conn, store_id, store, rids, categorizer, s)
-        except AuthError:
+            _label_store(conn, store_id, store, rids, categorizer, s, call=call)
+        except (AuthError, StopRun):  # every further request would fail too: stop
             raise
         except PriceLensError as e:
             s.error = f"{type(e).__name__}: {e}"

@@ -45,16 +45,28 @@ def _confirm_interactive(prepared, preview: Path) -> bool:
     return input("Send this image to the API? [y/N] ").strip().lower() == "y"
 
 
-def cmd_add(args) -> int:
-    if args.replay:
+def _extractor(args):
+    if getattr(args, "replay", None):
         from .extract import ReplayExtractor
-        extractor = ReplayExtractor(Path(args.replay))
-    elif args.provider == "gemini":
+        return ReplayExtractor(Path(args.replay))
+    if args.provider == "gemini":
         from .gemini import DEFAULT_GEMINI_MODEL, GeminiExtractor
-        extractor = GeminiExtractor(model=args.model or DEFAULT_GEMINI_MODEL)
-    else:
-        from .extract import DEFAULT_MODEL, ClaudeExtractor
-        extractor = ClaudeExtractor(model=args.model or DEFAULT_MODEL, effort=args.effort)
+        return GeminiExtractor(model=args.model or DEFAULT_GEMINI_MODEL)
+    from .extract import DEFAULT_MODEL, ClaudeExtractor
+    return ClaudeExtractor(model=args.model or DEFAULT_MODEL, effort=args.effort)
+
+
+def _caller(args):
+    """One shared Caller per command: retries, rate limit, budget, circuit breaker (Layer 4)."""
+    from .reliability import Budget, Caller, CircuitBreaker, RateLimiter, RetryPolicy
+    if getattr(args, "replay", None):  # saved responses: no network, so no budget or rate limit
+        return Caller(policy=RetryPolicy(), limiter=RateLimiter(None), budget=Budget(None), breaker=CircuitBreaker())
+    return Caller(policy=RetryPolicy(), limiter=RateLimiter(args.rpm), budget=Budget(args.budget),
+                  breaker=CircuitBreaker())
+
+
+def cmd_add(args) -> int:
+    extractor = _extractor(args)
     conn = _conn()
     try:
         out = add_receipt(
@@ -174,7 +186,14 @@ def cmd_categorize(args) -> int:
     if args.relabel:
         n = drop_outdated_ai_labels(conn, PROMPT_VERSION)
         print(f"Dropped {n} AI labels from older prompts (human corrections kept); re-labeling with {PROMPT_VERSION}.")
-    results = categorize_all(conn, _categorizer(args), [args.receipt] if args.receipt else None)
+    from .reliability import StopRun
+    caller = _caller(args)
+    try:
+        results = categorize_all(conn, _categorizer(args), [args.receipt] if args.receipt else None,
+                                 call=caller.call)
+    except StopRun as e:
+        print(f"Stopped: {type(e).__name__}: {e}. Labels saved so far are kept; run categorize again later.")
+        return 1
     for s in results:
         who = f"{s.store or '?'} (receipts {','.join(map(str, s.receipt_ids))})"
         if s.error:
@@ -240,7 +259,24 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--model", default=os.environ.get("PRICELENS_CATEGORIZE_MODEL"))
     c.add_argument("--relabel", action="store_true",
                    help="re-label AI labels made by an older prompt version (human corrections are kept)")
+    _reliability_args(c)
     c.set_defaults(func=cmd_categorize)
+
+    b = sub.add_parser("batch", help="add every receipt image in a folder (parallel, resumable)")
+    b.add_argument("folder")
+    b.add_argument("--workers", type=int, default=2)
+    _reliability_args(b)
+    _extractor_args(b)
+    b.set_defaults(func=cmd_batch)
+
+    rf = sub.add_parser("retry-failed", help="re-run only the receipts that failed with a retryable error")
+    rf.add_argument("--workers", type=int, default=2)
+    _reliability_args(rf)
+    _extractor_args(rf)
+    rf.set_defaults(func=cmd_batch, folder=None)
+
+    v = sub.add_parser("verify", help="re-check stored records and report problems (fixes nothing)")
+    v.set_defaults(func=cmd_verify)
 
     lb = sub.add_parser("label", help="list labels or correct one by hand")
     lb.add_argument("action", choices=["list", "fix"])
@@ -275,6 +311,54 @@ def build_parser() -> argparse.ArgumentParser:
     dm.add_argument("action", choices=["export", "build"])
     dm.set_defaults(func=cmd_demo)
     return p
+
+
+def _reliability_args(sp):
+    sp.add_argument("--rpm", type=float, default=float(_env("PRICELENS_RPM", "10")),
+                    help="max requests per minute (default 10)")
+    sp.add_argument("--budget", type=int, default=int(_env("PRICELENS_BUDGET", "15")),
+                    help="max requests this run may send, retries included (default 15; free tier: 20/day)")
+
+
+def _extractor_args(sp):
+    sp.add_argument("--provider", default=_env("PRICELENS_PROVIDER", "gemini"), choices=["gemini", "claude"])
+    sp.add_argument("--model", default=os.environ.get("PRICELENS_MODEL"))
+    sp.add_argument("--effort", default="medium", choices=["low", "medium", "high", "xhigh", "max"])
+    sp.add_argument("--replay", metavar="DIR", help="use saved extractions instead of calling the API")
+    sp.add_argument("--save-fixture", metavar="DIR")
+    sp.add_argument("--locale", default=_env("PRICELENS_LOCALE", "US"))
+
+
+def cmd_batch(args) -> int:
+    from .batch import failed_paths, find_images, run_batch
+    conn = _conn()
+    if args.folder:
+        paths, source = find_images(Path(args.folder)), str(args.folder)
+    else:
+        paths, source = failed_paths(conn), "retry-failed"
+    if not paths:
+        print("Nothing to do." if args.folder is None else f"No images in {args.folder}.")
+        return 0
+    print(f"{len(paths)} image(s), {args.workers} worker(s), <= {args.rpm:g} requests/min, budget {args.budget}. "
+          f"No preview prompts in batch mode: images are redacted locally as usual.")
+    s = run_batch(conn, paths, extractor=_extractor(args), caller=_caller(args), redacted_dir=ROOT / "data" / "redacted",
+                  workers=args.workers, source=source, locale=args.locale,
+                  fixture_dir=Path(args.save_fixture) if args.save_fixture else None, on_progress=print)
+    print(f"\nRun #{s.run_id}: {s.line()}")
+    if s.stopped:
+        print(f"Stopped early: {s.stopped}")
+    if (n := len(failed_paths(conn))):
+        print(f"{n} can be retried later with: python -m pricelens retry-failed")
+    return 1 if s.failed or s.stopped else 0
+
+
+def cmd_verify(args) -> int:
+    from .audit import audit
+    findings = audit(_conn(), ROOT / "data" / "redacted")
+    for f in findings:
+        print(f"[{f.code}] {'#' + str(f.receipt_id) if f.receipt_id else '-':>5}  {f.message}")
+    print(f"{len(findings)} finding(s)" if findings else "No problems found.")
+    return 1 if findings else 0
 
 
 def cmd_serve(args) -> int:

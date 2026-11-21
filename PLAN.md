@@ -371,6 +371,43 @@ Also fixed: V4 now rounds half-up like a register and gives weighed items 1 cent
   extractor fails on some receipts, and re-running a batch inserts nothing new.
 - README "Design tradeoffs": concurrency level, retry policy, storage.
 
+**Detailed plan (approved and built 2026-11-21), sharpened by what went wrong in today's live runs:**
+
+*As built:* `pipeline.process()` (no DB, runs in workers) / `pipeline.store()` (main thread only); `reliability.py`
+(Caller = budget + rate limiter + circuit breaker + retry policy); `batch.py`; `audit.py` (`pricelens verify`);
+migration 004. Replays (`--replay`) skip the budget and rate limit (no network).
+
+| Today's problem | Layer 4 answer |
+|---|---|
+| A 45-minute Gemini outage (503) and my retry loop kept hammering it | **Circuit breaker:** after 3 consecutive transient failures across workers, the batch pauses everything (5 min), sends one probe, and gives up with a clear message if the probe fails. No blind retrying into an outage. |
+| The daily limit (20/day) said "retry in 15h9m" in the message body, not a header | Parse that hint. A **daily-quota error is not retried**: the batch stops cleanly and `retry-failed` resumes tomorrow. Only per-minute limits are waited out. |
+| Failed attempts may count against the daily quota | `--budget N`: the maximum number of requests a run may send (default 15). The run plans within it and reports what's left over. |
+| Editing code during a background run broke 15 extractions | (A process lesson, not code.) Batches are resumable, so an interrupted run loses nothing: `retry-failed` continues. |
+| Categorize kept going after a rate limit | Categorize goes through the same retry, budget and circuit-breaker policy. |
+
+*Concurrency level* **[DECISION]**: default **`--workers 2 --rpm 10`**. **Why:** on the free tier the bottleneck is the
+daily quota, not speed. 2 workers overlap a little network waiting without bursting into rate limits. The pool,
+limiter and single writer are built properly, so a paid tier can raise the numbers without code changes. The tests run with 8 workers
+to prove there are no races.
+
+*Retry policy (one tested function, fake clock):* timeouts, connection errors, 5xx and per-minute 429 → retry with
+exponential backoff and full jitter (base 2 s, cap 60 s, **max 4 attempts**), honoring `retry-after`. Auth errors,
+400s, refusals, unreadable images and malformed output → **fail immediately**. Malformed output isn't retried, because
+the same input would most likely give the same bad output, and it's recorded for review.
+
+*Failure records:* `ingest_runs(id, started, finished, budget, requests_sent, status)` and
+`ingest_failures(run_id, image_path, sha256, error_type, message, attempts, retryable)`. `retry-failed` reprocesses only
+the latest unresolved failures. The end-of-run summary looks like `12 verified · 2 flagged · 1 failed (RateLimit: daily quota) · 3 already stored · 9 requests left`.
+
+*Likely duplicates:* same store + date + total, but a different image hash (e.g. two photos of one receipt) → stored
+as `needs_review` with reason `D1`, never silently dropped or merged.
+
+*`pricelens verify`:* re-runs the V-rules on every stored receipt from `extraction_json` (catches rule changes) and
+checks for orphaned line items, labels pointing at missing stores, missing redacted images, and receipts whose
+status no longer matches their checks. It reports, and fixes nothing automatically.
+
+*No new dependencies:* `concurrent.futures`, `threading` and `time` only.
+
 ### Layer 5: expense splitter (added 2026-11-21; built after Layer 4 + eval; detailed plan before building)
 
 Decided 2026-11-21:

@@ -145,16 +145,22 @@ class ReplayExtractor:
 
 
 class FakeExtractor:
-    """Maps image sha256 -> ExtractedReceipt (or an Exception to raise)."""
+    """Maps image sha256 -> ExtractedReceipt, an Exception to raise, or a list of those (one per call,
+    e.g. [TransientAPIError(...), receipt] = fail once, then succeed). Thread-safe."""
 
     def __init__(self, responses: dict, model: str = "fake"):
-        self.responses = responses
+        import threading
+        self.responses = {k: list(v) if isinstance(v, list) else v for k, v in responses.items()}
         self.model = model
         self.calls = 0
+        self._lock = threading.Lock()
 
     def extract(self, image: PreparedImage) -> ExtractionResult:
-        self.calls += 1
-        r = self.responses[image.original_sha256]
+        with self._lock:
+            self.calls += 1
+            r = self.responses[image.original_sha256]
+            if isinstance(r, list):
+                r = r.pop(0) if len(r) > 1 else r[0]
         if isinstance(r, Exception):
             raise r
         return ExtractionResult(r, r.model_dump_json(), self.model, "fake")

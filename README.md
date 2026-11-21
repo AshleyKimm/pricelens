@@ -98,6 +98,37 @@ between items. That is what the per-field eval is for.
   mostly from inconsistent specificity ("whole milk" vs "milk"). Splitting **base name + variety** and sending
   the model the names already in use fixed that.
 
+## Reliability (Layer 4)
+
+```bash
+.venv\Scripts\python -m pricelens batch evals\synthetic\receipts --workers 2 --rpm 10 --budget 15
+.venv\Scripts\python -m pricelens retry-failed      # only the retryable failures, e.g. after a daily-quota stop
+.venv\Scripts\python -m pricelens verify            # re-check everything stored; reports, fixes nothing
+```
+A run ends with a summary like `19 verified | 2 flagged | 1 failed | 0 already stored | 22 requests (0 retries)`.
+
+### Design tradeoffs
+- **Concurrency: threads, 2 workers, one writer.** The work is waiting on the network (and Tesseract runs as a
+  subprocess), so threads are enough and simpler than processes. Workers redact, extract and verify; **only the main
+  thread writes to SQLite**, because SQLite allows one writer and this rules out "database is locked" races. Each receipt
+  is still its own transaction. The default is 2 workers at 10 requests/min, because on the free tier the
+  bottleneck is the **daily** quota (20/day), not speed. A test runs 8 workers on 40 receipts and checks every write
+  came from one thread.
+- **Retry policy: retry only what can succeed.** Timeouts, connection errors, 5xx and per-minute 429s are retried with
+  exponential backoff and full jitter (max 4 attempts, honoring the server's wait hint). Auth errors, 400s, refusals,
+  unreadable images and malformed output fail immediately: retrying the same input gives the same answer.
+  A **daily-quota** 429 stops the run (retrying for 15 hours is pointless), and `retry-failed` resumes later.
+- **Circuit breaker, from a real incident.** During a 45-minute Gemini outage, my first retry loop sent 24 requests
+  into it. Now 3 consecutive failures pause the run, one probe is sent, and if that fails the run stops with a clear message.
+  A test replays the incident: 4 requests instead of 24.
+- **Budget:** `--budget` caps requests per run, retries included, because failed attempts may count against quota.
+- **Storage:** SQLite with plain SQL and numbered migrations: zero setup, one file, and the schema history is
+  readable. The trade-off is a single writer, which the one-writer design above works around. A multi-user
+  deployment would move to Postgres.
+- **Idempotency:** the image hash is `UNIQUE`, so re-running a batch inserts nothing twice and makes no API calls for
+  stored images. Two *different* photos of the same receipt (same store, date and total) are flagged `D1`, never
+  silently merged.
+
 ## Eval results
 _TODO: CORD-v2 (item name/count/price, subtotal, total) + synthetic receipts (store, date). Per-field
 accuracy, flag rate, redaction recall, and every failure listed._
