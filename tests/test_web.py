@@ -167,7 +167,8 @@ def test_committed_demo_rebuilds_identically(tmp_path):
     assert demo_mod.build(REPO, a) == demo_mod.build(REPO, b)
     snap = lambda p: sorted(sqlite3.connect(p).execute(
         "SELECT image_sha256, status, total_cents, review_reasons FROM receipts"))
-    assert snap(a) == snap(b) and len(snap(a)) == 18
+    n = len(list((REPO / 'demo' / 'extractions').glob('*.json')))
+    assert snap(a) == snap(b) and len(snap(a)) == n >= 18
 
 
 # --- chart ---------------------------------------------------------------------
@@ -234,3 +235,52 @@ def test_same_number_different_unit_is_not_a_tie(root):
     finally:
         dbm.observations = orig
     assert len(row.cheapest_at) == 1
+
+
+# --- unit prices and the units switch -------------------------------------------------------------
+
+@pytest.fixture
+def eggs(tmp_path):
+    from helpers import line as L
+    conn = db.connect(tmp_path / "data" / "pricelens.db")
+    _add(conn, [L("LG EGGS 6CT 2.69", "2.69", desc="LG EGGS 6CT"), L("LG EGGS 24CT 7.99", "7.99", desc="LG EGGS 24CT")],
+         "A MART", "11/14/2026")
+    _add(conn, [L("EGGS 30 8.99", "8.99", desc="EGGS 30"), L("SPAG 16OZ 1.79", "1.79", desc="SPAG 16OZ")],
+         "B MART", "11/16/2026")
+    categorize_all(conn, FakeCategorizer({
+        "LG EGGS 6CT": ("eggs", "dairy_eggs", "high", "", 6, "count"),
+        "LG EGGS 24CT": ("eggs", "dairy_eggs", "high", "", 24, "count"),
+        "EGGS 30": ("eggs", "dairy_eggs", "high", "", 30, "count"),
+        "SPAG 16OZ": ("spaghetti", "pantry", "high", "", 16, "oz")}))
+    conn.close()
+    return TestClient(create_app("local", root=tmp_path))
+
+
+def test_best_value_is_by_unit_price(eggs):
+    t = eggs.get("/product", params={"name": "eggs"}).text
+    best = t.split('class="best"')[1].split("</tr>")[0]
+    assert "B MART" in best and "best value" in best and "$0.30 / each" in best   # not the $2.69 6-pack
+    home = eggs.get("/", params={"q": "eggs"}).text
+    assert "$0.30 / each" in home and "(30 count)" in home
+
+
+def test_units_switch_changes_display_and_is_remembered(eggs):
+    assert "$1.79 / lb" in eggs.get("/", params={"q": "spaghetti"}).text      # imperial by default (16 oz = 1 lb)
+    r = eggs.get("/units", params={"u": "metric", "next": "/?q=spaghetti"}, follow_redirects=False)
+    assert r.status_code == 303 and r.headers["location"] == "/?q=spaghetti"
+    assert "units=metric" in r.headers["set-cookie"] and "httponly" in r.headers["set-cookie"].lower()
+    eggs.cookies.set("units", "metric")
+    assert "$0.39 / 100 g" in eggs.get("/", params={"q": "spaghetti"}).text   # 179c / 453.6 g * 100
+
+
+@pytest.mark.parametrize("bad", ["//evil.example/x", "https://evil.example", "evil.example", "/\evil.example"])
+def test_units_switch_cannot_redirect_off_site(eggs, bad):
+    r = eggs.get("/units", params={"u": "metric", "next": bad}, follow_redirects=False)
+    assert r.headers["location"] == "/"
+
+
+def test_units_switch_rejects_unknown_system_and_works_in_demo(root):
+    shutil.copy(root / "data" / "pricelens.db", root / "data" / "demo.db")
+    c = TestClient(create_app("demo", root=root))
+    assert c.get("/units", params={"u": "furlongs"}).status_code == 400
+    assert c.get("/units", params={"u": "metric"}, follow_redirects=False).status_code == 303

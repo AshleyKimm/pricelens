@@ -10,6 +10,7 @@ from pathlib import Path
 from .categories import description_key
 from .errors import DuplicateReceiptError
 from .prices import Observation, effective_unit_prices
+from .units import unit_price, weighed_to_base
 from .verify import Line, VerificationResult
 
 MIGRATIONS = Path(__file__).with_name("migrations")
@@ -203,14 +204,23 @@ def observations(conn, query: str) -> list[Observation]:
     out = []
     for r in receipts:
         labels = {row["description_key"]: row for row in conn.execute(
-            "SELECT description_key, normalized_name, variety, category FROM item_labels WHERE store_id = ?",
+            """SELECT description_key, normalized_name, variety, category, pack_quantity, pack_unit,
+                      pack_base_qty, pack_base_unit FROM item_labels WHERE store_id = ?""",
             (r["store_id"],))}
         for line, price in effective_unit_prices(get_lines(conn, r["id"])):
             label = labels.get(description_key(line.description or line.raw_text.split("\n")[0]))
             name = label["normalized_name"] if label and label["normalized_name"] else None
             if (name and q in name) or (line.description and q in line.description.lower()):
+                pack, base_unit, base_price = "", None, None
+                weighed = weighed_to_base(line.unit) if line.unit else None
+                if weighed:  # already priced per lb/kg: convert to per gram
+                    base_price, base_unit = price / weighed[0], weighed[1]
+                elif label and label["pack_base_qty"]:
+                    pack = f"{label['pack_quantity']:g} {label['pack_unit']}"
+                    base_price, base_unit = unit_price(price, label["pack_base_qty"]), label["pack_base_unit"]
                 out.append(Observation(r["store"], name or line.description, line.unit or "each",
                                        date.fromisoformat(r["purchase_date"]), price,
                                        printed=line.description or "", category=label["category"] if label else None,
-                                       variety=(label["variety"] or "") if label else ""))
+                                       variety=(label["variety"] or "") if label else "",
+                                       pack=pack, base_unit=base_unit, base_price=base_price))
     return out

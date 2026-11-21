@@ -318,6 +318,32 @@ receipt page issues, a label correction through the form (creates a regression c
 return 404/405, the read-only database rejects writes even when called directly, and it works with no API key), and
 the demo build being deterministic.
 
+### Pack sizes and unit prices (approved and built 2026-11-21)
+
+*Decided:* imperial by default (per each / per lb / per fl oz), switchable to metric (per 100 g / 100 ml) with a
+cookie in the web app and `--units` / `PRICELENS_UNITS` in the CLI. Internally: count, g, ml.
+*As built:* the live run showed the model taking scale weights ("1.07 lb @ 0.59/lb") as pack sizes. The P1 check
+rejected all 7 (flagged, not used). A prompt fix ("a weight from a scale line is not a pack size") is next, when quota allows.
+Also fixed: V4 now rounds half-up like a register and gives weighed items 1 cent of tolerance, as planned.
+
+*Problem (found with the egg-pack test receipts):* "6 eggs $2.29" and "30 eggs $8.99" both count as
+"eggs, $ each" today. So the 6-pack is badged "cheapest", and a store switching pack size looks like a price change.
+
+*Proposal: unit prices, like a shelf tag.*
+- The categorizer also returns `pack_quantity` and `pack_unit` (`count`, `g`, `ml`, or null) from the printed name:
+  "LG EGGS 24CT" → 24 count; "EGGS 1/2 DOZEN" → 6 count; "SPAG 16OZ" → 454 g; "MILK 1GAL" → 3785 ml; "AVOCADO" → null.
+- **Code check (P1):** the quantity must be backed by the printed text. The digits must appear ("24", "16OZ", "1GAL"),
+  or it must come from a known word ("DOZEN" = 12, "1/2 DOZEN" / "HALF DOZEN" = 6). Conversions (oz→g, gal→ml) are
+  done in code, not by the model. If the check fails, the pack size is ignored and the label is flagged for review.
+- Stored on `item_labels`, so it's cached with the label: "EGGS 18CT" is always 18.
+- **Unit price** = effective price ÷ pack quantity, shown per egg, per 100 g or per 100 ml **[DECISION: metric
+  display, or also per lb/oz?]**. Weighed items keep their per-lb price.
+- **Cross-store comparison and "cheapest"** use unit price when every compared row has a known pack size.
+  Otherwise they fall back to per-package prices with a "pack sizes differ" note.
+- **Price changes** are tracked per (store, product, variety, **pack size**), so 12-pack → 18-pack isn't a "change".
+  The chart plots unit price.
+- *Eval:* the generator's labels already carry `pack_count` for eggs, so pack-size accuracy is measured too.
+
 ### Layer 4: reliability and systems (added 2026-11-20, built after Layer 3)
 
 **Built into Layer 1 now** (cheap now, expensive to add later):

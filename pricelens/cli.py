@@ -130,25 +130,30 @@ def cmd_prices(args) -> int:
     if not obs:
         print("No verified purchases match.")
         return 0
-    print(f"{'date':<10}  {'store':<18} {'product':<16} {'variety':<12} {'printed as':<20} {'unit':<5} {'price':>8}")
+    from .prices import comparable_by_unit_price
+    from .units import format_unit_price
+    up = lambda o: format_unit_price(o.base_price, o.base_unit, args.units)
+    print(f"{'date':<10}  {'store':<18} {'product':<14} {'variety':<10} {'printed as':<18} {'pack':<9} "
+          f"{'price':>8}  {'unit price':<14}")
     for o in sorted(obs, key=lambda o: (o.description, o.variety, o.store, o.day)):
-        print(f"{o.day}  {o.store:<18} {o.description:<16} {o.variety or '-':<12} {o.printed[:20]:<20} "
-              f"{o.unit:<5} {format_amount(o.unit_price_cents):>8}")
+        print(f"{o.day}  {o.store:<18} {o.description:<14} {o.variety or '-':<10} {o.printed[:18]:<18} "
+              f"{o.pack or '-':<9} {format_amount(o.unit_price_cents):>8}  {up(o) or '-':<14}")
     changes = price_changes(obs)
     if changes:
         print("\nPrice changes:")
         for c in changes:
             arrow = "UP  " if c.change_cents > 0 else "DOWN"
-            name = f"{c.description} ({c.variety})" if c.variety else c.description
+            name = c.description + "".join(f" ({x})" for x in (c.variety, c.pack) if x)
             print(f"  {arrow} {c.store} / {name}: {format_amount(c.from_cents)} -> "
                   f"{format_amount(c.to_cents)} ({c.change_pct:+.1f}%) {c.from_day} -> {c.to_day}")
     compare = {k: v for k, v in latest_by_store(obs).items() if len(v) > 1}
     if compare:
         print("\nLatest price by store (cheapest first):")
         for (product, unit), rows in sorted(compare.items()):
-            print(f"  {product} (per {unit}): " + ", ".join(
-                f"{o.store}{' [' + o.variety + ']' if o.variety else ''} {format_amount(o.unit_price_cents)} ({o.day})"
-                for o in rows))
+            by_unit = comparable_by_unit_price(rows)
+            print(f"  {product} ({'by unit price' if by_unit else 'per package: pack sizes unknown'}): " + ", ".join(
+                f"{o.store}{''.join(' [' + x + ']' for x in (o.variety, o.pack) if x)} "
+                f"{up(o) if by_unit else format_amount(o.unit_price_cents)} ({o.day})" for o in rows))
     return 0
 
 
@@ -163,8 +168,12 @@ def _categorizer(args):
 
 
 def cmd_categorize(args) -> int:
-    from .labeling import categorize_all
+    from .categorize import PROMPT_VERSION
+    from .labeling import categorize_all, drop_outdated_ai_labels
     conn = _conn()
+    if args.relabel:
+        n = drop_outdated_ai_labels(conn, PROMPT_VERSION)
+        print(f"Dropped {n} AI labels from older prompts (human corrections kept); re-labeling with {PROMPT_VERSION}.")
     results = categorize_all(conn, _categorizer(args), [args.receipt] if args.receipt else None)
     for s in results:
         who = f"{s.store or '?'} (receipts {','.join(map(str, s.receipt_ids))})"
@@ -229,6 +238,8 @@ def build_parser() -> argparse.ArgumentParser:
     c.add_argument("--receipt", type=int, help="only this receipt (default: all)")
     c.add_argument("--provider", default=_env("PRICELENS_PROVIDER", "gemini"), choices=["gemini", "claude"])
     c.add_argument("--model", default=os.environ.get("PRICELENS_CATEGORIZE_MODEL"))
+    c.add_argument("--relabel", action="store_true",
+                   help="re-label AI labels made by an older prompt version (human corrections are kept)")
     c.set_defaults(func=cmd_categorize)
 
     lb = sub.add_parser("label", help="list labels or correct one by hand")
@@ -251,6 +262,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     pr = sub.add_parser("prices", help="price history and changes for an item")
     pr.add_argument("query")
+    pr.add_argument("--units", default=_env("PRICELENS_UNITS", "imperial"), choices=["imperial", "metric"])
     pr.set_defaults(func=cmd_prices)
 
     sv = sub.add_parser("serve", help="run the web interface")

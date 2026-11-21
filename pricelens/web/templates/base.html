@@ -14,6 +14,9 @@
     <a href="/receipts">Receipts</a>
     <a href="/labels">Labels</a>
   </nav>
+  <span class="units">Units:
+    {% for u in ["imperial", "metric"] %}{% if u == units %}<strong>{{ u }}</strong>{% else %}<a href="/units?u={{ u }}&amp;next={{ here | urlq }}">{{ u }}</a>{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}
+  </span>
   {% if mode == "demo" %}<span class="badge">Demo · fake data · read-only</span>{% endif %}
 </header>
 <main>

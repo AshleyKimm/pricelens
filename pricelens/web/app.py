@@ -19,6 +19,7 @@ from markupsafe import Markup
 from .. import db
 from ..categories import CATEGORIES, category_label
 from ..money import format_amount
+from ..units import DEFAULT_SYSTEM, SYSTEMS
 from . import views
 
 HERE = Path(__file__).parent
@@ -58,8 +59,28 @@ def create_app(mode: str = "local", db_path: Path | None = None, root: Path | No
             return db.connect(db_path)
         return connect_readonly(db_path)
 
+    def units_of(request: Request) -> str:
+        u = request.cookies.get("units", DEFAULT_SYSTEM)
+        return u if u in SYSTEMS else DEFAULT_SYSTEM
+
     def page(request: Request, name: str, **ctx):
+        units = units_of(request)
+        ctx.setdefault("units", units)
+        ctx.setdefault("here", request.url.path + (f"?{request.url.query}" if request.url.query else ""))
+        ctx.setdefault("price_text", lambda o: views.price_text(o, units))
         return templates.TemplateResponse(request, name, ctx)
+
+    @app.get("/units")
+    def set_units(u: str, next: str = "/"):
+        """Display preference only (imperial/metric), stored in a cookie. Allowed in demo mode: it writes nothing."""
+        if u not in SYSTEMS:
+            raise HTTPException(400, "units must be imperial or metric")
+        # Only same-site paths: "/x" yes; "//evil.example" or "https://..." no (no open redirect).
+        if not next.startswith("/") or next.startswith("//") or "\\" in next:
+            next = "/"
+        resp = RedirectResponse(next, status_code=303)
+        resp.set_cookie("units", u, max_age=365 * 24 * 3600, samesite="lax", httponly=True)
+        return resp
 
     @app.middleware("http")
     async def security_headers(request: Request, call_next):
@@ -77,7 +98,7 @@ def create_app(mode: str = "local", db_path: Path | None = None, root: Path | No
     def index(request: Request, q: str = ""):
         c = conn()
         try:
-            return page(request, "index.html", q=q, rows=views.search(c, q))
+            return page(request, "index.html", q=q, rows=views.search(c, q, units_of(request)))
         finally:
             c.close()
 
@@ -85,7 +106,7 @@ def create_app(mode: str = "local", db_path: Path | None = None, root: Path | No
     def product(request: Request, name: str):
         c = conn()
         try:
-            p = views.product(c, name)
+            p = views.product(c, name, units_of(request))
         finally:
             c.close()
         if p is None:

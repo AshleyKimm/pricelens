@@ -10,6 +10,7 @@ ambiguous date resolved by locale) that are stored but don't stop the receipt.
 from __future__ import annotations
 
 import math
+from decimal import ROUND_HALF_UP, Decimal
 import re
 from dataclasses import dataclass, field
 from datetime import date
@@ -126,10 +127,20 @@ def _sum(lines) -> int:
     return sum(l.line_total_cents for l in lines)
 
 
-def line_tolerance_cents(quantity: float) -> int:
+WEIGHED_UNITS = {"lb", "kg", "oz", "g"}
+
+
+def line_tolerance_cents(quantity: float, unit: str | None = None) -> int:
     """Printed unit prices are rounded to the cent, so qty x unit_price can be off by up to
-    qty x 0.5 cents (e.g. '3 for $5' prints 1.67 each: 3 x 1.67 = 5.01). Never less than 0."""
-    return math.floor(abs(quantity) * 0.5 + 1e-9)
+    qty x 0.5 cents (e.g. '3 for $5' prints 1.67 each: 3 x 1.67 = 5.01). Weighed items also get
+    1 cent, because the printed weight may itself be rounded (1.504 lb printed as 1.50)."""
+    base = math.floor(abs(quantity) * 0.5 + 1e-9)
+    return max(base, 1) if unit in WEIGHED_UNITS else base
+
+
+def expected_line_total(quantity: float, unit_price: int) -> int:
+    """qty x unit price, rounded HALF UP like a register (Python's round() is banker's: 88.5 -> 88)."""
+    return int((Decimal(str(quantity)) * unit_price).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
 
 
 def _looks_like_card_number(digits: str) -> bool:
@@ -211,9 +222,9 @@ def check(rec: Receipt, today: date) -> list[Issue]:
     # V4 per-line arithmetic
     for l in rec.lines:
         if l.kind in ("item", "refund") and None not in (l.quantity, l.unit_price_cents, l.line_total_cents):
-            expected = round(l.quantity * l.unit_price_cents)
+            expected = expected_line_total(l.quantity, l.unit_price_cents)
             diff = abs(abs(l.line_total_cents) - expected)
-            if diff > line_tolerance_cents(l.quantity):
+            if diff > line_tolerance_cents(l.quantity, l.unit):
                 issues.append(Issue("V4", f"line {l.line_no}: {l.quantity} x {fmt(l.unit_price_cents)} = "
                                           f"{fmt(expected)} but line total is {fmt(abs(l.line_total_cents))}"))
 

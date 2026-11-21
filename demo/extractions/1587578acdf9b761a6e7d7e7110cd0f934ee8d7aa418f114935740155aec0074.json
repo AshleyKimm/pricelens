@@ -1,0 +1,51 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "11/14/26 17:49",
+    "date_iso": "2026-11-14",
+    "currency": "USD",
+    "subtotal": "21.37",
+    "tax_lines": [
+      "0.00"
+    ],
+    "total": "21.37",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "LG EGGS 6CT 2.69",
+        "description": "LG EGGS 6CT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.69",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "LG EGGS 24CT 7.99",
+        "description": "LG EGGS 24CT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "7.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "COFFEE GRND MED 10.69",
+        "description": "COFFEE GRND MED",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "10.69",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

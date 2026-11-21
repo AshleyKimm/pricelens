@@ -7,7 +7,7 @@ this is". Only `uncertain` signals a reading problem.
 from __future__ import annotations
 
 import re
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -48,6 +48,7 @@ Category = Literal[
     "restaurant_food", "other", "uncertain",
 ]
 Confidence = Literal["high", "medium", "low"]
+PackUnit = Literal["count", "dozen", "g", "kg", "oz", "lb", "ml", "l", "fl oz", "pt", "qt", "gal"]
 MAX_NAME_LEN = 40
 MAX_VARIETY_LEN = 30
 
@@ -62,6 +63,13 @@ class ItemLabel(BaseModel):
     variety: str = Field(
         description="What distinguishes this from the plain base product, lowercase: 'jasmine', 'whole', "
         "'organic', 'vanilla', '2%'. No brand, size or count. Empty string if nothing."
+    )
+    pack_quantity: Optional[float] = Field(
+        description="Package size as printed: 24 for '24CT', 16 for '16OZ', 0.5 for '1/2 DOZEN'. null if no size is printed."
+    )
+    pack_unit: Optional[PackUnit] = Field(
+        description="Unit of pack_quantity: count, dozen, g, kg, oz (weight), fl oz (liquids), lb, ml, l, pt, qt, gal. "
+        "null if no size is printed."
     )
     category: Category
     confidence: Confidence = Field(description="How sure you are of BOTH the name and the category.")
@@ -101,8 +109,11 @@ def name_problems(name: str, category: str, variety: str = "") -> list[str]:
     return problems
 
 
-def review_reasons(label: ItemLabel) -> list[str]:
+def review_reasons(label: ItemLabel, printed: str = "") -> list[str]:
+    from .units import pack_problem
     reasons = name_problems(clean_name(label.normalized_name), label.category, clean_name(label.variety))
+    if printed and (p := pack_problem(printed, label.pack_quantity, label.pack_unit)):
+        reasons.append(p)
     if label.category == "uncertain":
         reasons.append("C1: category uncertain")
     if label.confidence != "high":

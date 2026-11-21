@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from .categories import CATEGORIES, clean_name, description_key, name_problems, review_reasons
+from .units import to_base
 from .categorize import Categorizer, ItemToLabel
 from .errors import AuthError, PriceLensError
 
@@ -69,14 +70,18 @@ def _label_store(conn, store_id: int, store: str, receipt_ids: list[int], catego
         with conn:  # one transaction per batch
             for label in outcome.labels:
                 key = chunk[label.id - 1]
-                reasons = review_reasons(label)
+                reasons = review_reasons(label, printed=todo[key][0])
+                # A pack size that failed the printed-text check is kept for audit but not used for prices.
+                base = None if any(r.startswith("P1") for r in reasons) else to_base(label.pack_quantity, label.pack_unit)
                 cur = conn.execute(
                     """INSERT INTO item_labels(store_id, description_key, description, normalized_name, variety,
+                           pack_quantity, pack_unit, pack_base_qty, pack_base_unit,
                            category, confidence, needs_review, review_reasons, source, model, prompt_version)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'ai', ?, ?)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'ai', ?, ?)
                        ON CONFLICT(store_id, description_key) DO NOTHING""",  # never overwrite (esp. human rows)
                     (store_id, key, todo[key][0], clean_name(label.normalized_name) or None,
-                     clean_name(label.variety) or None, label.category,
+                     clean_name(label.variety) or None, label.pack_quantity, label.pack_unit,
+                     base[0] if base else None, base[1] if base else None, label.category,
                      label.confidence, int(bool(reasons)), json.dumps(reasons), outcome.model,
                      outcome.prompt_version),
                 )
@@ -93,6 +98,13 @@ def categorize_receipt(conn, receipt_id: int, categorizer: Categorizer) -> Categ
     if not reason:
         _label_store(conn, r["store_id"], r["store"], [receipt_id], categorizer, s)
     return s
+
+
+def drop_outdated_ai_labels(conn, prompt_version: str) -> int:
+    """Delete AI labels made by an older prompt so they're re-labeled. Human corrections are kept."""
+    with conn:
+        return conn.execute("DELETE FROM item_labels WHERE source = 'ai' AND COALESCE(prompt_version, '') != ?",
+                            (prompt_version,)).rowcount
 
 
 def categorize_all(conn, categorizer: Categorizer, receipt_ids: list[int] | None = None) -> list[CategorizeSummary]:

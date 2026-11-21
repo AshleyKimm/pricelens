@@ -23,7 +23,8 @@ from .redact import PreparedImage, sha256_file
 # same no matter when it's built.
 DEMO_AS_OF = date(2026, 11, 21)
 LABEL_FIELDS = ("description_key", "description", "normalized_name", "variety", "category", "confidence",
-                "needs_review", "review_reasons", "source", "model", "prompt_version")
+                "needs_review", "review_reasons", "source", "model", "prompt_version",
+                "pack_quantity", "pack_unit", "pack_base_qty", "pack_base_unit")
 
 
 def export(conn, root: Path) -> dict:
@@ -71,7 +72,7 @@ def build(root: Path, out: Path) -> dict:
                 continue
             conn.execute(f"""INSERT INTO item_labels(store_id, {', '.join(LABEL_FIELDS)})
                              VALUES (?, {', '.join('?' * len(LABEL_FIELDS))})""",
-                         (store[0], *(l[f] for f in LABEL_FIELDS)))
+                         (store[0], *(l.get(f) for f in LABEL_FIELDS)))  # .get: older exports lack newer fields
     n_labels = conn.execute("SELECT COUNT(*) FROM item_labels").fetchone()[0]
     conn.close()
     return {"receipts": added, "labels": n_labels}

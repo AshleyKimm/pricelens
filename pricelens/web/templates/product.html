@@ -7,21 +7,25 @@
 <h2>Latest price by store</h2>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Store</th><th>Variety</th><th>Printed as</th><th>Date</th><th class="num">Price / {{ p.unit }}</th></tr></thead>
+  <thead><tr><th>Store</th><th>Variety</th><th>Printed as</th><th>Pack</th><th>Date</th><th class="num">Price</th>
+    {% if p.by_unit_price %}<th class="num">Unit price</th>{% endif %}</tr></thead>
   <tbody>
-  {% set has_winner = p.comparison|length > 1 and p.comparison[0].unit_price_cents < p.comparison[1].unit_price_cents %}
   {% for o in p.comparison %}
-    <tr{% if loop.first and has_winner %} class="best"{% endif %}>
-      <td>{{ o.store }}{% if loop.first and has_winner %} <span class="tag">cheapest</span>{% endif %}</td>
+    <tr{% if loop.first and p.has_winner %} class="best"{% endif %}>
+      <td>{{ o.store }}{% if loop.first and p.has_winner %} <span class="tag">{{ "best value" if p.by_unit_price else "cheapest" }}</span>{% endif %}</td>
       <td>{{ o.variety or "—" }}</td>
       <td class="mono">{{ o.printed }}</td>
+      <td>{{ o.pack or "—" }}</td>
       <td>{{ o.day }}</td>
       <td class="num">{{ o.unit_price_cents | money }}</td>
+      {% if p.by_unit_price %}<td class="num"><strong>{{ price_text(o) }}</strong></td>{% endif %}
     </tr>
   {% endfor %}
   </tbody>
 </table>
 </div>
+{% if p.by_unit_price %}<p class="muted">Ranked by unit price (per {{ p.unit_label }}), so different pack sizes compare fairly.</p>
+{% elif p.comparison|length > 1 %}<p class="muted">Pack sizes aren't known for every row, so this compares package prices.</p>{% endif %}
 {% set kinds = p.comparison | map(attribute="variety") | map("default", "") | unique | list %}
 {% if kinds|length > 1 %}<p class="muted">Varieties differ between stores ({{ kinds | map("default", "plain", true) | join(" vs. ") }}), so a price gap may reflect the product, not the store.</p>{% endif %}
 
@@ -29,15 +33,16 @@
 <figure class="chart-box">
   {{ legend }}
   {{ chart }}
-  <figcaption class="muted">Price per {{ p.unit }} after item discounts. Hover a point for details; every value is in the table below.</figcaption>
+  <figcaption class="muted">{{ "Unit price" if p.by_unit_price else "Price" }} per {{ p.unit_label }} after item discounts. Hover a point for details; every value is in the table below.</figcaption>
 </figure>
 
 {% if p.changes %}
 <h2>Price changes</h2>
+<p class="muted">Same store, same variety, same pack size. Switching pack size isn't counted as a price change.</p>
 <ul class="changes">
 {% for c in p.changes %}
   <li><span class="{{ 'up' if c.change_cents > 0 else 'down' }}">{{ "▲ up" if c.change_cents > 0 else "▼ down" }}</span>
-    {{ c.store }}{% if c.variety %} ({{ c.variety }}){% endif %}: {{ c.from_cents | money }} → {{ c.to_cents | money }}
+    {{ c.store }}{% if c.variety %} ({{ c.variety }}){% endif %}{% if c.pack %} · {{ c.pack }}{% endif %}: {{ c.from_cents | money }} → {{ c.to_cents | money }}
     ({{ "%+.1f" | format(c.change_pct) }}%), {{ c.from_day }} → {{ c.to_day }}</li>
 {% endfor %}
 </ul>
@@ -46,13 +51,15 @@
 <h2>All purchases</h2>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Date</th><th>Store</th><th>Variety</th><th>Printed as</th><th>Unit</th><th class="num">Price</th></tr></thead>
+  <thead><tr><th>Date</th><th>Store</th><th>Variety</th><th>Printed as</th><th>Pack</th><th class="num">Price</th><th class="num">Unit price</th></tr></thead>
   <tbody>
   {% for o in p.history %}
-    <tr><td>{{ o.day }}</td><td>{{ o.store }}</td><td>{{ o.variety or "—" }}</td><td class="mono">{{ o.printed }}</td><td>{{ o.unit }}</td><td class="num">{{ o.unit_price_cents | money }}</td></tr>
+    <tr><td>{{ o.day }}</td><td>{{ o.store }}</td><td>{{ o.variety or "—" }}</td><td class="mono">{{ o.printed }}</td>
+      <td>{{ o.pack or ("per " + o.unit if o.unit != "each" else "—") }}</td><td class="num">{{ o.unit_price_cents | money }}</td>
+      <td class="num">{{ price_text(o) if o.base_price is not none else "—" }}</td></tr>
   {% endfor %}
   </tbody>
 </table>
 </div>
-{% if p.other_units %}<p class="muted">Also sold per {{ p.other_units | join(", ") }}; the chart shows per {{ p.unit }} only.</p>{% endif %}
+{% if p.other_units %}<p class="muted">Also sold as: {{ p.other_units | join(", ") }}. The chart and ranking use per {{ p.unit_label }} only.</p>{% endif %}
 {% endblock %}

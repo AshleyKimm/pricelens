@@ -18,7 +18,7 @@ from . import errors
 from .categories import CATEGORIES, ItemLabel, LabelBatch
 from .models import strict_json_schema
 
-PROMPT_VERSION = "categorize-v2"  # v2: base name + variety, reuse known names
+PROMPT_VERSION = "categorize-v3"  # v3: + pack size (v2: base name + variety, reuse known names)
 
 SYSTEM_PROMPT = (
     "You label items from shopping receipts for a price tracker.\n\n"
@@ -34,6 +34,10 @@ Rules:
   "jasmine", "extra virgin", "boneless skinless", "vanilla", "mint", "2%"), or "" if nothing.
   Examples: "ORG BNNA" -> bananas / organic; "WHOLE MILK GAL" -> milk / whole;
   "RICE JASMN" -> rice / jasmine; "EVOO 16.9OZ" -> olive oil / extra virgin; "MILK 1GAL" -> milk / "".
+- pack_quantity / pack_unit: the package size ONLY if it is printed in the item name, copied as
+  printed: "LG EGGS 24CT" -> 24 count; "EGGS 1/2 DOZEN" -> 0.5 dozen; "EGGS DOZEN" -> 1 dozen;
+  "SPAG 16OZ" -> 16 oz; "OJ 52OZ" -> 52 fl oz (liquids use fl oz); "MILK 1GAL" -> 1 gal;
+  "PAPER TOWELS 6RL" -> 6 count. Use null for both if no size is printed. Never guess a size.
 - If a list of known product names is given, reuse one of them exactly whenever it is the same
   base product, so the same product gets the same name at every store.
 - Expand store abbreviations only when you are confident ("PNT BTR CRMY" -> "peanut butter").
@@ -112,7 +116,8 @@ class ClaudeCategorizer:
 
 
 class FakeCategorizer:
-    """answers: description -> (normalized_name, category, confidence[, variety]); or an Exception to raise.
+    """answers: description -> (normalized_name, category, confidence[, variety[, pack_qty, pack_unit]]);
+    or an Exception to raise.
     `respond` can override the whole JSON reply (to test id checks)."""
 
     def __init__(self, answers: dict | Exception | None = None, respond=None, trains_on_input=False):
@@ -133,6 +138,8 @@ class FakeCategorizer:
             for i in items:
                 name, cat, conf, *var = self.answers.get(i.description, ("", "uncertain", "low"))
                 out.append({"id": i.id, "normalized_name": name, "variety": var[0] if var else "",
+                            "pack_quantity": var[1] if len(var) > 1 else None,
+                            "pack_unit": var[2] if len(var) > 2 else None,
                             "category": cat, "confidence": conf})
             text = json.dumps({"items": out})
         return LabelOutcome(parse_and_check(text, [i.id for i in items]).items, "fake", "fake", text)

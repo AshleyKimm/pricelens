@@ -11,13 +11,17 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
   "description_key": "AVOCADO",
   "description": "AVOCADO",
-  "normalized_name": "avocados",
+  "normalized_name": "avocado",
   "variety": null,
   "category": "produce",
   "confidence": "high",
@@ -25,7 +29,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -39,7 +47,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -53,7 +65,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -67,7 +83,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -81,27 +101,35 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
   "description_key": "COFFEE GRND MED",
   "description": "COFFEE GRND MED",
   "normalized_name": "coffee",
-  "variety": "medium roast",
+  "variety": "ground medium",
   "category": "beverages",
   "confidence": "high",
   "needs_review": 0,
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
   "description_key": "DISH LIQ",
   "description": "DISH LIQ",
-  "normalized_name": "dish soap",
+  "normalized_name": "dish liquid",
   "variety": null,
   "category": "household",
   "confidence": "high",
@@ -109,7 +137,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -123,7 +155,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -137,7 +173,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 16.9,
+  "pack_unit": "fl oz",
+  "pack_base_qty": 499.79264960624994,
+  "pack_base_unit": "ml"
  },
  {
   "store": "CORNER MARKET",
@@ -151,7 +191,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 10.0,
+  "pack_unit": "count",
+  "pack_base_qty": 10.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "CORNER MARKET",
@@ -165,7 +209,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -179,7 +227,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -193,7 +245,47 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "count",
+  "pack_base_qty": 12.0,
+  "pack_base_unit": "count"
+ },
+ {
+  "store": "CORNER MARKET",
+  "description_key": "LG EGGS 24CT",
+  "description": "LG EGGS 24CT",
+  "normalized_name": "eggs",
+  "variety": "large",
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 24.0,
+  "pack_unit": "count",
+  "pack_base_qty": 24.0,
+  "pack_base_unit": "count"
+ },
+ {
+  "store": "CORNER MARKET",
+  "description_key": "LG EGGS 6CT",
+  "description": "LG EGGS 6CT",
+  "normalized_name": "eggs",
+  "variety": "large",
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 6.0,
+  "pack_unit": "count",
+  "pack_base_qty": 6.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "CORNER MARKET",
@@ -207,7 +299,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -221,13 +317,17 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
   "description_key": "RETURN DISH LIQ",
   "description": "RETURN DISH LIQ",
-  "normalized_name": "dish soap",
+  "normalized_name": "dish liquid",
   "variety": null,
   "category": "household",
   "confidence": "high",
@@ -235,7 +335,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -249,7 +353,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -263,7 +371,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "count",
+  "pack_base_qty": 12.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "CORNER MARKET",
@@ -277,7 +389,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -287,11 +403,15 @@
   "variety": "whole",
   "category": "dairy_eggs",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 1 does not appear in 'WHOLE MILK GAL'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.0,
+  "pack_unit": "gal",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "CORNER MARKET",
@@ -305,13 +425,17 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
   "description_key": "AVOCADO HASS",
   "description": "AVOCADO HASS",
-  "normalized_name": "avocados",
+  "normalized_name": "avocado",
   "variety": "hass",
   "category": "produce",
   "confidence": "high",
@@ -319,7 +443,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -329,11 +457,15 @@
   "variety": null,
   "category": "produce",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 1.07 does not appear in 'BANANAS'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.07,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -347,7 +479,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 8.0,
+  "pack_unit": "oz",
+  "pack_base_qty": 226.796185,
+  "pack_base_unit": "g"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -361,7 +497,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "oz",
+  "pack_base_qty": 340.1942775,
+  "pack_base_unit": "g"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -375,13 +515,17 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
   "description_key": "DISH SOAP",
   "description": "DISH SOAP",
-  "normalized_name": "dish soap",
+  "normalized_name": "dish liquid",
   "variety": null,
   "category": "household",
   "confidence": "high",
@@ -389,7 +533,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -403,7 +551,47 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 5.0,
+  "pack_unit": "lb",
+  "pack_base_qty": 2267.96185,
+  "pack_base_unit": "g"
+ },
+ {
+  "store": "FRESHWAY GROCERY",
+  "description_key": "EGGS 1/2 DOZEN",
+  "description": "EGGS 1/2 DOZEN",
+  "normalized_name": "eggs",
+  "variety": null,
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 0.5,
+  "pack_unit": "dozen",
+  "pack_base_qty": 6.0,
+  "pack_base_unit": "count"
+ },
+ {
+  "store": "FRESHWAY GROCERY",
+  "description_key": "EGGS 18CT",
+  "description": "EGGS 18CT",
+  "normalized_name": "eggs",
+  "variety": null,
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 18.0,
+  "pack_unit": "count",
+  "pack_base_qty": 18.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -417,7 +605,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -427,11 +619,15 @@
   "variety": "gala",
   "category": "produce",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 0.98 does not appear in 'GALA APPLES'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 0.98,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -445,7 +641,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -455,11 +655,15 @@
   "variety": "80/20",
   "category": "meat_seafood",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 1.01 does not appear in 'GROUND BEEF 80/20'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.01,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -473,7 +677,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.5,
+  "pack_unit": "qt",
+  "pack_base_qty": 1419.529419,
+  "pack_base_unit": "ml"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -487,7 +695,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 2.0,
+  "pack_unit": "lb",
+  "pack_base_qty": 907.18474,
+  "pack_base_unit": "g"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -501,7 +713,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.0,
+  "pack_unit": "gal",
+  "pack_base_qty": 3785.411784,
+  "pack_base_unit": "ml"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -515,7 +731,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -529,21 +749,29 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
   "description_key": "SPAGHETTI 1LB",
   "description": "SPAGHETTI 1LB",
-  "normalized_name": "pasta",
+  "normalized_name": "rice",
   "variety": "spaghetti",
   "category": "pantry",
-  "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "confidence": "medium",
+  "needs_review": 1,
+  "review_reasons": "[\"C2: confidence medium\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.0,
+  "pack_unit": "lb",
+  "pack_base_qty": 453.59237,
+  "pack_base_unit": "g"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -557,7 +785,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "count",
+  "pack_base_qty": 12.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -571,7 +803,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -585,7 +821,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "FRESHWAY GROCERY",
@@ -599,7 +839,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -609,11 +853,15 @@
   "variety": "boneless skinless",
   "category": "meat_seafood",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 1.87 does not appear in 'BNLS CHIX BRST'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.87,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -627,7 +875,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "oz",
+  "pack_base_qty": 340.1942775,
+  "pack_base_unit": "g"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -641,7 +893,11 @@
   "review_reasons": "[]",
   "source": "human",
   "model": null,
-  "prompt_version": null
+  "prompt_version": null,
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -655,13 +911,17 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
   "description_key": "DSH SOAP",
   "description": "DSH SOAP",
-  "normalized_name": "dish soap",
+  "normalized_name": "dish liquid",
   "variety": null,
   "category": "household",
   "confidence": "high",
@@ -669,21 +929,65 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
   "description_key": "EGGS GRD A 12",
   "description": "EGGS GRD A 12",
   "normalized_name": "eggs",
-  "variety": "grade a",
+  "variety": null,
   "category": "dairy_eggs",
   "confidence": "high",
   "needs_review": 0,
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "count",
+  "pack_base_qty": 12.0,
+  "pack_base_unit": "count"
+ },
+ {
+  "store": "MAPLE LANE FOODS",
+  "description_key": "EGGS GRD A 30",
+  "description": "EGGS GRD A 30",
+  "normalized_name": "eggs",
+  "variety": null,
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 30.0,
+  "pack_unit": "count",
+  "pack_base_qty": 30.0,
+  "pack_base_unit": "count"
+ },
+ {
+  "store": "MAPLE LANE FOODS",
+  "description_key": "EGGS GRD A 6",
+  "description": "EGGS GRD A 6",
+  "normalized_name": "eggs",
+  "variety": null,
+  "category": "dairy_eggs",
+  "confidence": "high",
+  "needs_review": 0,
+  "review_reasons": "[]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 6.0,
+  "pack_unit": "count",
+  "pack_base_qty": 6.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -697,7 +1001,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -707,17 +1015,21 @@
   "variety": "80%",
   "category": "meat_seafood",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 0.99 does not appear in 'GR BF 80%'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 0.99,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
   "description_key": "HASS AVO",
   "description": "HASS AVO",
-  "normalized_name": "avocados",
+  "normalized_name": "avocado",
   "variety": "hass",
   "category": "produce",
   "confidence": "high",
@@ -725,7 +1037,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -739,7 +1055,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -753,7 +1073,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 1.0,
+  "pack_unit": "gal",
+  "pack_base_qty": 3785.411784,
+  "pack_base_unit": "ml"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -767,7 +1091,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -777,25 +1105,33 @@
   "variety": "organic",
   "category": "produce",
   "confidence": "high",
-  "needs_review": 0,
-  "review_reasons": "[]",
+  "needs_review": 1,
+  "review_reasons": "[\"P1: pack quantity 2.11 does not appear in 'ORG BANANAS'\"]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 2.11,
+  "pack_unit": "lb",
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
   "description_key": "ORG JCE 52",
   "description": "ORG JCE 52",
   "normalized_name": "orange juice",
-  "variety": null,
+  "variety": "organic",
   "category": "beverages",
   "confidence": "high",
   "needs_review": 0,
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 52.0,
+  "pack_unit": "fl oz",
+  "pack_base_qty": 1537.8235372499998,
+  "pack_base_unit": "ml"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -809,7 +1145,29 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
+ },
+ {
+  "store": "MAPLE LANE FOODS",
+  "description_key": "SPAG 16OZ",
+  "description": "SPAG 16OZ",
+  "normalized_name": "rice",
+  "variety": "spaghetti",
+  "category": "pantry",
+  "confidence": "medium",
+  "needs_review": 1,
+  "review_reasons": "[\"C2: confidence medium\"]",
+  "source": "ai",
+  "model": "gemini-3.5-flash-lite",
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 16.0,
+  "pack_unit": "oz",
+  "pack_base_qty": 453.59237,
+  "pack_base_unit": "g"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -823,7 +1181,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": 12.0,
+  "pack_unit": "count",
+  "pack_base_qty": 12.0,
+  "pack_base_unit": "count"
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -837,7 +1199,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -851,7 +1217,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -865,7 +1235,11 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  },
  {
   "store": "MAPLE LANE FOODS",
@@ -879,6 +1253,10 @@
   "review_reasons": "[]",
   "source": "ai",
   "model": "gemini-3.5-flash-lite",
-  "prompt_version": "categorize-v2"
+  "prompt_version": "categorize-v3",
+  "pack_quantity": null,
+  "pack_unit": null,
+  "pack_base_qty": null,
+  "pack_base_unit": null
  }
 ]

@@ -72,7 +72,7 @@ def test_cache_key_ignores_price_and_spacing():
 
 def test_review_flags():
     def L(name, cat, conf):
-        return ItemLabel(id=1, normalized_name=name, variety="", category=cat, confidence=conf)
+        return ItemLabel(id=1, normalized_name=name, variety="", pack_quantity=None, pack_unit=None, category=cat, confidence=conf)
     assert review_reasons(L("milk", "dairy_eggs", "high")) == []
     assert any(r.startswith("C2") for r in review_reasons(L("toothpaste", "personal_care", "medium")))
     assert any(r.startswith("C1") for r in review_reasons(L("", "uncertain", "low")))
@@ -92,7 +92,7 @@ def test_flagged_labels_are_stored_with_reasons(conn):
 
 def test_ids_must_match_exactly():
     items = [ItemToLabel(1, "A", "A"), ItemToLabel(2, "B", "B")]
-    one = lambda i, n="x": {"id": i, "normalized_name": n, "variety": "", "category": "other", "confidence": "high"}
+    one = lambda i, n="x": {"id": i, "normalized_name": n, "variety": "", "pack_quantity": None, "pack_unit": None, "category": "other", "confidence": "high"}
     assert len(parse_and_check(json.dumps({"items": [one(1), one(2)]}), [1, 2]).items) == 2
     for bad in ([one(1)], [one(1), one(2), one(3)], [one(1), one(1), one(2)]):
         with pytest.raises(MalformedOutputError):
@@ -101,13 +101,13 @@ def test_ids_must_match_exactly():
 
 def test_invented_category_is_rejected():
     with pytest.raises(MalformedOutputError):
-        parse_and_check(json.dumps({"items": [{"id": 1, "normalized_name": "x", "variety": "", "category": "groceries",
+        parse_and_check(json.dumps({"items": [{"id": 1, "normalized_name": "x", "variety": "", "pack_quantity": None, "pack_unit": None, "category": "groceries",
                                                "confidence": "high"}]}), [1])
 
 
 def test_bad_batch_stores_nothing(conn):
     rid = add(conn, [MILK, BNNA])
-    drop_one = lambda items: json.dumps({"items": [{"id": 1, "normalized_name": "milk", "variety": "", "category": "dairy_eggs",
+    drop_one = lambda items: json.dumps({"items": [{"id": 1, "normalized_name": "milk", "variety": "", "pack_quantity": None, "pack_unit": None, "category": "dairy_eggs",
                                                     "confidence": "high"}]})
     with pytest.raises(MalformedOutputError):
         categorize_receipt(conn, rid, FakeCategorizer(respond=drop_one))
@@ -196,7 +196,7 @@ def test_migration_upgrades_a_layer1_database(tmp_path):
     old.commit()
     old.close()
     conn = db.connect(path)
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 2
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3
     assert conn.execute("SELECT description_key FROM line_items").fetchone()[0] == "MILK 1GAL"
     assert conn.execute("SELECT source FROM receipts").fetchone()[0] == "private"  # unknown origin -> safe default
     db.connect(path)  # running again is a no-op
@@ -209,12 +209,12 @@ def test_failed_migration_rolls_back(tmp_path, monkeypatch):
     bad.mkdir()
     for f in db.MIGRATIONS.glob("*.sql"):
         (bad / f.name).write_text(f.read_text())
-    (bad / "003_broken.sql").write_text("CREATE TABLE ok_table(x); THIS IS NOT SQL;")
+    (bad / "999_broken.sql").write_text("CREATE TABLE ok_table(x); THIS IS NOT SQL;")
     monkeypatch.setattr(db, "MIGRATIONS", bad)
     with pytest.raises(sqlite3.Error):
         db.connect(path)
     conn = sqlite3.connect(path)
-    assert conn.execute("PRAGMA user_version").fetchone()[0] == 2
+    assert conn.execute("PRAGMA user_version").fetchone()[0] == 3  # the last good migration
     assert conn.execute("SELECT COUNT(*) FROM sqlite_master WHERE name = 'ok_table'").fetchone()[0] == 0
 
 
@@ -255,8 +255,8 @@ def test_variety_is_stored_and_checked(conn):
 
 
 def test_percent_variety_is_allowed():
-    assert review_reasons(ItemLabel(id=1, normalized_name="milk", variety="2%", category="dairy_eggs",
-                                    confidence="high")) == []
+    assert review_reasons(ItemLabel(id=1, normalized_name="milk", variety="2%", pack_quantity=None, pack_unit=None,
+                                    category="dairy_eggs", confidence="high")) == []
 
 
 def test_known_names_are_offered_for_reuse(conn):

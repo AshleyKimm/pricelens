@@ -38,6 +38,8 @@ h2 { font-size: 1.1rem; margin: 28px 0 8px; }
   border-bottom: 1px solid var(--border); background: var(--surface-2); }
 .brand { font-weight: 700; text-decoration: none; color: var(--text); font-size: 1.1rem; }
 .top nav { display: flex; gap: 16px; }
+.units { margin-left: auto; font-size: .85rem; color: var(--text-2); }
+.units + .badge { margin-left: 0; }
 .badge { margin-left: auto; font-size: .8rem; padding: 2px 8px; border: 1px solid var(--border); border-radius: 99px; color: var(--text-2); }
 footer { max-width: 1040px; margin: 0 auto; padding: 16px; color: var(--text-2); font-size: .85rem; border-top: 1px solid var(--border); }
 .muted { color: var(--text-2); }

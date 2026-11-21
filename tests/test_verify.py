@@ -101,6 +101,19 @@ def test_weighed_item_within_tolerance():
     assert verify(receipt(lines, subtotal="0.78", total="0.78"), TODAY).status == "verified"
 
 
+def test_half_cent_rounds_up_like_a_register():
+    # 1.5 lb x 0.59 = 88.5c -> 89c (Python's round() would give 88)
+    lines = [line("BANANAS 1.50 lb @ 0.59/lb 0.89", "0.89", qty=1.5, unit="lb", unit_price="0.59")]
+    assert verify(receipt(lines, subtotal="0.89", total="0.89"), TODAY).status == "verified"
+
+
+def test_weighed_items_allow_one_cent():
+    lines = [line("BANANAS 1.50 lb @ 0.59/lb 0.90", "0.90", qty=1.5, unit="lb", unit_price="0.59")]
+    assert verify(receipt(lines, subtotal="0.90", total="0.90"), TODAY).status == "verified"
+    lines = [line("BANANAS 1.50 lb @ 0.59/lb 0.91", "0.91", qty=1.5, unit="lb", unit_price="0.59")]
+    assert "V4" in codes(verify(receipt(lines, subtotal="0.91", total="0.91"), TODAY))
+
+
 def test_tolerance_rule():
     assert line_tolerance_cents(1) == 0
     assert line_tolerance_cents(1.32) == 0
