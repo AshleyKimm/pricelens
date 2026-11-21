@@ -1,0 +1,30 @@
+{
+ "rows": [
+  [
+   "sensitive value found by local OCR (redaction can only hide what OCR finds)",
+   59,
+   66
+  ],
+  [
+   "sensitive value hidden after redaction (recall)",
+   59,
+   59
+  ],
+  [
+   "prices not covered by a redaction box",
+   117,
+   117
+  ]
+ ],
+ "fail": {
+  "sensitive value found by local OCR (redaction can only hide what OCR finds)": [
+   "corner_20261011: 70818405",
+   "corner_20261108: 5182",
+   "corner_20261108: 392024",
+   "corner_20261108: 41057939",
+   "freshway_20261016: 940928",
+   "maple_20261019: 0327",
+   "maple_20261026: 4232"
+  ]
+ }
+}

@@ -10,7 +10,7 @@
   "printed_total_cents": 2988,
   "true_subtotal_cents": 2932,
   "true_total_cents": 2988,
-  "expected_status": "needs_review",
+  "expected_status": "verified",
   "misprint": null,
   "degradation": "heavy_blur",
   "sensitive_values": [

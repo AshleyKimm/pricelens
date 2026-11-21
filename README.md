@@ -131,8 +131,38 @@ A run ends with a summary like `19 verified | 2 flagged | 1 failed | 0 already s
   silently merged.
 
 ## Eval results
-_TODO: CORD-v2 (item name/count/price, subtotal, total) + synthetic receipts (store, date). Per-field
-accuracy, flag rate, redaction recall, and every failure listed._
+
+Full report, with 95% intervals and every failure listed: [evals/RESULTS.md](evals/RESULTS.md).
+Run it with `python evals/run_eval.py synthetic|redaction|cord|report`.
+
+**Synthetic receipts** (21 fake receipts with answer keys, read live by `gemini-3.6-flash`). These are clean,
+generated images, so treat them as an upper bound, not as real-world accuracy:
+
+| Field | Result |
+|---|---|
+| store, date, subtotal, tax, total | 21/21 each |
+| line items found / price / kind (item, discount, coupon...) | 147/147 each |
+| category (17 fixed categories) | 63/63 |
+| same base name for a product at every store | 25/25 |
+| egg pack sizes | 6/6 (95% CI 61–100%: too few to say much) |
+| **misprinted receipts flagged by code** | **2/2, with 0 false alarms on 19 clean receipts** |
+
+The model reported "high" confidence on 61 of 63 labels, so self-reported confidence carried almost no signal here.
+
+**Redaction** (local OCR before and after, 0 API calls):
+- Every card number, auth code and member number that OCR could read was hidden: **59/59**.
+- No price was covered by a redaction box: **117/117**.
+- **Privacy gap:** redaction uses the same OCR, so a number OCR *can't* read isn't hidden. On the heavily blurred
+  receipt, all three sensitive values were sent visible, while the model read the rest of that receipt perfectly.
+  On real receipts, the human preview is currently the only safeguard. See Known limitations.
+
+**CORD-v2** (30 real receipt photos, public benchmark): runs over two days on the free tier's 20 requests/day.
+Results will appear here.
+
+*Measurement lessons:* two of my first metrics were wrong, and the eval was fixed, not the numbers. "Blurry receipts
+should be flagged" was a bad expectation (the model read the blurry one correctly). And comparing OCR text
+before and after redaction blamed redaction for OCR noise. Overlapping redaction boxes against printed
+prices measures it directly.
 
 ## Data sent to the model, and how it's protected
 
@@ -149,7 +179,9 @@ accuracy, flag rate, redaction recall, and every failure listed._
 - **Keys:** API keys live in `.env` (gitignored) and are only read server-side.
 
 ## Known limitations
-- OCR-based redaction can miss text on crumpled or low-contrast receipts, which is why there's a human preview.
+- OCR-based redaction can miss text on blurry, crumpled or low-contrast receipts, and then those numbers are sent
+  unredacted (measured: see Eval results). `add` warns when nothing was redacted and asks before sending, but
+  `add --yes` and `batch` don't preview.
 - Free Gemini tier: **20 requests/day per model**. Categorization batches per store, so 18 receipts take 3 calls.
 - Items from real (private) receipts are not categorized on the free tier, by design.
 - Varieties aren't yet normalized across stores ("boneless" vs "boneless skinless", "80%" vs "80/20").

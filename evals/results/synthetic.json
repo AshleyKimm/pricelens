@@ -1,0 +1,122 @@
+{
+ "rows": [
+  [
+   "receipts extracted",
+   21,
+   22
+  ],
+  [
+   "store",
+   21,
+   21
+  ],
+  [
+   "date",
+   21,
+   21
+  ],
+  [
+   "subtotal (printed)",
+   21,
+   21
+  ],
+  [
+   "tax",
+   21,
+   21
+  ],
+  [
+   "total (printed)",
+   21,
+   21
+  ],
+  [
+   "line found",
+   147,
+   147
+  ],
+  [
+   "line price",
+   147,
+   147
+  ],
+  [
+   "line kind",
+   147,
+   147
+  ],
+  [
+   "quantity/weight",
+   35,
+   35
+  ],
+  [
+   "no extra lines",
+   21,
+   21
+  ],
+  [
+   "category",
+   63,
+   63
+  ],
+  [
+   "one base name per product across stores",
+   25,
+   25
+  ],
+  [
+   "egg pack size",
+   6,
+   6
+  ]
+ ],
+ "fail": {
+  "receipts extracted": [
+   "freshway_20261118: no saved extraction (not run yet)"
+  ]
+ },
+ "flags": {
+  "tp": [
+   "freshway_20261106 (total_off_by_10): ['V2']",
+   "maple_20261012 (subtotal_off_by_100): ['V1', 'V2']"
+  ],
+  "fn": [],
+  "fp": [],
+  "tn": [
+   "corner_20261003 (clean): []",
+   "corner_20261011 (clean): []",
+   "corner_20261018 (clean): []",
+   "corner_20261025 (clean): []",
+   "corner_20261031 (clean): []",
+   "corner_20261108 (heavy_blur): []",
+   "corner_20261114 (clean): []",
+   "freshway_20261002 (clean): []",
+   "freshway_20261009 (rotated): []",
+   "freshway_20261016 (clean): []",
+   "freshway_20261022 (clean): []",
+   "freshway_20261029 (clean): []",
+   "freshway_20261112 (clean): []",
+   "maple_20261005 (clean): []",
+   "maple_20261019 (blurred): []",
+   "maple_20261026 (noisy): []",
+   "maple_20261103 (low_contrast): []",
+   "maple_20261109 (clean): []",
+   "maple_20261116 (clean): []"
+  ]
+ },
+ "caught": {
+  "wrong_and_flagged": 0,
+  "wrong": 0
+ },
+ "confidence": {
+  "high": [
+   61,
+   61
+  ],
+  "medium": [
+   2,
+   2
+  ]
+ }
+}

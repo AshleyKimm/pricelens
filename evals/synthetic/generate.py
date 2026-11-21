@@ -307,7 +307,9 @@ def label(rec: Receipt, t: dict, sensitive: list[str]) -> dict:
         "printed_total_cents": t["printed_total"],
         "true_subtotal_cents": t["subtotal"],
         "true_total_cents": t["total"],
-        "expected_status": "needs_review" if rec.misprint or rec.degradation == "heavy_blur" else "verified",
+        # Only a misprint makes the receipt's own numbers inconsistent. A blurry image read correctly should
+        # verify; blur is measured by field accuracy, not by the flag.
+        "expected_status": "needs_review" if rec.misprint else "verified",
         "misprint": rec.misprint,
         "degradation": rec.degradation,
         "sensitive_values": sensitive,
