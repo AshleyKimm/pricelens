@@ -1,0 +1,150 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "10/16/2026 14:25",
+    "date_iso": "2026-10-16",
+    "currency": "USD",
+    "subtotal": "31.34",
+    "tax_lines": [
+      "0.22"
+    ],
+    "total": "31.56",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "MILK 1GAL 3.49",
+        "description": "MILK 1GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE MILK 1GAL 0.70-",
+        "description": "SALE MILK 1GAL",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.70-",
+        "applies_to_line": 1
+      },
+      {
+        "raw_text": "COFFEE 12OZ 8.99",
+        "description": "COFFEE 12OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "8.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE COFFEE 12OZ 1.80-",
+        "description": "SALE COFFEE 12OZ",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.80-",
+        "applies_to_line": 3
+      },
+      {
+        "raw_text": "FROZEN PIZZA 6.99",
+        "description": "FROZEN PIZZA",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "6.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "JASMINE RICE 2LB 3.99",
+        "description": "JASMINE RICE 2LB",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GALA APPLES\n 0.98 lb @ 2.19/lb 2.15",
+        "description": "GALA APPLES",
+        "kind": "item",
+        "section": "items",
+        "quantity": 0.98,
+        "unit": "lb",
+        "unit_price": "2.19",
+        "line_total": "2.15",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "CHEDDAR 8OZ 5.49",
+        "description": "CHEDDAR 8OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE CHEDDAR 8OZ 1.10-",
+        "description": "SALE CHEDDAR 8OZ",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.10-",
+        "applies_to_line": 8
+      },
+      {
+        "raw_text": "AVOCADO HASS 1.29",
+        "description": "AVOCADO HASS",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DISH SOAP 3.19",
+        "description": "DISH SOAP",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.19",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE DISH SOAP 0.64-",
+        "description": "SALE DISH SOAP",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.64-",
+        "applies_to_line": 11
+      }
+    ]
+  }
+}

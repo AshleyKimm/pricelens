@@ -1,0 +1,107 @@
+{
+  "id": "maple_20261005",
+  "image": "receipts/maple_20261005.png",
+  "store": "MAPLE LANE FOODS",
+  "date": "2026-10-05",
+  "date_raw": "OCT 5, 2026 7:49PM",
+  "currency": "USD",
+  "printed_subtotal_cents": 2936,
+  "tax_cents": 30,
+  "printed_total_cents": 2966,
+  "true_subtotal_cents": 2936,
+  "true_total_cents": 2966,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "1395",
+    "143490",
+    "43210966"
+  ],
+  "lines": [
+    {
+      "printed": "HASS AVO",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 119,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "TRT CHIP",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 379,
+      "applies_to_line": null,
+      "normalized_name": "tortilla chips",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "SALE TRT CHIP",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -76,
+      "applies_to_line": 2,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "BNLS CHIX BRST /   1.87 lb @ 3.79/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.87,
+      "unit": "lb",
+      "unit_price_cents": 379,
+      "line_total_cents": 709,
+      "applies_to_line": null,
+      "normalized_name": "chicken breast",
+      "category": "meat_seafood"
+    },
+    {
+      "printed": "ORG JCE 52",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 429,
+      "applies_to_line": null,
+      "normalized_name": "orange juice",
+      "category": "beverages"
+    },
+    {
+      "printed": "CFE GRD 12Z",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 859,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "GR BF 80% /   0.99 lb @ 5.22/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 0.99,
+      "unit": "lb",
+      "unit_price_cents": 522,
+      "line_total_cents": 517,
+      "applies_to_line": null,
+      "normalized_name": "ground beef",
+      "category": "meat_seafood"
+    }
+  ]
+}

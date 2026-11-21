@@ -1,0 +1,119 @@
+{
+  "id": "freshway_20261002",
+  "image": "receipts/freshway_20261002.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-10-02",
+  "date_raw": "10/02/2026 10:25",
+  "currency": "USD",
+  "printed_subtotal_cents": 2061,
+  "tax_cents": 28,
+  "printed_total_cents": 2089,
+  "true_subtotal_cents": 2061,
+  "true_total_cents": 2089,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "3714",
+    "388404",
+    "60381235"
+  ],
+  "lines": [
+    {
+      "printed": "AVOCADO HASS /   2 @ 1.29",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 129,
+      "line_total_cents": 258,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "SALE AVOCADO HASS",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -52,
+      "applies_to_line": 1,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "SPARKLING WATER 12PK",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 549,
+      "applies_to_line": null,
+      "normalized_name": "sparkling water",
+      "category": "beverages"
+    },
+    {
+      "printed": "SALE SPARKLING WATE",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -110,
+      "applies_to_line": 3,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "MILK 1GAL /   3 @ 3.49",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 349,
+      "line_total_cents": 1047,
+      "applies_to_line": null,
+      "normalized_name": "milk",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "SALE MILK 1GAL",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -209,
+      "applies_to_line": 5,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "SPAGHETTI 1LB",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 179,
+      "applies_to_line": null,
+      "normalized_name": "spaghetti",
+      "category": "pantry"
+    },
+    {
+      "printed": "TORTILLA CHIPS",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 399,
+      "applies_to_line": null,
+      "normalized_name": "tortilla chips",
+      "category": "snacks_sweets"
+    }
+  ]
+}

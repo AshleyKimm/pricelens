@@ -1,0 +1,84 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "10/29/2026 16:09",
+    "date_iso": "2026-10-29",
+    "currency": "USD",
+    "subtotal": "17.45",
+    "tax_lines": [
+      "0.85"
+    ],
+    "total": "18.30",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "PEANUT BUTTER 3.49",
+        "description": "PEANUT BUTTER",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE PEANUT BUTTER 0.70-",
+        "description": "SALE PEANUT BUTTER",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.70-",
+        "applies_to_line": 1
+      },
+      {
+        "raw_text": "TOOTHPASTE 2 @ 4.59 9.18",
+        "description": "TOOTHPASTE",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "4.59",
+        "line_total": "9.18",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GREEK YOGURT 1.79",
+        "description": "GREEK YOGURT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DARK CHOC BAR 2.99",
+        "description": "DARK CHOC BAR",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "BANANAS 1.07 lb @ 0.65/lb 0.70",
+        "description": "BANANAS",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.07,
+        "unit": "lb",
+        "unit_price": "0.65",
+        "line_total": "0.70",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

@@ -4,7 +4,8 @@ Photograph a store receipt, use a vision AI model to extract the store, date, an
 **verify the result with code** before it enters a price history database. Then search a product
 and compare its price across stores and over time.
 
-> Status: **Layer 1 (extraction, verification, database) done.** Layers 2-4 and the eval are next.
+> Status: **Layer 1 (extraction, verification) and Layer 2 (categorization) done.** Layers 3-4 and the
+> full eval are next.
 > See [PLAN.md](PLAN.md) for the full plan and the reasoning behind each decision.
 
 ## What it does
@@ -14,6 +15,11 @@ and compare its price across stores and over time.
 - `pricelens review ...`: lists flagged receipts and lets you approve or reject them, or export the JSON, fix it, and
   import it, which re-runs verification.
 - `pricelens prices <item>`: price history and increases/decreases, from **verified receipts only**.
+- `pricelens categorize`: assigns each item a category from a **fixed list of 17** (or `uncertain`), a
+  base product name for cross-store comparison ("BNNA ORG" -> `bananas`), and a variety (`organic`).
+  Results are cached per store and printed name, so the same text is never sent twice.
+- `pricelens label list|fix`: review flagged labels and correct them. Human corrections are never overwritten
+  by the AI and are saved as regression test cases.
 - Handles item discounts, coupons, refunds, multi-buys ("2 @ 1.50", "3 for $5"), weighed items,
   missing subtotals, multiple tax lines, many date formats, and currencies with no minor unit (IDR).
 
@@ -59,6 +65,18 @@ calculated the subtotal itself, this would have passed silently.
 **What this cannot catch:** misreads that still add up, such as the wrong store name, the wrong date, or two prices swapped
 between items. That is what the per-field eval is for.
 
+### Verifying categorization (Layer 2)
+- Categories are an `enum` in the output schema, so the model can't invent one.
+- Code checks every batch: exactly the item ids sent come back, each once, or the whole batch is rejected.
+  Names can't contain digits, sizes or prices. `uncertain` or below-high confidence goes to review.
+- **Self-reported confidence turned out to be useless here:** the model said "high" for all 63 labels,
+  including a wrong one ("CHEDDAR BLK", meaning block, became "black cheddar"). So accuracy is measured against labels,
+  not trusted from confidence.
+- **Preliminary live check** (18 synthetic receipts, `gemini-3.5-flash-lite`): categories 62/62; every
+  product got one base name across all three stores (25/25). The first prompt version gave 39/62 exact names,
+  mostly from inconsistent specificity ("whole milk" vs "milk"). Splitting **base name + variety** and sending
+  the model the names already in use fixed that.
+
 ## Eval results
 _TODO: CORD-v2 (item name/count/price, subtotal, total) + synthetic receipts (store, date). Per-field
 accuracy, flag rate, redaction recall, and every failure listed._
@@ -79,7 +97,9 @@ accuracy, flag rate, redaction recall, and every failure listed._
 
 ## Known limitations
 - OCR-based redaction can miss text on crumpled or low-contrast receipts, which is why there's a human preview.
-- Layer 1 matches products by exact printed text within one store. Cross-store comparison needs Layer 2.
+- Free Gemini tier: **20 requests/day per model**. Categorization batches per store, so 18 receipts take 3 calls.
+- Items from real (private) receipts are not categorized on the free tier, by design.
+- Product granularity is a judgment call. "cheese / cheddar block" and "cheddar cheese" are both defensible.
 - Ambiguous numeric dates (03/04/26) are resolved by a configured locale (default US).
 - Tested live on synthetic receipts only so far. Accuracy numbers come with the eval.
 

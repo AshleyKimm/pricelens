@@ -192,16 +192,129 @@ My recommendation: **C**. A layered approach is easier to defend than one perfec
 
 ## 4. Layers 2 and 3 (outline; detailed plans come before each starts)
 
-**Layer 2: categorization.** A fixed category list in code (e.g. produce, dairy, meat & seafood,
-bakery, pantry, frozen, beverages, snacks, household, personal care, other) plus `uncertain`.
-Structured output is restricted to that list, so the model can't invent categories. The cache table
-is keyed by `(store_id, raw_text)` and the prompt version, so the same text is never sent twice.
-Stored: raw text, normalized name, category, confidence, needs_review. Low confidence or `uncertain` sets the review flag.
+**Layer 2: categorization (approved and built 2026-11-21)**
 
-**Layer 3: web.** Search, a results table, a per-product comparison across stores, and one price-over-time chart.
-Manual corrections are saved and exported as regression test cases. Demo mode runs against a
-separate SQLite file of **fake sample data**. The API key is server-side only, the demo is read-only, and
-write endpoints exist only in local mode.
+*Fixed category list* **[DECISION]**. It lives in code, and the structured-output schema uses it as an
+`enum`, so the model cannot invent a category:
+
+| key | covers |
+|---|---|
+| `produce` | fruit, vegetables, fresh herbs |
+| `meat_seafood` | fresh/packaged meat, poultry, fish |
+| `dairy_eggs` | milk, cheese, yogurt, butter, eggs, plant milks |
+| `bakery` | bread, buns, pastries, tortillas |
+| `deli_prepared` | deli meats, rotisserie chicken, ready meals |
+| `frozen` | frozen foods of any kind |
+| `pantry` | dry goods, canned, pasta/rice, oils, condiments, spices, baking |
+| `snacks_sweets` | chips, crackers, candy, cookies |
+| `beverages` | water, soda, juice, coffee, tea (non-alcoholic) |
+| `alcohol` | beer, wine, spirits |
+| `household` | cleaning, paper goods, bags, kitchen supplies |
+| `personal_care` | toiletries, cosmetics |
+| `health` | medicine, vitamins, first aid |
+| `baby_pet` | baby and pet products |
+| `restaurant_food` | food/drink ordered at a restaurant or café (most CORD receipts) |
+| `other` | clearly identifiable but none of the above |
+| `uncertain` | the model can't tell what the item is (e.g. "ITM 40017 GV") |
+
+`other` and `uncertain` are different on purpose. `other` means "I know what this is and it doesn't fit".
+`uncertain` means "I don't know what this is". Only `uncertain` is a reading problem.
+
+*What the model returns per item:* `normalized_name` (generic, lowercase, no brand, size or
+codes: "ORG BNNA 1LB" → "bananas"), `category`, `confidence` (`high` / `medium` / `low`).
+
+*Verification in code:*
+- The model must return exactly the item ids it was sent: none missing, none extra, no duplicates.
+- `normalized_name` must be non-empty, have no prices, digits-only tokens or SKU codes, and be at most 40 characters.
+- `needs_review` is set when the category is `uncertain`, confidence isn't `high`, or a name check fails.
+- **Why categorical confidence, not a 0–1 score:** models' self-reported probabilities are poorly calibrated.
+  Three buckets are honest about that, and the eval reports **accuracy per bucket**, which shows whether
+  "high" actually means anything.
+
+*Cache (no repeat calls):* one row per `(store, description_key)` in a new `item_labels` table.
+`description_key` is the printed item name (`description`, not `raw_text`), uppercased with collapsed spaces.
+**Why not `raw_text`:** it contains the price ("MILK 1GAL 3.49"), so every price change would miss the cache.
+**Why include the store:** abbreviations are store-specific ("GV" means Great Value at one store and something else at another).
+
+*Batching:* all the uncached items from a receipt go in **one text-only request**, not one request per item.
+**Why:** it uses fewer calls under free-tier rate limits, and the id check above catches dropped or invented items.
+
+*Human corrections:* `pricelens label fix <store> "<description>" --name ... --category ...` writes the row with
+`source='human'`. AI results **never overwrite human rows**. Corrections are also appended to a JSONL file of
+regression test cases, which the eval re-runs to check the model still gets them right.
+
+*Cross-store comparison:* `prices` searches `normalized_name`, so "bananas" matches "ORG BNNA 1LB" at one store
+and "BANANAS" at another.
+
+*Privacy (follows from your Gemini decision)* **[DECISION]**: item names from your real receipts are personal
+data (a shopping history), so they must not go to the free tier either. Each receipt gets a `source` column
+(`public` / `private`), set from its image path when it's added. A categorizer with `trains_on_input=True` only
+receives items from `public` receipts. Private items stay uncategorized until a no-training provider is configured.
+
+*Schema migration:* adds `item_labels` and `receipts.source`, and backfills `line_items.description_key`.
+It uses SQLite's `PRAGMA user_version` with numbered migration files, which Layer 4 needs anyway.
+
+*Model (2026-11-21):* the free tier allows **20 requests/day per model** (found live). Extraction stays on
+`gemini-3.6-flash`. Categorization uses `gemini-3.5-flash-lite`: it's a simpler text-only task and has its own quota,
+and the eval measures whether it's accurate enough. Requests are **batched per store per run** (not per receipt):
+18 receipts take 3 calls instead of 18.
+
+*Tests:* the id-mismatch check, the name checks, the review-flag rules, the cache (a second run makes zero
+calls), human corrections winning over AI, the privacy filter, the migration on a Layer 1 database, and the
+cross-store price query. A live run on the synthetic receipts. Category accuracy goes into the eval with a
+hand-labeled set (CORD has no category labels).
+
+**Layer 3: web interface (detailed plan, waiting for approval)**
+
+*Stack* **[DECISION]**: **FastAPI + Jinja2 templates + uvicorn**, server-rendered HTML with a small amount of CSS
+and no front-end build step. Tests use FastAPI's `TestClient`, which needs `httpx` as a dev dependency.
+**Why:** server-rendered pages are easy to make secure (Jinja escapes everything by default), easy to test
+(plain HTTP and HTML), and there's no JS framework to explain. FastAPI is widely used, typed, and documents
+its own routes. (Alternative: Flask, with slightly fewer dependencies and a built-in test client.)
+
+*Pages*
+| URL | What it shows |
+|---|---|
+| `/` | Search box and a results table: product, varieties, category, number of stores, lowest latest price |
+| `/product/{name}` | Latest price per store (cheapest first, variety shown), **the price-over-time chart** (one line per store), and price changes |
+| `/receipts` and `/receipts/{id}` | The redacted image next to the extracted lines and the verification result, so you can see *why* a receipt was flagged. This page shows the "verified AI output" story directly. |
+| `/labels` | Every label, with review flags. In local mode each row has a correction form. |
+
+*Chart* **[DECISION]**: **inline SVG drawn in Python**, with no charting library and no JavaScript.
+**Why:** one simple line chart doesn't justify a JS dependency or a CDN. It also works with JavaScript off,
+can be unit-tested (the SVG is just text), and is safe under a strict Content-Security-Policy.
+
+*Corrections as test cases:* the `/labels` form calls the same `fix_label()` as the CLI, so it has the same
+validation, never overwrites a human correction with AI, and appends a JSONL regression case. A small page or
+CLI command re-checks the current labels against all saved cases.
+
+*Two modes*, chosen by `PRICELENS_MODE`:
+| | `local` (default) | `demo` (public) |
+|---|---|---|
+| Database | `data/pricelens.db`, read-write | `data/demo.db`, opened **read-only** (`?mode=ro`) |
+| Correction forms / POST routes | yes | **not registered at all** |
+| API key | may be in `.env` (the web app never calls the API anyway) | **not needed or loaded** |
+| Listens on | `127.0.0.1` only | host/port set by the host platform |
+
+Defense in depth for "no public write access": the write routes don't exist in demo mode, *and* the
+database connection itself refuses writes. A test checks both.
+
+*Building the pre-computed demo:* `python -m pricelens demo build` rebuilds `data/demo.db` from committed files only:
+- receipt extractions are replayed from `demo/extractions/` through the real verify-and-store code;
+- labels come from a new committed `demo/labels.json`, exported from the live categorization run.
+It makes zero API calls and needs no key, so anyone can reproduce the demo from the repo.
+
+*Security details:* Jinja autoescaping (with a test that searches for `<script>`), parameterized SQL only, a strict
+CSP header (no inline scripts, which the SVG chart doesn't need), POSTs checked for a same-origin `Origin`
+header, and images served only from the redacted-images folder by hash, never by user-supplied path.
+
+*Public hosting* is **not** part of this layer. The app runs locally in either mode. Where to host the
+demo is a separate, later decision.
+
+*Tests:* search results and escaping, product comparison numbers, the SVG chart (points and axes from known data),
+receipt page issues, a label correction through the form (creates a regression case), demo mode (POST routes
+return 404/405, the read-only database rejects writes even when called directly, and it works with no API key), and
+the demo build being deterministic.
 
 ### Layer 4: reliability and systems (added 2026-11-20, built after Layer 3)
 
@@ -266,7 +379,8 @@ also makes tests and re-verification free and repeatable. Layer 1 therefore buil
     minor unit). The `*_cents` column names mean "minor units". **Why:** one integer type works for every currency
     and stays exact.
   - Any CORD image shown in the README or demo is credited: "CORD-v2, naver-clova-ix, CC BY 4.0" with a link.
-  - Running the model on all ~200 receipts costs real money. I'll estimate the cost and ask before running.
+  - **Sample (decided 2026-11-21):** a fixed, seeded sample of **30** receipts (15 validation + 15 test), because the
+    free tier allows 20 requests/day. The run is resumable over two days. The README reports the sample size and confidence ranges.
 - **[DECISION] Where the eval receipts come from:**
   - Real receipts (best signal) contain private data, so the images and labels stay **out of git**
     (`evals/private/`, gitignored), and only aggregate results go in the README.

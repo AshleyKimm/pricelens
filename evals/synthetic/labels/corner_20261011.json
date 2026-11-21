@@ -1,0 +1,107 @@
+{
+  "id": "corner_20261011",
+  "image": "receipts/corner_20261011.png",
+  "store": "CORNER MARKET",
+  "date": "2026-10-11",
+  "date_raw": "10/11/26 10:47",
+  "currency": "USD",
+  "printed_subtotal_cents": 7681,
+  "tax_cents": 324,
+  "printed_total_cents": 7805,
+  "true_subtotal_cents": 7681,
+  "true_total_cents": 7805,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "7522",
+    "511078",
+    "70818405"
+  ],
+  "lines": [
+    {
+      "printed": "RICE JASMN",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 439,
+      "applies_to_line": null,
+      "normalized_name": "rice",
+      "category": "pantry"
+    },
+    {
+      "printed": "DOG FD CHKN /   3 @ 17.29",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 1729,
+      "line_total_cents": 5187,
+      "applies_to_line": null,
+      "normalized_name": "dog food",
+      "category": "baby_pet"
+    },
+    {
+      "printed": "COFFEE GRND MED",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 979,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "AVOCADO",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 149,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "YOGURT GRK",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 169,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "PNT BTR CRMY /   2 @ 3.79",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 379,
+      "line_total_cents": 758,
+      "applies_to_line": null,
+      "normalized_name": "peanut butter",
+      "category": "pantry"
+    },
+    {
+      "printed": "STORE COUPON",
+      "kind": "coupon",
+      "section": "after_subtotal",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -200,
+      "applies_to_line": null,
+      "normalized_name": null,
+      "category": null
+    }
+  ]
+}

@@ -12,7 +12,7 @@ from . import db
 from .errors import PriceLensError
 from .money import format_amount
 from .pipeline import Cancelled, add_receipt
-from .prices import price_changes
+from .prices import latest_by_store, price_changes
 from .verify import verify
 
 ROOT = Path.cwd()
@@ -130,16 +130,82 @@ def cmd_prices(args) -> int:
     if not obs:
         print("No verified purchases match.")
         return 0
-    print(f"{'date':<10}  {'store':<22} {'item':<28} {'unit':<5} {'price':>10}")
-    for o in sorted(obs, key=lambda o: (o.store, o.description, o.day)):
-        print(f"{o.day}  {o.store:<22} {o.description:<28} {o.unit:<5} {format_amount(o.unit_price_cents):>10}")
+    print(f"{'date':<10}  {'store':<18} {'product':<16} {'variety':<12} {'printed as':<20} {'unit':<5} {'price':>8}")
+    for o in sorted(obs, key=lambda o: (o.description, o.variety, o.store, o.day)):
+        print(f"{o.day}  {o.store:<18} {o.description:<16} {o.variety or '-':<12} {o.printed[:20]:<20} "
+              f"{o.unit:<5} {format_amount(o.unit_price_cents):>8}")
     changes = price_changes(obs)
     if changes:
         print("\nPrice changes:")
         for c in changes:
             arrow = "UP  " if c.change_cents > 0 else "DOWN"
-            print(f"  {arrow} {c.store} / {c.description}: {format_amount(c.from_cents)} -> "
+            name = f"{c.description} ({c.variety})" if c.variety else c.description
+            print(f"  {arrow} {c.store} / {name}: {format_amount(c.from_cents)} -> "
                   f"{format_amount(c.to_cents)} ({c.change_pct:+.1f}%) {c.from_day} -> {c.to_day}")
+    compare = {k: v for k, v in latest_by_store(obs).items() if len(v) > 1}
+    if compare:
+        print("\nLatest price by store (cheapest first):")
+        for (product, unit), rows in sorted(compare.items()):
+            print(f"  {product} (per {unit}): " + ", ".join(
+                f"{o.store}{' [' + o.variety + ']' if o.variety else ''} {format_amount(o.unit_price_cents)} ({o.day})"
+                for o in rows))
+    return 0
+
+
+def _categorizer(args):
+    if args.provider == "gemini":
+        from .categorize import GeminiCategorizer
+        from .gemini import DEFAULT_GEMINI_CATEGORIZE_MODEL
+        return GeminiCategorizer(model=args.model or DEFAULT_GEMINI_CATEGORIZE_MODEL)
+    from .categorize import ClaudeCategorizer
+    from .extract import DEFAULT_MODEL
+    return ClaudeCategorizer(model=args.model or DEFAULT_MODEL)
+
+
+def cmd_categorize(args) -> int:
+    from .labeling import categorize_all
+    conn = _conn()
+    results = categorize_all(conn, _categorizer(args), [args.receipt] if args.receipt else None)
+    for s in results:
+        who = f"{s.store or '?'} (receipts {','.join(map(str, s.receipt_ids))})"
+        if s.error:
+            print(f"{who}: ERROR {s.error}")
+        elif s.skipped:
+            print(f"{who}: skipped ({s.skipped})")
+        else:
+            print(f"{who}: {s.calls} call(s), {s.new_labels} new, {s.cached} cached, {s.flagged} flagged")
+            for f in s.flagged_items:
+                print(f"    review: {f}")
+    n = sum(len(s.receipt_ids) for s in results)
+    print(f"\n{n} receipts, {sum(s.calls for s in results)} API calls, "
+          f"{sum(s.new_labels for s in results)} new labels, {sum(s.cached for s in results)} cache hits, "
+          f"{sum(s.flagged for s in results)} flagged, {sum(1 for s in results if s.error)} errors")
+    return 1 if any(s.error for s in results) else 0
+
+
+def cmd_label(args) -> int:
+    from .labeling import fix_label, list_labels
+    conn = _conn()
+    if args.action == "list":
+        rows = list_labels(conn, needs_review_only=args.review)
+        for r in rows:
+            flag = "REVIEW" if r["needs_review"] else ""
+            reasons = "; ".join(json.loads(r["review_reasons"]))
+            print(f"{r['store'][:16]:<16} {r['description'][:20]:<20} -> {r['normalized_name'] or '?':<16} "
+                  f"{r['variety'] or '-':<12} "
+                  f"{r['category']:<15} {r['confidence'] or '':<6} {r['source']:<5} {flag} {reasons}")
+        print(f"{len(rows)} labels")
+        return 0
+    if None in (args.store, args.description, args.name, args.category):
+        print("label fix STORE DESCRIPTION NAME CATEGORY", file=sys.stderr)
+        return 2
+    try:
+        path = fix_label(conn, args.store, args.description, args.name, args.category,
+                         variety=args.variety or "")
+    except ValueError as e:
+        print(f"error: {e}", file=sys.stderr)
+        return 1
+    print(f"Saved. Recorded as a regression case in {path}")
     return 0
 
 
@@ -158,6 +224,22 @@ def build_parser() -> argparse.ArgumentParser:
                    help="Claude only")
     a.add_argument("--locale", default=_env("PRICELENS_LOCALE", "US"))
     a.set_defaults(func=cmd_add)
+
+    c = sub.add_parser("categorize", help="assign categories and normalized names (cached)")
+    c.add_argument("--receipt", type=int, help="only this receipt (default: all)")
+    c.add_argument("--provider", default=_env("PRICELENS_PROVIDER", "gemini"), choices=["gemini", "claude"])
+    c.add_argument("--model", default=os.environ.get("PRICELENS_CATEGORIZE_MODEL"))
+    c.set_defaults(func=cmd_categorize)
+
+    lb = sub.add_parser("label", help="list labels or correct one by hand")
+    lb.add_argument("action", choices=["list", "fix"])
+    lb.add_argument("store", nargs="?")
+    lb.add_argument("description", nargs="?", help="printed item name, e.g. 'TP MINT'")
+    lb.add_argument("name", nargs="?", help="correct normalized name, e.g. toothpaste")
+    lb.add_argument("category", nargs="?")
+    lb.add_argument("--review", action="store_true", help="list: only labels needing review")
+    lb.add_argument("--variety", help="fix: e.g. jasmine, whole, organic")
+    lb.set_defaults(func=cmd_label)
 
     r = sub.add_parser("review", help="list, inspect, approve, reject or correct receipts")
     r.add_argument("action", choices=["list", "show", "approve", "reject", "export", "import"])

@@ -1,0 +1,143 @@
+{
+  "id": "corner_20261018",
+  "image": "receipts/corner_20261018.png",
+  "store": "CORNER MARKET",
+  "date": "2026-10-18",
+  "date_raw": "10/18/26 15:30",
+  "currency": "USD",
+  "printed_subtotal_cents": 5077,
+  "tax_cents": 0,
+  "printed_total_cents": 5077,
+  "true_subtotal_cents": 5077,
+  "true_total_cents": 5077,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "1467",
+    "508663",
+    "41431504"
+  ],
+  "lines": [
+    {
+      "printed": "CHICKEN BRST BNLS /   2.12 lb @ 4.09/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2.12,
+      "unit": "lb",
+      "unit_price_cents": 409,
+      "line_total_cents": 867,
+      "applies_to_line": null,
+      "normalized_name": "chicken breast",
+      "category": "meat_seafood"
+    },
+    {
+      "printed": "SALE CHICKEN BRST B",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -173,
+      "applies_to_line": 1,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "AVOCADO",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 149,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "LG EGGS 12CT /   2 @ 4.69",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 469,
+      "line_total_cents": 938,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "WHOLE MILK GAL",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 379,
+      "applies_to_line": null,
+      "normalized_name": "milk",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "GRND BEEF /   1.03 lb @ 5.93/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.03,
+      "unit": "lb",
+      "unit_price_cents": 593,
+      "line_total_cents": 611,
+      "applies_to_line": null,
+      "normalized_name": "ground beef",
+      "category": "meat_seafood"
+    },
+    {
+      "printed": "FLR TORTILLA 10",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 329,
+      "applies_to_line": null,
+      "normalized_name": "flour tortillas",
+      "category": "bakery"
+    },
+    {
+      "printed": "COFFEE GRND MED /   2 @ 9.79",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 979,
+      "line_total_cents": 1958,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "YOGURT GRK",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 169,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "MEMBER SAVINGS",
+      "kind": "coupon",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -150,
+      "applies_to_line": null,
+      "normalized_name": null,
+      "category": null
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "10/09/2026 13:44",
+    "date_iso": "2026-10-09",
+    "currency": "USD",
+    "subtotal": "50.94",
+    "tax_lines": [
+      "0.49"
+    ],
+    "total": "51.43",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "DARK CHOC BAR 2.99",
+        "description": "DARK CHOC BAR",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "COFFEE 12OZ\n3 @ 8.99 26.97",
+        "description": "COFFEE 12OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "8.99",
+        "line_total": "26.97",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TORTILLA CHIPS 3.99",
+        "description": "TORTILLA CHIPS",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "PEANUT BUTTER 3.49",
+        "description": "PEANUT BUTTER",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "AVOCADO HASS 1.29",
+        "description": "AVOCADO HASS",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE AVOCADO HASS 0.26-",
+        "description": "SALE AVOCADO HASS",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.26-",
+        "applies_to_line": 5
+      },
+      {
+        "raw_text": "ICE CREAM VAN 1.5QT 5.49",
+        "description": "ICE CREAM VAN 1.5QT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TORTILLAS FLOUR\n2 @ 3.49 6.98",
+        "description": "TORTILLAS FLOUR",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "3.49",
+        "line_total": "6.98",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "10/11/26 10:47",
+    "date_iso": "2026-10-11",
+    "currency": "USD",
+    "subtotal": "76.81",
+    "tax_lines": [
+      "3.24"
+    ],
+    "total": "78.05",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "RICE JASMN 4.39",
+        "description": "RICE JASMN",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DOG FD CHKN 3 @ 17.29 51.87",
+        "description": "DOG FD CHKN",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "17.29",
+        "line_total": "51.87",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "COFFEE GRND MED 9.79",
+        "description": "COFFEE GRND MED",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "9.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "AVOCADO 1.49",
+        "description": "AVOCADO",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "YOGURT GRK 1.69",
+        "description": "YOGURT GRK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.69",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "PNT BTR CRMY 2 @ 3.79 7.58",
+        "description": "PNT BTR CRMY",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "3.79",
+        "line_total": "7.58",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "STORE COUPON 2.00-",
+        "description": "STORE COUPON",
+        "kind": "coupon",
+        "section": "after_subtotal",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.00-",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

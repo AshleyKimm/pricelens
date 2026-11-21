@@ -1,0 +1,107 @@
+{
+  "id": "corner_20261031",
+  "image": "receipts/corner_20261031.png",
+  "store": "CORNER MARKET",
+  "date": "2026-10-31",
+  "date_raw": "10/31/26 11:12",
+  "currency": "USD",
+  "printed_subtotal_cents": null,
+  "tax_cents": 90,
+  "printed_total_cents": 4237,
+  "true_subtotal_cents": 4147,
+  "true_total_cents": 4237,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "2318",
+    "436488",
+    "36750225"
+  ],
+  "lines": [
+    {
+      "printed": "APPLE GALA /   2.74 lb @ 2.04/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2.74,
+      "unit": "lb",
+      "unit_price_cents": 204,
+      "line_total_cents": 559,
+      "applies_to_line": null,
+      "normalized_name": "gala apples",
+      "category": "produce"
+    },
+    {
+      "printed": "TTHPST MINT /   3 @ 4.79",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 479,
+      "line_total_cents": 1437,
+      "applies_to_line": null,
+      "normalized_name": "toothpaste",
+      "category": "personal_care"
+    },
+    {
+      "printed": "WHOLE MILK GAL",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 339,
+      "applies_to_line": null,
+      "normalized_name": "milk",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "OJ NO PULP",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 489,
+      "applies_to_line": null,
+      "normalized_name": "orange juice",
+      "category": "beverages"
+    },
+    {
+      "printed": "PNT BTR CRMY",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 439,
+      "applies_to_line": null,
+      "normalized_name": "peanut butter",
+      "category": "pantry"
+    },
+    {
+      "printed": "SELTZER 12PK",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 689,
+      "applies_to_line": null,
+      "normalized_name": "sparkling water",
+      "category": "beverages"
+    },
+    {
+      "printed": "BNNA ORG /   3.04 lb @ 0.64/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3.04,
+      "unit": "lb",
+      "unit_price_cents": 64,
+      "line_total_cents": 195,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"store": "MAPLE LANE FOODS", "description": "CHEDDAR BLK", "expected_name": "cheese", "expected_variety": "cheddar block", "expected_category": "dairy_eggs", "ai_previous": {"normalized_name": "cheese", "variety": "black cheddar", "category": "dairy_eggs", "confidence": "high", "source": "ai"}, "corrected_at": "2026-11-21T07:02:10+00:00"}

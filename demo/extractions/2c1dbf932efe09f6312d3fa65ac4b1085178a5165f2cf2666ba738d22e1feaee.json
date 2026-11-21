@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "10/22/2026 11:06",
+    "date_iso": "2026-10-22",
+    "currency": "USD",
+    "subtotal": "72.57",
+    "tax_lines": [
+      "2.88"
+    ],
+    "total": "75.45",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "COFFEE 12OZ 10.39",
+        "description": "COFFEE 12OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "10.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "CHEDDAR 8OZ 3 @ 5.49 16.47",
+        "description": "CHEDDAR 8OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "5.49",
+        "line_total": "16.47",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GROUND BEEF 80/20 1.01 lb @ 6.31/lb 6.37",
+        "description": "GROUND BEEF 80/20",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.01,
+        "unit": "lb",
+        "unit_price": "6.31",
+        "line_total": "6.37",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TOOTHPASTE 3 @ 4.59 13.77",
+        "description": "TOOTHPASTE",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "4.59",
+        "line_total": "13.77",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DOG FOOD 5LB 18.39",
+        "description": "DOG FOOD 5LB",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "18.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DARK CHOC BAR 3 @ 2.99 8.97",
+        "description": "DARK CHOC BAR",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "2.99",
+        "line_total": "8.97",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE DARK CHOC BAR 1.79-",
+        "description": "SALE DARK CHOC BAR",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.79-",
+        "applies_to_line": 6
+      }
+    ]
+  }
+}

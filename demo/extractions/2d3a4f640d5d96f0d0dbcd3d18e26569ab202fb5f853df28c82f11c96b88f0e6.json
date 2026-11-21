@@ -1,0 +1,84 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "11/06/2026 11:47",
+    "date_iso": "2026-11-06",
+    "currency": "USD",
+    "subtotal": "33.47",
+    "tax_lines": [
+      "0.00"
+    ],
+    "total": "33.57",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "JASMINE RICE 2LB\n  3 @ 3.79 11.37",
+        "description": "JASMINE RICE 2LB",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "3.79",
+        "line_total": "11.37",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "COFFEE 12OZ 10.39",
+        "description": "COFFEE 12OZ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "10.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GREEK YOGURT 1.79",
+        "description": "GREEK YOGURT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE GREEK YOGURT 0.36-",
+        "description": "SALE GREEK YOGURT",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.36-",
+        "applies_to_line": 3
+      },
+      {
+        "raw_text": "ICE CREAM VAN 1.5QT 5.29",
+        "description": "ICE CREAM VAN 1.5QT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SOURDOUGH LOAF 4.99",
+        "description": "SOURDOUGH LOAF",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.99",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "10/31/26 11:12",
+    "date_iso": "2026-10-31",
+    "currency": "USD",
+    "subtotal": null,
+    "tax_lines": [
+      "0.90"
+    ],
+    "total": "42.37",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "APPLE GALA\n  2.74 lb @ 2.04/lb 5.59",
+        "description": "APPLE GALA",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2.74,
+        "unit": "lb",
+        "unit_price": "2.04",
+        "line_total": "5.59",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TTHPST MINT\n  3 @ 4.79 14.37",
+        "description": "TTHPST MINT",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "4.79",
+        "line_total": "14.37",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "WHOLE MILK GAL 3.39",
+        "description": "WHOLE MILK GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "OJ NO PULP 4.89",
+        "description": "OJ NO PULP",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.89",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "PNT BTR CRMY 4.39",
+        "description": "PNT BTR CRMY",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SELTZER 12PK 6.89",
+        "description": "SELTZER 12PK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "6.89",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "BNNA ORG\n  3.04 lb @ 0.64/lb 1.95",
+        "description": "BNNA ORG",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3.04,
+        "unit": "lb",
+        "unit_price": "0.64",
+        "line_total": "1.95",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "id": "freshway_20261022",
+  "image": "receipts/freshway_20261022.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-10-22",
+  "date_raw": "10/22/2026 11:06",
+  "currency": "USD",
+  "printed_subtotal_cents": 7257,
+  "tax_cents": 288,
+  "printed_total_cents": 7545,
+  "true_subtotal_cents": 7257,
+  "true_total_cents": 7545,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "8522",
+    "427466",
+    "73662558"
+  ],
+  "lines": [
+    {
+      "printed": "COFFEE 12OZ",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1039,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "CHEDDAR 8OZ /   3 @ 5.49",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 549,
+      "line_total_cents": 1647,
+      "applies_to_line": null,
+      "normalized_name": "cheddar cheese",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "GROUND BEEF 80/20 /   1.01 lb @ 6.31/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.01,
+      "unit": "lb",
+      "unit_price_cents": 631,
+      "line_total_cents": 637,
+      "applies_to_line": null,
+      "normalized_name": "ground beef",
+      "category": "meat_seafood"
+    },
+    {
+      "printed": "TOOTHPASTE /   3 @ 4.59",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 459,
+      "line_total_cents": 1377,
+      "applies_to_line": null,
+      "normalized_name": "toothpaste",
+      "category": "personal_care"
+    },
+    {
+      "printed": "DOG FOOD 5LB",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1839,
+      "applies_to_line": null,
+      "normalized_name": "dog food",
+      "category": "baby_pet"
+    },
+    {
+      "printed": "DARK CHOC BAR /   3 @ 2.99",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 299,
+      "line_total_cents": 897,
+      "applies_to_line": null,
+      "normalized_name": "dark chocolate",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "SALE DARK CHOC BAR",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -179,
+      "applies_to_line": 6,
+      "normalized_name": null,
+      "category": null
+    }
+  ]
+}

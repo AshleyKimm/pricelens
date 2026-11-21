@@ -59,7 +59,9 @@ def parse_output(text: str) -> ExtractedReceipt:
         raise errors.MalformedOutputError(f"model output failed schema validation: {e}") from e
 
 
-class ClaudeExtractor:
+class ClaudeClient:
+    """Shared request/response handling for Claude: one JSON-constrained call, errors mapped to our types."""
+
     def __init__(self, model: str = DEFAULT_MODEL, effort: str = "medium", client=None):
         import anthropic
 
@@ -67,27 +69,19 @@ class ClaudeExtractor:
         self.model = model
         self.effort = effort
         self.client = client or anthropic.Anthropic()
-        self.schema = strict_json_schema(ExtractedReceipt)
 
-    def extract(self, image: PreparedImage) -> ExtractionResult:
+    def generate_json(self, system: str, content: list[dict], schema: dict) -> tuple[str, str]:
+        """Returns (output text, model that served it)."""
         a = self._anthropic
-        data = base64.standard_b64encode(image.jpeg_bytes).decode("ascii")
         try:
             resp = self.client.beta.messages.create(
                 model=self.model,
                 max_tokens=16000,
                 betas=["server-side-fallback-2026-07-01"],
                 fallbacks="default",  # if the model declines, the API retries on Anthropic's recommended fallback
-                system=SYSTEM_PROMPT,
-                output_config={"effort": self.effort,
-                               "format": {"type": "json_schema", "schema": self.schema}},
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": data}},
-                        {"type": "text", "text": USER_PROMPT},
-                    ],
-                }],
+                system=system,
+                output_config={"effort": self.effort, "format": {"type": "json_schema", "schema": schema}},
+                messages=[{"role": "user", "content": content}],
             )
         except (a.AuthenticationError, a.PermissionDeniedError) as e:
             raise errors.AuthError(f"API authentication failed: {e.message}") from e
@@ -111,7 +105,22 @@ class ClaudeExtractor:
         text = next((b.text for b in resp.content if b.type == "text"), None)
         if text is None:
             raise errors.MalformedOutputError("no text block in response")
-        return ExtractionResult(parse_output(text), text, resp.model, PROMPT_VERSION)
+        return text, resp.model
+
+
+class ClaudeExtractor(ClaudeClient):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.schema = strict_json_schema(ExtractedReceipt)
+
+    def extract(self, image: PreparedImage) -> ExtractionResult:
+        data = base64.standard_b64encode(image.jpeg_bytes).decode("ascii")
+        content = [
+            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": data}},
+            {"type": "text", "text": USER_PROMPT},
+        ]
+        text, model = self.generate_json(SYSTEM_PROMPT, content, self.schema)
+        return ExtractionResult(parse_output(text), text, model, PROMPT_VERSION)
 
 
 def save_fixture(result: ExtractionResult, sha256: str, directory: Path) -> Path:

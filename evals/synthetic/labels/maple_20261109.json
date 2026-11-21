@@ -1,0 +1,95 @@
+{
+  "id": "maple_20261109",
+  "image": "receipts/maple_20261109.png",
+  "store": "MAPLE LANE FOODS",
+  "date": "2026-11-09",
+  "date_raw": "NOV 9, 2026 2:57PM",
+  "currency": "USD",
+  "printed_subtotal_cents": 2936,
+  "tax_cents": 134,
+  "printed_total_cents": 3070,
+  "true_subtotal_cents": 2936,
+  "true_total_cents": 3070,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "3096",
+    "477514",
+    "50272488"
+  ],
+  "lines": [
+    {
+      "printed": "TORT FLOUR",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 329,
+      "applies_to_line": null,
+      "normalized_name": "flour tortillas",
+      "category": "bakery"
+    },
+    {
+      "printed": "ORG BANANAS /   1.36 lb @ 0.64/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.36,
+      "unit": "lb",
+      "unit_price_cents": 64,
+      "line_total_cents": 87,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce"
+    },
+    {
+      "printed": "SALE ORG BANANAS",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -17,
+      "applies_to_line": 2,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "FZ PIZZA",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 739,
+      "applies_to_line": null,
+      "normalized_name": "frozen pizza",
+      "category": "frozen"
+    },
+    {
+      "printed": "HASS AVO",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 119,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "DG FOOD",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1679,
+      "applies_to_line": null,
+      "normalized_name": "dog food",
+      "category": "baby_pet"
+    }
+  ]
+}

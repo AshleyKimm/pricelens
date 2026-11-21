@@ -1,0 +1,106 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "10/02/2026 10:25",
+    "date_iso": "2026-10-02",
+    "currency": "USD",
+    "subtotal": "20.61",
+    "tax_lines": [
+      "0.28"
+    ],
+    "total": "20.89",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "AVOCADO HASS\n  2 @ 1.29  2.58",
+        "description": "AVOCADO HASS",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "1.29",
+        "line_total": "2.58",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE AVOCADO HASS  0.52-",
+        "description": "SALE AVOCADO HASS",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.52-",
+        "applies_to_line": 1
+      },
+      {
+        "raw_text": "SPARKLING WATER 12PK  5.49",
+        "description": "SPARKLING WATER 12PK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE SPARKLING WATE  1.10-",
+        "description": "SALE SPARKLING WATE",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.10-",
+        "applies_to_line": 3
+      },
+      {
+        "raw_text": "MILK 1GAL\n  3 @ 3.49  10.47",
+        "description": "MILK 1GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "3.49",
+        "line_total": "10.47",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE MILK 1GAL  2.09-",
+        "description": "SALE MILK 1GAL",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.09-",
+        "applies_to_line": 5
+      },
+      {
+        "raw_text": "SPAGHETTI 1LB  1.79",
+        "description": "SPAGHETTI 1LB",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TORTILLA CHIPS  3.99",
+        "description": "TORTILLA CHIPS",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.99",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

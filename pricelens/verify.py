@@ -16,7 +16,7 @@ from datetime import date
 
 from .dates import parse_receipt_date
 from .models import ExtractedReceipt
-from .money import MoneyParseError, parse_amount
+from .money import MoneyParseError, format_amount, parse_amount
 
 NEGATIVE_KINDS = {"discount", "coupon", "refund"}
 MAX_AGE_YEARS = 5
@@ -169,6 +169,7 @@ def scrub_text(text: str) -> str:
 
 def check(rec: Receipt, today: date) -> list[Issue]:
     issues: list[Issue] = []
+    fmt = lambda amount: format_amount(amount, rec.currency)
 
     # V6 required fields
     if not rec.store_name:
@@ -193,19 +194,19 @@ def check(rec: Receipt, today: date) -> list[Issue]:
     if sums_ok and rec.subtotal_cents is not None:
         s = _sum(items)
         if s != rec.subtotal_cents:
-            issues.append(Issue("V1", f"items sum to {s} but printed subtotal is {rec.subtotal_cents} "
-                                      f"(diff {rec.subtotal_cents - s}c)"))
+            issues.append(Issue("V1", f"items sum to {fmt(s)} but printed subtotal is {fmt(rec.subtotal_cents)} "
+                                      f"(diff {fmt(rec.subtotal_cents - s)})"))
         if rec.total_cents is not None:
             expected = rec.subtotal_cents + rec.tax_cents + _sum(after)
             if expected != rec.total_cents:
-                issues.append(Issue("V2", f"subtotal + tax + adjustments = {expected} but printed total is "
-                                          f"{rec.total_cents} (diff {rec.total_cents - expected}c)"))
+                issues.append(Issue("V2", f"subtotal + tax + adjustments = {fmt(expected)} but printed total is "
+                                          f"{fmt(rec.total_cents)} (diff {fmt(rec.total_cents - expected)})"))
     elif sums_ok and rec.total_cents is not None:
         issues.append(Issue("V3", "no subtotal printed; checked items + tax = total instead", blocking=False))
         expected = _sum(items) + rec.tax_cents + _sum(after)
         if expected != rec.total_cents:
-            issues.append(Issue("V3", f"items + tax + adjustments = {expected} but printed total is "
-                                      f"{rec.total_cents} (diff {rec.total_cents - expected}c)"))
+            issues.append(Issue("V3", f"items + tax + adjustments = {fmt(expected)} but printed total is "
+                                      f"{fmt(rec.total_cents)} (diff {fmt(rec.total_cents - expected)})"))
 
     # V4 per-line arithmetic
     for l in rec.lines:
@@ -213,8 +214,8 @@ def check(rec: Receipt, today: date) -> list[Issue]:
             expected = round(l.quantity * l.unit_price_cents)
             diff = abs(abs(l.line_total_cents) - expected)
             if diff > line_tolerance_cents(l.quantity):
-                issues.append(Issue("V4", f"line {l.line_no}: {l.quantity} x {l.unit_price_cents}c = "
-                                          f"{expected}c but line total is {abs(l.line_total_cents)}c"))
+                issues.append(Issue("V4", f"line {l.line_no}: {l.quantity} x {fmt(l.unit_price_cents)} = "
+                                          f"{fmt(expected)} but line total is {fmt(abs(l.line_total_cents))}"))
 
     # V8 discount links
     by_no = {l.line_no: l for l in rec.lines}

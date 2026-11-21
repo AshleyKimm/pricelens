@@ -1,0 +1,119 @@
+{
+  "id": "freshway_20261009",
+  "image": "receipts/freshway_20261009.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-10-09",
+  "date_raw": "10/09/2026 13:44",
+  "currency": "USD",
+  "printed_subtotal_cents": 5094,
+  "tax_cents": 49,
+  "printed_total_cents": 5143,
+  "true_subtotal_cents": 5094,
+  "true_total_cents": 5143,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "rotated",
+  "sensitive_values": [
+    "8296",
+    "219569",
+    "63782417"
+  ],
+  "lines": [
+    {
+      "printed": "DARK CHOC BAR",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 299,
+      "applies_to_line": null,
+      "normalized_name": "dark chocolate",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "COFFEE 12OZ /   3 @ 8.99",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 899,
+      "line_total_cents": 2697,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "TORTILLA CHIPS",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 399,
+      "applies_to_line": null,
+      "normalized_name": "tortilla chips",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "PEANUT BUTTER",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 349,
+      "applies_to_line": null,
+      "normalized_name": "peanut butter",
+      "category": "pantry"
+    },
+    {
+      "printed": "AVOCADO HASS",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 129,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "SALE AVOCADO HASS",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -26,
+      "applies_to_line": 5,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "ICE CREAM VAN 1.5QT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 549,
+      "applies_to_line": null,
+      "normalized_name": "ice cream",
+      "category": "frozen"
+    },
+    {
+      "printed": "TORTILLAS FLOUR /   2 @ 3.49",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 349,
+      "line_total_cents": 698,
+      "applies_to_line": null,
+      "normalized_name": "flour tortillas",
+      "category": "bakery"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "id": "corner_20261025",
+  "image": "receipts/corner_20261025.png",
+  "store": "CORNER MARKET",
+  "date": "2026-10-25",
+  "date_raw": "10/25/26 15:25",
+  "currency": "USD",
+  "printed_subtotal_cents": 1473,
+  "tax_cents": 27,
+  "printed_total_cents": 1500,
+  "true_subtotal_cents": 1473,
+  "true_total_cents": 1500,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "6210",
+    "761268",
+    "25264706"
+  ],
+  "lines": [
+    {
+      "printed": "DISH LIQ",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 419,
+      "applies_to_line": null,
+      "normalized_name": "dish soap",
+      "category": "household"
+    },
+    {
+      "printed": "YOGURT GRK /   3 @ 1.69",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 169,
+      "line_total_cents": 507,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "LG EGGS 12CT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 469,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "BNNA ORG /   1.13 lb @ 0.64/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.13,
+      "unit": "lb",
+      "unit_price_cents": 64,
+      "line_total_cents": 72,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce"
+    },
+    {
+      "printed": "SALE BNNA ORG",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -14,
+      "applies_to_line": 4,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "CHIPS TORT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 439,
+      "applies_to_line": null,
+      "normalized_name": "tortilla chips",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "RETURN DISH LIQ",
+      "kind": "refund",
+      "section": "items",
+      "quantity": 1,
+      "unit": "each",
+      "unit_price_cents": 419,
+      "line_total_cents": -419,
+      "applies_to_line": null,
+      "normalized_name": "dish soap",
+      "category": "household"
+    }
+  ]
+}

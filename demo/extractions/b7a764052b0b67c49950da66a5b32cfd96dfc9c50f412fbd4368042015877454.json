@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "MAPLE LANE FOODS",
+    "date_raw": "OCT 26, 2026 4:47PM",
+    "date_iso": "2026-10-26",
+    "currency": "USD",
+    "subtotal": "24.10",
+    "tax_lines": [
+      "0.55"
+    ],
+    "total": "24.65",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "OLV OIL XV 8.59",
+        "description": "OLV OIL XV",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "8.59",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "CHEDDAR BLK 4.29",
+        "description": "CHEDDAR BLK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TP MINT 3.49",
+        "description": "TP MINT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE TP MINT 0.70-",
+        "description": "SALE TP MINT",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.70-",
+        "applies_to_line": 3
+      },
+      {
+        "raw_text": "ORG BANANAS 3.12 lb @ 0.56/lb 1.75",
+        "description": "ORG BANANAS",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3.12,
+        "unit": "lb",
+        "unit_price": "0.56",
+        "line_total": "1.75",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TORT FLOUR 3.29",
+        "description": "TORT FLOUR",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DSH SOAP 3.39",
+        "description": "DSH SOAP",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.39",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

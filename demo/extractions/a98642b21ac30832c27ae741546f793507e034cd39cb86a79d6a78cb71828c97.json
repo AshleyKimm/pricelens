@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "11/08/26 13:33",
+    "date_iso": "2026-11-08",
+    "currency": "USD",
+    "subtotal": "29.32",
+    "tax_lines": [
+      "0.56"
+    ],
+    "total": "29.88",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "OJ NO PULP 5.59",
+        "description": "OJ NO PULP",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.59",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "AVOCADO\n2 @ 1.49 2.98",
+        "description": "AVOCADO",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "1.49",
+        "line_total": "2.98",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "WHOLE MILK GAL 3.39",
+        "description": "WHOLE MILK GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "BREAD SRDGH 5.39",
+        "description": "BREAD SRDGH",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "DISH LIQ 4.19",
+        "description": "DISH LIQ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.19",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TTHPST MINT 4.79",
+        "description": "TTHPST MINT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "FLR TORTILLA 10 2.99",
+        "description": "FLR TORTILLA 10",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.99",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

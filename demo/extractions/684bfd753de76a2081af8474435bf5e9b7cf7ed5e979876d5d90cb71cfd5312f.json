@@ -1,0 +1,84 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "MAPLE LANE FOODS",
+    "date_raw": "OCT 12, 2026 3:53PM",
+    "date_iso": "2026-10-12",
+    "currency": "USD",
+    "subtotal": "26.68",
+    "tax_lines": [
+      "0.00"
+    ],
+    "total": "25.68",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "TORT FLOUR 2.89",
+        "description": "TORT FLOUR",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.89",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "BNLS CHIX BRST 1.12 lb @ 3.79/lb 4.24",
+        "description": "BNLS CHIX BRST",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.12,
+        "unit": "lb",
+        "unit_price": "3.79",
+        "line_total": "4.24",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "ORG BANANAS 2.11 lb @ 0.56/lb 1.18",
+        "description": "ORG BANANAS",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2.11,
+        "unit": "lb",
+        "unit_price": "0.56",
+        "line_total": "1.18",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "EGGS GRD A 12 4.09",
+        "description": "EGGS GRD A 12",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.09",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "OLV OIL XV 8.59",
+        "description": "OLV OIL XV",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "8.59",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SPRK WTR 12 4.69",
+        "description": "SPRK WTR 12",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.69",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

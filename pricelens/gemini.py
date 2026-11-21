@@ -23,6 +23,9 @@ from .redact import PreparedImage
 
 ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/interactions"
 DEFAULT_GEMINI_MODEL = "gemini-3.6-flash"
+# Categorization is a simpler text-only task, and on the free tier each model has its own small
+# daily quota (20 requests/day for 3.6-flash), so it uses the lighter model. The eval checks accuracy.
+DEFAULT_GEMINI_CATEGORIZE_MODEL = "gemini-3.5-flash-lite"
 
 # transport(url, headers, body_bytes) -> (status, headers, body_bytes); injectable for tests.
 Transport = Callable[[str, dict, bytes], tuple[int, dict, bytes]]
@@ -54,7 +57,9 @@ def _error_message(body: bytes) -> str:
         return body[:200].decode("utf-8", "replace")
 
 
-class GeminiExtractor:
+class GeminiClient:
+    """Shared request/response handling: one JSON-constrained call, errors mapped to our types."""
+
     def __init__(self, model: str = DEFAULT_GEMINI_MODEL, transport: Transport = urllib_transport,
                  tier: str | None = None):
         # Read at construction (after .env is loaded), not import. Anything but "paid" is treated as free.
@@ -62,24 +67,21 @@ class GeminiExtractor:
         self.trains_on_input = tier != "paid"
         self.model = model
         self.transport = transport
-        self.schema = strict_json_schema(ExtractedReceipt)
 
-    def request_body(self, image: PreparedImage) -> dict:
+    def request_body(self, system: str, parts: list[dict], schema: dict) -> dict:
         return {
             "model": self.model,
-            "system_instruction": SYSTEM_PROMPT,
-            "input": [
-                {"type": "image", "data": base64.standard_b64encode(image.jpeg_bytes).decode("ascii"),
-                 "mime_type": "image/jpeg"},
-                {"type": "text", "text": USER_PROMPT},
-            ],
-            "response_format": {"type": "text", "mime_type": "application/json", "schema": self.schema},
+            "system_instruction": system,
+            "input": parts,
+            "response_format": {"type": "text", "mime_type": "application/json", "schema": schema},
             "store": False,  # don't keep the interaction server-side; we never continue it
         }
 
-    def extract(self, image: PreparedImage) -> ExtractionResult:
+    def generate_json(self, system: str, parts: list[dict], schema: dict) -> tuple[str, str]:
+        """Returns (output text, model that served it)."""
         headers = {"x-goog-api-key": _api_key(), "Content-Type": "application/json"}
-        status, resp_headers, body = self.transport(ENDPOINT, headers, json.dumps(self.request_body(image)).encode())
+        body_bytes = json.dumps(self.request_body(system, parts, schema)).encode()
+        status, resp_headers, body = self.transport(ENDPOINT, headers, body_bytes)
 
         if status in (401, 403):
             raise errors.AuthError(f"Gemini rejected the API key ({status}) {_error_message(body)}")
@@ -108,5 +110,19 @@ class GeminiExtractor:
                  for c in step.get("content", []) if c.get("type") == "text"]
         if not texts:
             raise errors.MalformedOutputError("no text output in response")
-        text = "".join(texts)
-        return ExtractionResult(parse_output(text), text, data.get("model", self.model), PROMPT_VERSION)
+        return "".join(texts), data.get("model", self.model)
+
+
+class GeminiExtractor(GeminiClient):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.schema = strict_json_schema(ExtractedReceipt)
+
+    def extract(self, image: PreparedImage) -> ExtractionResult:
+        parts = [
+            {"type": "image", "data": base64.standard_b64encode(image.jpeg_bytes).decode("ascii"),
+             "mime_type": "image/jpeg"},
+            {"type": "text", "text": USER_PROMPT},
+        ]
+        text, model = self.generate_json(SYSTEM_PROMPT, parts, self.schema)
+        return ExtractionResult(parse_output(text), text, model, PROMPT_VERSION)

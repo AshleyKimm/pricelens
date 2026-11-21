@@ -1,0 +1,84 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "MAPLE LANE FOODS",
+    "date_raw": "OCT 19, 2026 5:51PM",
+    "date_iso": "2026-10-19",
+    "currency": "USD",
+    "subtotal": "37.34",
+    "tax_lines": [
+      "1.62"
+    ],
+    "total": "38.96",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "DG FOOD 16.79",
+        "description": "DG FOOD",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "16.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SRDO BREAD 4.29",
+        "description": "SRDO BREAD",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "JSMN RICE 4.19",
+        "description": "JSMN RICE",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.19",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TP MINT 3.49",
+        "description": "TP MINT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "CHEDDAR BLK 4.29",
+        "description": "CHEDDAR BLK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "ORG JCE 52 4.29",
+        "description": "ORG JCE 52",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.29",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "MAPLE LANE FOODS",
+    "date_raw": "OCT 5, 2026 7:49PM",
+    "date_iso": "2026-10-05",
+    "currency": "USD",
+    "subtotal": "29.36",
+    "tax_lines": [
+      "0.30"
+    ],
+    "total": "29.66",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "HASS AVO 1.19",
+        "description": "HASS AVO",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.19",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "TRT CHIP 3.79",
+        "description": "TRT CHIP",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE TRT CHIP 0.76-",
+        "description": "SALE TRT CHIP",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.76-",
+        "applies_to_line": 2
+      },
+      {
+        "raw_text": "BNLS CHIX BRST 1.87 lb @ 3.79/lb 7.09",
+        "description": "BNLS CHIX BRST",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.87,
+        "unit": "lb",
+        "unit_price": "3.79",
+        "line_total": "7.09",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "ORG JCE 52 4.29",
+        "description": "ORG JCE 52",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "CFE GRD 12Z 8.59",
+        "description": "CFE GRD 12Z",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "8.59",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GR BF 80% 0.99 lb @ 5.22/lb 5.17",
+        "description": "GR BF 80%",
+        "kind": "item",
+        "section": "items",
+        "quantity": 0.99,
+        "unit": "lb",
+        "unit_price": "5.22",
+        "line_total": "5.17",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

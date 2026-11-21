@@ -15,10 +15,28 @@ from .verify import Line
 @dataclass(frozen=True)
 class Observation:
     store: str
-    description: str
+    description: str        # product: the normalized name if labeled (Layer 2), else the printed name
     unit: str
     day: date
-    unit_price_cents: int  # effective price per unit, after item-level discounts
+    unit_price_cents: int   # effective price per unit, after item-level discounts
+    printed: str = ""       # printed name at this store, for display
+    category: str | None = None
+    variety: str = ""       # Layer 2: 'jasmine', 'whole'... part of a price series, shown in comparisons
+
+
+def latest_by_store(observations: list[Observation]) -> dict[tuple[str, str], list[Observation]]:
+    """For cross-store comparison: (product, unit) -> latest observation per store, cheapest first."""
+    latest: dict[tuple[str, str, str, str], Observation] = {}
+    for o in observations:
+        k = (o.description, o.unit, o.store, o.variety)
+        if k not in latest or o.day > latest[k].day:
+            latest[k] = o
+    out: dict[tuple[str, str], list[Observation]] = {}
+    for (product, unit, _, _), o in latest.items():
+        out.setdefault((product, unit), []).append(o)
+    for v in out.values():
+        v.sort(key=lambda o: o.unit_price_cents)
+    return out
 
 
 @dataclass(frozen=True)
@@ -30,6 +48,7 @@ class PriceChange:
     to_day: date
     from_cents: int
     to_cents: int
+    variety: str = ""
 
     @property
     def change_cents(self) -> int:
@@ -66,7 +85,7 @@ def price_changes(observations: list[Observation]) -> list[PriceChange]:
     Several observations on one day collapse to the lowest price (e.g. one bought on sale).
     Unchanged prices produce no PriceChange.
     """
-    key = lambda o: (o.store, o.description, o.unit)
+    key = lambda o: (o.store, o.description, o.unit, o.variety)  # whole milk and 2% milk are separate series
     changes = []
     for k, group in groupby(sorted(observations, key=lambda o: (key(o), o.day)), key=key):
         per_day: dict[date, int] = {}
@@ -75,5 +94,5 @@ def price_changes(observations: list[Observation]) -> list[PriceChange]:
         days = sorted(per_day)
         for a, b in zip(days, days[1:]):
             if per_day[a] != per_day[b]:
-                changes.append(PriceChange(*k, a, b, per_day[a], per_day[b]))
+                changes.append(PriceChange(*k[:3], a, b, per_day[a], per_day[b], variety=k[3]))
     return changes

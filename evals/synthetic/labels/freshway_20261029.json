@@ -1,0 +1,95 @@
+{
+  "id": "freshway_20261029",
+  "image": "receipts/freshway_20261029.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-10-29",
+  "date_raw": "10/29/2026 16:09",
+  "currency": "USD",
+  "printed_subtotal_cents": 1745,
+  "tax_cents": 85,
+  "printed_total_cents": 1830,
+  "true_subtotal_cents": 1745,
+  "true_total_cents": 1830,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "7260",
+    "261480",
+    "22923273"
+  ],
+  "lines": [
+    {
+      "printed": "PEANUT BUTTER",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 349,
+      "applies_to_line": null,
+      "normalized_name": "peanut butter",
+      "category": "pantry"
+    },
+    {
+      "printed": "SALE PEANUT BUTTER",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -70,
+      "applies_to_line": 1,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "TOOTHPASTE /   2 @ 4.59",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 459,
+      "line_total_cents": 918,
+      "applies_to_line": null,
+      "normalized_name": "toothpaste",
+      "category": "personal_care"
+    },
+    {
+      "printed": "GREEK YOGURT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 179,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "DARK CHOC BAR",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 299,
+      "applies_to_line": null,
+      "normalized_name": "dark chocolate",
+      "category": "snacks_sweets"
+    },
+    {
+      "printed": "BANANAS /   1.07 lb @ 0.65/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.07,
+      "unit": "lb",
+      "unit_price_cents": 65,
+      "line_total_cents": 70,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce"
+    }
+  ]
+}

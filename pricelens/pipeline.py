@@ -13,7 +13,7 @@ from typing import Callable
 from . import db
 from .errors import DuplicateReceiptError, UnreadableImageError
 from .extract import Extractor, save_fixture
-from .policy import check_allowed
+from .policy import check_allowed, is_public_data
 from .redact import PreparedImage, prepare, sha256_file
 from .verify import Issue, VerificationResult, scrub_text, verify
 
@@ -79,5 +79,6 @@ def add_receipt(
         conn, sha256=sha, redacted_path=str(redacted_path), result=result,
         model=extraction.model, prompt_version=extraction.prompt_version,
         extraction_json=scrub_text(extraction.raw_json),
+        source="public" if is_public_data(path) else "private",  # drives which providers may see its items
     )
     return AddOutcome(receipt_id, result.status, result.issues, result, redacted_path, extraction.model)

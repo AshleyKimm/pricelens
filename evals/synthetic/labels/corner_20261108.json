@@ -1,0 +1,107 @@
+{
+  "id": "corner_20261108",
+  "image": "receipts/corner_20261108.png",
+  "store": "CORNER MARKET",
+  "date": "2026-11-08",
+  "date_raw": "11/08/26 13:33",
+  "currency": "USD",
+  "printed_subtotal_cents": 2932,
+  "tax_cents": 56,
+  "printed_total_cents": 2988,
+  "true_subtotal_cents": 2932,
+  "true_total_cents": 2988,
+  "expected_status": "needs_review",
+  "misprint": null,
+  "degradation": "heavy_blur",
+  "sensitive_values": [
+    "5182",
+    "392024",
+    "41057939"
+  ],
+  "lines": [
+    {
+      "printed": "OJ NO PULP",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 559,
+      "applies_to_line": null,
+      "normalized_name": "orange juice",
+      "category": "beverages"
+    },
+    {
+      "printed": "AVOCADO /   2 @ 1.49",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2,
+      "unit": "each",
+      "unit_price_cents": 149,
+      "line_total_cents": 298,
+      "applies_to_line": null,
+      "normalized_name": "avocado",
+      "category": "produce"
+    },
+    {
+      "printed": "WHOLE MILK GAL",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 339,
+      "applies_to_line": null,
+      "normalized_name": "milk",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "BREAD SRDGH",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 539,
+      "applies_to_line": null,
+      "normalized_name": "sourdough bread",
+      "category": "bakery"
+    },
+    {
+      "printed": "DISH LIQ",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 419,
+      "applies_to_line": null,
+      "normalized_name": "dish soap",
+      "category": "household"
+    },
+    {
+      "printed": "TTHPST MINT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 479,
+      "applies_to_line": null,
+      "normalized_name": "toothpaste",
+      "category": "personal_care"
+    },
+    {
+      "printed": "FLR TORTILLA 10",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 299,
+      "applies_to_line": null,
+      "normalized_name": "flour tortillas",
+      "category": "bakery"
+    }
+  ]
+}

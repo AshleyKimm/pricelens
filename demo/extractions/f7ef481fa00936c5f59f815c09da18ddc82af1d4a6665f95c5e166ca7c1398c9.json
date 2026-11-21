@@ -1,0 +1,128 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "10/18/26 15:30",
+    "date_iso": "2026-10-18",
+    "currency": "USD",
+    "subtotal": "50.77",
+    "tax_lines": [
+      "0.00"
+    ],
+    "total": "50.77",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "CHICKEN BRST BNLS 2.12 lb @ 4.09/lb 8.67",
+        "description": "CHICKEN BRST BNLS",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2.12,
+        "unit": "lb",
+        "unit_price": "4.09",
+        "line_total": "8.67",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE CHICKEN BRST B 1.73-",
+        "description": "SALE CHICKEN BRST B",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.73-",
+        "applies_to_line": 1
+      },
+      {
+        "raw_text": "AVOCADO 1.49",
+        "description": "AVOCADO",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "LG EGGS 12CT 2 @ 4.69 9.38",
+        "description": "LG EGGS 12CT",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "4.69",
+        "line_total": "9.38",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "WHOLE MILK GAL 3.79",
+        "description": "WHOLE MILK GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.79",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "GRND BEEF 1.03 lb @ 5.93/lb 6.11",
+        "description": "GRND BEEF",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.03,
+        "unit": "lb",
+        "unit_price": "5.93",
+        "line_total": "6.11",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "FLR TORTILLA 10 3.29",
+        "description": "FLR TORTILLA 10",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.29",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "COFFEE GRND MED 2 @ 9.79 19.58",
+        "description": "COFFEE GRND MED",
+        "kind": "item",
+        "section": "items",
+        "quantity": 2,
+        "unit": "each",
+        "unit_price": "9.79",
+        "line_total": "19.58",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "YOGURT GRK 1.69",
+        "description": "YOGURT GRK",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.69",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "MEMBER SAVINGS 1.50-",
+        "description": "MEMBER SAVINGS",
+        "kind": "coupon",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "1.50-",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

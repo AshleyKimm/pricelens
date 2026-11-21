@@ -1,0 +1,95 @@
+{
+  "id": "maple_20261012",
+  "image": "receipts/maple_20261012.png",
+  "store": "MAPLE LANE FOODS",
+  "date": "2026-10-12",
+  "date_raw": "OCT 12, 2026 3:53PM",
+  "currency": "USD",
+  "printed_subtotal_cents": 2668,
+  "tax_cents": 0,
+  "printed_total_cents": 2568,
+  "true_subtotal_cents": 2568,
+  "true_total_cents": 2568,
+  "expected_status": "needs_review",
+  "misprint": "subtotal_off_by_100",
+  "degradation": "clean",
+  "sensitive_values": [
+    "6397",
+    "519026",
+    "86923525"
+  ],
+  "lines": [
+    {
+      "printed": "TORT FLOUR",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 289,
+      "applies_to_line": null,
+      "normalized_name": "flour tortillas",
+      "category": "bakery"
+    },
+    {
+      "printed": "BNLS CHIX BRST /   1.12 lb @ 3.79/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.12,
+      "unit": "lb",
+      "unit_price_cents": 379,
+      "line_total_cents": 424,
+      "applies_to_line": null,
+      "normalized_name": "chicken breast",
+      "category": "meat_seafood"
+    },
+    {
+      "printed": "ORG BANANAS /   2.11 lb @ 0.56/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 2.11,
+      "unit": "lb",
+      "unit_price_cents": 56,
+      "line_total_cents": 118,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce"
+    },
+    {
+      "printed": "EGGS GRD A 12",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 409,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "OLV OIL XV",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 859,
+      "applies_to_line": null,
+      "normalized_name": "olive oil",
+      "category": "pantry"
+    },
+    {
+      "printed": "SPRK WTR 12",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 469,
+      "applies_to_line": null,
+      "normalized_name": "sparkling water",
+      "category": "beverages"
+    }
+  ]
+}

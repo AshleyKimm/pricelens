@@ -1,0 +1,95 @@
+{
+  "id": "maple_20261019",
+  "image": "receipts/maple_20261019.png",
+  "store": "MAPLE LANE FOODS",
+  "date": "2026-10-19",
+  "date_raw": "OCT 19, 2026 5:51PM",
+  "currency": "USD",
+  "printed_subtotal_cents": 3734,
+  "tax_cents": 162,
+  "printed_total_cents": 3896,
+  "true_subtotal_cents": 3734,
+  "true_total_cents": 3896,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "blurred",
+  "sensitive_values": [
+    "0327",
+    "735221",
+    "45804922"
+  ],
+  "lines": [
+    {
+      "printed": "DG FOOD",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1679,
+      "applies_to_line": null,
+      "normalized_name": "dog food",
+      "category": "baby_pet"
+    },
+    {
+      "printed": "SRDO BREAD",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 429,
+      "applies_to_line": null,
+      "normalized_name": "sourdough bread",
+      "category": "bakery"
+    },
+    {
+      "printed": "JSMN RICE",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 419,
+      "applies_to_line": null,
+      "normalized_name": "rice",
+      "category": "pantry"
+    },
+    {
+      "printed": "TP MINT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 349,
+      "applies_to_line": null,
+      "normalized_name": "toothpaste",
+      "category": "personal_care"
+    },
+    {
+      "printed": "CHEDDAR BLK",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 429,
+      "applies_to_line": null,
+      "normalized_name": "cheddar cheese",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "ORG JCE 52",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 429,
+      "applies_to_line": null,
+      "normalized_name": "orange juice",
+      "category": "beverages"
+    }
+  ]
+}

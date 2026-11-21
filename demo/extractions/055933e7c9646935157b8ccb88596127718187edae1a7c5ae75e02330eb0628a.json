@@ -1,0 +1,95 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "CORNER MARKET",
+    "date_raw": "10/25/26 15:25",
+    "date_iso": "2026-10-25",
+    "currency": "USD",
+    "subtotal": "14.73",
+    "tax_lines": [
+      "0.27"
+    ],
+    "total": "15.00",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "DISH LIQ 4.19",
+        "description": "DISH LIQ",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.19",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "YOGURT GRK 3 @ 1.69 5.07",
+        "description": "YOGURT GRK",
+        "kind": "item",
+        "section": "items",
+        "quantity": 3,
+        "unit": "each",
+        "unit_price": "1.69",
+        "line_total": "5.07",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "LG EGGS 12CT 4.69",
+        "description": "LG EGGS 12CT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.69",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "BNNA ORG 1.13 lb @ 0.64/lb 0.72",
+        "description": "BNNA ORG",
+        "kind": "item",
+        "section": "items",
+        "quantity": 1.13,
+        "unit": "lb",
+        "unit_price": "0.64",
+        "line_total": "0.72",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SALE BNNA ORG 0.14-",
+        "description": "SALE BNNA ORG",
+        "kind": "discount",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "0.14-",
+        "applies_to_line": 4
+      },
+      {
+        "raw_text": "CHIPS TORT 4.39",
+        "description": "CHIPS TORT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "RETURN DISH LIQ 4.19-",
+        "description": "RETURN DISH LIQ",
+        "kind": "refund",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.19-",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

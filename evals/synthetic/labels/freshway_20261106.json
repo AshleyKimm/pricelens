@@ -1,0 +1,95 @@
+{
+  "id": "freshway_20261106",
+  "image": "receipts/freshway_20261106.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-11-06",
+  "date_raw": "11/06/2026 11:47",
+  "currency": "USD",
+  "printed_subtotal_cents": 3347,
+  "tax_cents": 0,
+  "printed_total_cents": 3357,
+  "true_subtotal_cents": 3347,
+  "true_total_cents": 3347,
+  "expected_status": "needs_review",
+  "misprint": "total_off_by_10",
+  "degradation": "clean",
+  "sensitive_values": [
+    "8108",
+    "619722",
+    "76463885"
+  ],
+  "lines": [
+    {
+      "printed": "JASMINE RICE 2LB /   3 @ 3.79",
+      "kind": "item",
+      "section": "items",
+      "quantity": 3,
+      "unit": "each",
+      "unit_price_cents": 379,
+      "line_total_cents": 1137,
+      "applies_to_line": null,
+      "normalized_name": "rice",
+      "category": "pantry"
+    },
+    {
+      "printed": "COFFEE 12OZ",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1039,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages"
+    },
+    {
+      "printed": "GREEK YOGURT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 179,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs"
+    },
+    {
+      "printed": "SALE GREEK YOGURT",
+      "kind": "discount",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": -36,
+      "applies_to_line": 3,
+      "normalized_name": null,
+      "category": null
+    },
+    {
+      "printed": "ICE CREAM VAN 1.5QT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 529,
+      "applies_to_line": null,
+      "normalized_name": "ice cream",
+      "category": "frozen"
+    },
+    {
+      "printed": "SOURDOUGH LOAF",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 499,
+      "applies_to_line": null,
+      "normalized_name": "sourdough bread",
+      "category": "bakery"
+    }
+  ]
+}
