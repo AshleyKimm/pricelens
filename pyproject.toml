@@ -1,0 +1,18 @@
+[project]
+name = "pricelens"
+version = "0.1.0"
+description = "Receipt price tracker: AI extraction, verified by code"
+requires-python = ">=3.11"
+dependencies = [
+  "anthropic",
+  "pillow",
+  "python-dotenv",
+  "pytesseract",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "tests"]
