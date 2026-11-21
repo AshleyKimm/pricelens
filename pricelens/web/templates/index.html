@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Compare prices</h1>
+<form class="search" action="/" method="get" role="search">
+  <label for="q" class="sr-only">Product</label>
+  <input id="q" name="q" value="{{ q }}" placeholder="Search a product, e.g. milk, bananas, coffee" autofocus>
+  <button type="submit">Search</button>
+</form>
+{% if q %}<p class="muted">Results for “{{ q }}” · verified receipts only</p>{% endif %}
+{% if rows %}
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Product</th><th>Varieties</th><th>Category</th><th class="num">Stores</th><th class="num">Lowest latest price</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td><a href="/product?name={{ r.name | urlq }}">{{ r.name }}</a></td>
+      <td>{{ r.varieties | join(", ") or "—" }}</td>
+      <td>{{ r.category | cat }}</td>
+      <td class="num">{{ r.stores }}</td>
+      <td class="num">{% if r.cheapest %}
+        {% if r.cheapest_at|length > 1 %}
+        {# The whole price line is the toggle; the list opens below it and the row grows. #}
+        <details class="stores">
+          <summary>{{ r.cheapest.unit_price_cents | money }} <span class="muted">/ {{ r.cheapest.unit }} at</span> <span class="toggle">{{ r.cheapest_at|length }} stores</span></summary>
+          <ul>{% for o in r.cheapest_at %}<li>{{ o.store }}{% if o.variety %} <span class="muted">({{ o.variety }})</span>{% endif %} <span class="muted">· {{ o.day }}</span></li>{% endfor %}</ul>
+        </details>
+        {% else %}{{ r.cheapest.unit_price_cents | money }} <span class="muted">/ {{ r.cheapest.unit }} at {{ r.cheapest.store }}</span>{% endif %}
+      {% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="empty">No verified purchases match{% if q %} “{{ q }}”{% endif %}.</p>
+{% endif %}
+{% endblock %}

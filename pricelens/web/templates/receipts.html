@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Receipts · PriceLens{% endblock %}
+{% block content %}
+<h1>Receipts</h1>
+<p class="muted">Every receipt is checked by code: line items must add up to the printed subtotal, and subtotal + tax to the printed total.
+Flagged receipts are kept out of all prices until a human reviews them.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Store</th><th>Date</th><th class="num">Total</th><th>Status</th><th>Failed checks</th></tr></thead>
+  <tbody>
+  {% for r in rows %}
+    <tr>
+      <td><a href="/receipts/{{ r.id }}">#{{ r.id }}</a></td>
+      <td>{{ r.store or "?" }}</td>
+      <td>{{ r.purchase_date or "?" }}</td>
+      <td class="num">{{ r.total_cents | money }}</td>
+      <td><span class="status {{ r.status }}">{{ "✓ verified" if r.status == "verified" else ("⚠ needs review" if r.status == "needs_review" else "✕ rejected") }}</span></td>
+      <td>{{ r.fails | join(", ") or "—" }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

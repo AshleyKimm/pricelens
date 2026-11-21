@@ -1,0 +1,113 @@
+/* Color tokens: light by default, dark under the OS setting or data-theme. Series colors are the
+   validated categorical palette (first slots pass all-pairs CVD checks in both modes). */
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --surface-2: #f3f2ef; --border: #e2e1dc;
+  --text: #0b0b0b; --text-2: #52514e; --link: #1c5cab;
+  --good: #0a7a32; --warn: #9a5b00; --bad: #b3261e;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --surface-2: #232322; --border: #3a3936;
+    --text: #f0efec; --text-2: #c3c2b7; --link: #86b6ef;
+    --good: #4cc27a; --warn: #e0a64a; --bad: #ef7b74;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+    --s5: #d55181; --s6: #0ca30c; --s7: #9085e9; --s8: #e66767;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --surface-2: #232322; --border: #3a3936;
+  --text: #f0efec; --text-2: #c3c2b7; --link: #86b6ef;
+  --good: #4cc27a; --warn: #e0a64a; --bad: #ef7b74;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+  --s5: #d55181; --s6: #0ca30c; --s7: #9085e9; --s8: #e66767;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--link); }
+main { max-width: 1040px; margin: 0 auto; padding: 8px 16px 40px; }
+h1 { font-size: 1.6rem; margin: 16px 0 8px; }
+h2 { font-size: 1.1rem; margin: 28px 0 8px; }
+.top { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; padding: 10px 16px;
+  border-bottom: 1px solid var(--border); background: var(--surface-2); }
+.brand { font-weight: 700; text-decoration: none; color: var(--text); font-size: 1.1rem; }
+.top nav { display: flex; gap: 16px; }
+.badge { margin-left: auto; font-size: .8rem; padding: 2px 8px; border: 1px solid var(--border); border-radius: 99px; color: var(--text-2); }
+footer { max-width: 1040px; margin: 0 auto; padding: 16px; color: var(--text-2); font-size: .85rem; border-top: 1px solid var(--border); }
+.muted { color: var(--text-2); }
+.small { font-size: .8rem; }
+.mono { font-family: ui-monospace, Consolas, monospace; font-size: .85rem; white-space: pre-line; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.empty { padding: 24px; text-align: center; color: var(--text-2); border: 1px dashed var(--border); border-radius: 8px; }
+
+.search { display: flex; gap: 8px; margin: 8px 0 12px; }
+.search input { flex: 1; min-width: 0; }
+input, select, button { font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px; }
+button { background: var(--link); color: var(--surface); border-color: var(--link); cursor: pointer; }
+
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; }
+th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-weight: 600; color: var(--text-2); font-size: .85rem; }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.best td { background: var(--surface-2); }
+tr.review td { background: var(--surface-2); }
+tr.after td { color: var(--text-2); }
+.tag { font-size: .75rem; border: 1px solid var(--good); color: var(--good); border-radius: 99px; padding: 0 6px; }
+.status.verified { color: var(--good); }
+.status.needs_review { color: var(--warn); font-weight: 600; }
+.status.rejected { color: var(--bad); }
+.up { color: var(--bad); font-weight: 600; }
+.down { color: var(--good); font-weight: 600; }
+.changes { padding-left: 18px; }
+.issues { padding-left: 18px; }
+.issues .fail { color: var(--bad); }
+.issues .note { color: var(--text-2); }
+.flash { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); }
+.flash.ok { border-color: var(--good); }
+.flash.err { border-color: var(--bad); }
+
+.split { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 24px; }
+@media (max-width: 720px) { .split { grid-template-columns: minmax(0, 1fr); } }
+.receipt-img img { width: 100%; border: 1px solid var(--border); border-radius: 6px; }
+.receipt-img { margin: 0; }
+
+/* "at N stores" disclosure: native <details>, no JS */
+/* Opens inline: the list sits under the price line and the table row grows to fit it. */
+details.stores summary { cursor: pointer; list-style: none; }
+details.stores summary::-webkit-details-marker { display: none; }
+details.stores .toggle { color: var(--link); }
+details.stores .toggle::after { content: " ▸"; font-size: .8em; }
+details.stores[open] .toggle::after { content: " ▾"; }
+details.stores ul { display: inline-block; text-align: left; margin: 6px 0 2px; padding: 6px 10px; list-style: none;
+  border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2); white-space: nowrap; }
+
+form.fix { display: flex; flex-wrap: wrap; gap: 4px; }
+form.fix input { width: 9em; }
+form.fix button { padding: 4px 10px; }
+
+/* Chart */
+.chart-box { margin: 0; }
+svg.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .axis, .chart .label { fill: var(--text-2); font-size: 12px; }
+.chart .label { fill: var(--text); }
+.chart .line, .legend .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .dot { stroke: var(--surface); stroke-width: 2; }
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 0; margin: 0 0 4px; font-size: .9rem; }
+.legend li { display: flex; align-items: center; gap: 6px; }
+.s1 { stroke: var(--s1); } .dot.s1 { fill: var(--s1); }
+.s2 { stroke: var(--s2); } .dot.s2 { fill: var(--s2); }
+.s3 { stroke: var(--s3); } .dot.s3 { fill: var(--s3); }
+.s4 { stroke: var(--s4); } .dot.s4 { fill: var(--s4); }
+.s5 { stroke: var(--s5); } .dot.s5 { fill: var(--s5); }
+.s6 { stroke: var(--s6); } .dot.s6 { fill: var(--s6); }
+.s7 { stroke: var(--s7); } .dot.s7 { fill: var(--s7); }
+.s8 { stroke: var(--s8); } .dot.s8 { fill: var(--s8); }

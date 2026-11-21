@@ -29,7 +29,8 @@
       "line_total_cents": 419,
       "applies_to_line": null,
       "normalized_name": "dish soap",
-      "category": "household"
+      "category": "household",
+      "pack_count": null
     },
     {
       "printed": "YOGURT GRK /   3 @ 1.69",
@@ -41,7 +42,8 @@
       "line_total_cents": 507,
       "applies_to_line": null,
       "normalized_name": "greek yogurt",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "LG EGGS 12CT",
@@ -53,7 +55,8 @@
       "line_total_cents": 469,
       "applies_to_line": null,
       "normalized_name": "eggs",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "BNNA ORG /   1.13 lb @ 0.64/lb",
@@ -65,7 +68,8 @@
       "line_total_cents": 72,
       "applies_to_line": null,
       "normalized_name": "bananas",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "SALE BNNA ORG",
@@ -77,7 +81,8 @@
       "line_total_cents": -14,
       "applies_to_line": 4,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "CHIPS TORT",
@@ -89,7 +94,8 @@
       "line_total_cents": 439,
       "applies_to_line": null,
       "normalized_name": "tortilla chips",
-      "category": "snacks_sweets"
+      "category": "snacks_sweets",
+      "pack_count": null
     },
     {
       "printed": "RETURN DISH LIQ",
@@ -101,7 +107,8 @@
       "line_total_cents": -419,
       "applies_to_line": null,
       "normalized_name": "dish soap",
-      "category": "household"
+      "category": "household",
+      "pack_count": null
     }
   ]
 }

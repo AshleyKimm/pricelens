@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Labels · PriceLens{% endblock %}
+{% block content %}
+<h1>Item labels</h1>
+<p class="muted">Category, base product and variety assigned by the AI (or corrected by a person). Corrections are never
+overwritten by the AI and are saved as test cases.</p>
+{% if msg %}<p class="flash ok">{{ msg }}</p>{% endif %}
+{% if err %}<p class="flash err">{{ err }}</p>{% endif %}
+<p>{% if review %}<a href="/labels">Show all</a>{% else %}<a href="/labels?review=1">Show only labels needing review</a>{% endif %}</p>
+
+<div class="table-wrap">
+<table class="labels">
+  <thead><tr><th>Store</th><th>Printed</th><th>Product</th><th>Variety</th><th>Category</th><th>Confidence</th><th>Source</th>{% if writable %}<th>Correct it</th>{% endif %}</tr></thead>
+  <tbody>
+  {% for l in rows %}
+    <tr{% if l.needs_review %} class="review"{% endif %}>
+      <td>{{ l.store }}</td>
+      <td class="mono">{{ l.description }}</td>
+      <td>{{ l.normalized_name or "?" }}</td>
+      <td>{{ l.variety or "—" }}</td>
+      <td>{{ l.category | cat }}</td>
+      <td>{{ l.confidence or "" }}{% if l.reasons %}<br><span class="muted small">{{ l.reasons | join("; ") }}</span>{% endif %}</td>
+      <td>{{ "👤 human" if l.source == "human" else "AI" }}</td>
+      {% if writable %}
+      <td>
+        <form class="fix" method="post" action="/labels/fix">
+          <input type="hidden" name="store" value="{{ l.store }}">
+          <input type="hidden" name="description" value="{{ l.description }}">
+          <input name="name" value="{{ l.normalized_name or '' }}" aria-label="Product" required>
+          <input name="variety" value="{{ l.variety or '' }}" aria-label="Variety" placeholder="variety">
+          <select name="category" aria-label="Category">
+            {% for c in categories if c != "uncertain" %}<option value="{{ c }}"{% if c == l.category %} selected{% endif %}>{{ c | cat }}</option>{% endfor %}
+          </select>
+          <button type="submit">Save</button>
+        </form>
+      </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+<h2>Saved corrections (regression cases)</h2>
+{% if cases %}
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Store</th><th>Printed</th><th>AI said</th><th>Correct answer</th><th>Still applied?</th></tr></thead>
+  <tbody>
+  {% for c in cases %}
+    <tr><td>{{ c.store }}</td><td class="mono">{{ c.description }}</td>
+      <td>{% if c.ai_previous %}{{ c.ai_previous.normalized_name }} / {{ c.ai_previous.variety or "—" }} ({{ c.ai_previous.category }}, {{ c.ai_previous.confidence }}){% else %}—{% endif %}</td>
+      <td>{{ c.expected_name }} / {{ c.expected_variety or "—" }} ({{ c.expected_category }})</td>
+      <td>{{ "✓ yes" if c.ok else "✕ NO, label differs" }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}<p class="muted">No corrections yet.</p>{% endif %}
+{% endblock %}

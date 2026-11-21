@@ -1,0 +1,62 @@
+{
+  "id": "corner_20261114",
+  "image": "receipts/corner_20261114.png",
+  "store": "CORNER MARKET",
+  "date": "2026-11-14",
+  "date_raw": "11/14/26 17:49",
+  "currency": "USD",
+  "printed_subtotal_cents": 2137,
+  "tax_cents": 0,
+  "printed_total_cents": 2137,
+  "true_subtotal_cents": 2137,
+  "true_total_cents": 2137,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "7591",
+    "351222",
+    "80393983"
+  ],
+  "lines": [
+    {
+      "printed": "LG EGGS 6CT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 269,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 6
+    },
+    {
+      "printed": "LG EGGS 24CT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 799,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 24
+    },
+    {
+      "printed": "COFFEE GRND MED",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 1069,
+      "applies_to_line": null,
+      "normalized_name": "coffee",
+      "category": "beverages",
+      "pack_count": null
+    }
+  ]
+}

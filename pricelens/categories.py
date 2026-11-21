@@ -30,6 +30,18 @@ CATEGORIES = {
     "other": "clearly identifiable but none of the above",
     "uncertain": "you cannot tell what the item is",
 }
+# Display names for the UI (keys stay machine-friendly).
+CATEGORY_LABELS = {
+    "meat_seafood": "meat & seafood", "dairy_eggs": "dairy & eggs", "deli_prepared": "deli & prepared",
+    "snacks_sweets": "snacks & sweets", "personal_care": "personal care", "baby_pet": "baby & pet",
+    "restaurant_food": "restaurant food",
+}
+
+
+def category_label(key: str | None) -> str:
+    return CATEGORY_LABELS.get(key, key) if key else "—"
+
+
 Category = Literal[
     "produce", "meat_seafood", "dairy_eggs", "bakery", "deli_prepared", "frozen", "pantry",
     "snacks_sweets", "beverages", "alcohol", "household", "personal_care", "health", "baby_pet",

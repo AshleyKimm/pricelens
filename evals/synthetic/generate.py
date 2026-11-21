@@ -98,6 +98,7 @@ class Line:
     normalized_name: str | None = None
     category: str | None = None
     applies_to: int | None = None
+    pack_count: int | None = None  # items per package (eggs), for pack-size tests
 
 
 @dataclass
@@ -169,7 +170,43 @@ def build_receipts(seed: int) -> list[Receipt]:
     receipts[15].misprint = "total_off_by_10"
     for i, deg in {3: "rotated", 8: "blurred", 11: "noisy", 14: "low_contrast", 16: "heavy_blur"}.items():
         receipts[i].degradation = deg
-    return receipts
+    # Appended AFTER the original 18 with their own data, so those 18 images stay byte-identical.
+    return receipts + egg_pack_receipts(seed)
+
+
+# Egg cartons of different sizes: (store idx, day, [(printed name, eggs per pack, price cents)], other products)
+EGG_PACK_VISITS = [
+    (0, date(2026, 11, 12), [("EGGS 1/2 DOZEN", 6, 249), ("EGGS 18CT", 18, 599)], ["milk", "sourdough bread"]),
+    (1, date(2026, 11, 14), [("LG EGGS 6CT", 6, 269), ("LG EGGS 24CT", 24, 799)], ["coffee"]),
+    (2, date(2026, 11, 16), [("EGGS GRD A 6", 6, 229), ("EGGS GRD A 30", 30, 899)], ["bananas", "spaghetti"]),
+    (0, date(2026, 11, 18), [("EGGS DOZEN", 12, 449), ("EGGS 18CT", 18, 579)], ["greek yogurt"]),
+]
+
+
+def egg_pack_receipts(seed: int) -> list[Receipt]:
+    rng = random.Random(seed + 100)
+    by_name = {p[0]: p for p in CATALOG}
+    out = []
+    for store_idx, day, eggs, others in EGG_PACK_VISITS:
+        store = STORES[store_idx]
+        hour, minute = rng.randint(8, 20), rng.randint(0, 59)
+        rec = Receipt(f"{store.name.split()[0].lower()}_{day:%Y%m%d}", store, day,
+                      fmt_date(day, store.date_style, hour, minute))
+        for printed, count, cents in eggs:
+            rec.lines.append(Line([printed], cents, "item", "items", None, None, None, "eggs", "dairy_eggs",
+                                  pack_count=count))
+        for name in others:
+            product = by_name[name]
+            norm, cat, _, unit, names = product
+            price = price_on(store, product, 6, seed)
+            if unit == "lb":
+                w = Decimal(rng.randint(80, 320)) / 100
+                rec.lines.append(Line([names[store_idx], f"  {w} lb @ {money(price)}/lb"], r(w * price), "item",
+                                      "items", float(w), "lb", price, norm, cat))
+            else:
+                rec.lines.append(Line([names[store_idx]], price, "item", "items", None, None, None, norm, cat))
+        out.append(rec)
+    return out
 
 
 def totals(rec: Receipt) -> dict:
@@ -277,7 +314,8 @@ def label(rec: Receipt, t: dict, sensitive: list[str]) -> dict:
         "lines": [
             {"printed": " / ".join(l.printed), "kind": l.kind, "section": l.section, "quantity": l.quantity,
              "unit": l.unit, "unit_price_cents": l.unit_price, "line_total_cents": l.amount,
-             "applies_to_line": l.applies_to, "normalized_name": l.normalized_name, "category": l.category}
+             "applies_to_line": l.applies_to, "normalized_name": l.normalized_name, "category": l.category,
+             "pack_count": l.pack_count}
             for l in rec.lines
         ],
     }

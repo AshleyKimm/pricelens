@@ -29,7 +29,8 @@
       "line_total_cents": 439,
       "applies_to_line": null,
       "normalized_name": "rice",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "DOG FD CHKN /   3 @ 17.29",
@@ -41,7 +42,8 @@
       "line_total_cents": 5187,
       "applies_to_line": null,
       "normalized_name": "dog food",
-      "category": "baby_pet"
+      "category": "baby_pet",
+      "pack_count": null
     },
     {
       "printed": "COFFEE GRND MED",
@@ -53,7 +55,8 @@
       "line_total_cents": 979,
       "applies_to_line": null,
       "normalized_name": "coffee",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "AVOCADO",
@@ -65,7 +68,8 @@
       "line_total_cents": 149,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "YOGURT GRK",
@@ -77,7 +81,8 @@
       "line_total_cents": 169,
       "applies_to_line": null,
       "normalized_name": "greek yogurt",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "PNT BTR CRMY /   2 @ 3.79",
@@ -89,7 +94,8 @@
       "line_total_cents": 758,
       "applies_to_line": null,
       "normalized_name": "peanut butter",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "STORE COUPON",
@@ -101,7 +107,8 @@
       "line_total_cents": -200,
       "applies_to_line": null,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     }
   ]
 }

@@ -264,7 +264,9 @@ calls), human corrections winning over AI, the privacy filter, the migration on 
 cross-store price query. A live run on the synthetic receipts. Category accuracy goes into the eval with a
 hand-labeled set (CORD has no category labels).
 
-**Layer 3: web interface (detailed plan, waiting for approval)**
+**Layer 3: web interface (approved and built 2026-11-21)**
+
+*As built:* the form body is parsed with the stdlib (`urllib.parse`) instead of adding `python-multipart`, which FastAPI's `Form()` needs.
 
 *Stack* **[DECISION]**: **FastAPI + Jinja2 templates + uvicorn**, server-rendered HTML with a small amount of CSS
 and no front-end build step. Tests use FastAPI's `TestClient`, which needs `httpx` as a dev dependency.
@@ -343,6 +345,24 @@ the demo build being deterministic.
   extractor fails on some receipts, and re-running a batch inserts nothing new.
 - README "Design tradeoffs": concurrency level, retry policy, storage.
 
+### Layer 5: expense splitter (added 2026-11-21; built after Layer 4 + eval; detailed plan before building)
+
+Decided 2026-11-21:
+- **Order:** after Layer 4 and the eval, so the core "verified AI output" story is finished first.
+- **Real receipts:** the splitter works fully with **manually entered receipts**, which are still verified by code. AI
+  extraction is used only when a no-training provider is configured (paid Gemini or Claude). The free-tier policy is unchanged.
+- **Upload page:** local mode only. Upload a photo, see the redacted preview, confirm, then it's extracted and verified.
+  The demo stays read-only.
+
+Sketch (to be detailed and approved):
+- Per item: one person, equal split among several, or custom split (shares, percent or exact amounts; exact amounts must
+  sum to the item's price).
+- Tax, fees and receipt-level coupons are allocated in proportion to each person's items. Item discounts stay with their item.
+- Rounding uses the largest-remainder method. **Invariant checked in code: shares sum exactly to the printed total.**
+  Receipts still `needs_review` can't be split.
+- Groups contain several receipts, each with a payer. The app nets balances and suggests the minimum set of payments to settle up.
+- Names of real people are private data: they stay in the local database and never go to any model.
+
 ### 4a. Pre-computed public demo (approved)
 
 Anyone can use the demo without logging in, with **no live AI calls and no uploads**:
@@ -410,3 +430,57 @@ data/                 local DB + redacted images (gitignored)
 4. Flagged receipts are stored with `needs_review` and excluded from stats (rather than not stored at all).
 5. Schema (section 2).
 6. Eval source mix (section 5).
+
+---
+
+## 8. Future directions (not in scope for Layers 1–4)
+
+Ideas captured so they don't grow the current build. None of this is built.
+
+### 8.1 More price sources
+- Treat receipts as the primary, verified source.
+- Possible extra sources behind a `PriceSource` interface (like the extractor interface): flyer data, public datasets
+  (e.g. Project Hammer), StatCan averages.
+- Record the source of every price; flag receipt prices far from flyer prices for the same week (cross-source verification).
+- Avoid scraping store websites for the public project (terms of service, fragility).
+
+### 8.2 "Strava for groceries"
+- Personal records: lowest price ever paid for an item, best price per kg.
+- Basket segments: a standard basket (milk, eggs, bread, bananas) with a weekly leaderboard inside a private club;
+  the useful output is the store.
+- Activity feed: each receipt becomes a post with savings and PRs; kudos.
+- Clubs: roommates, neighbourhood, campus — shared price map.
+- Challenges and badges and a year-in-review (spend, savings, personal inflation vs CPI).
+- Guardrails: rank on unit price and deal-finding, never on lowest total food spend; no "you overpaid" shaming;
+  private by default.
+- Cold start: begin with small clubs; seed the map with flyer data.
+
+### 8.3 Food posts ("what I made")
+- Post a dish: photo, name, short recipe.
+- Ingredients suggested from recent receipts and linked with one tap.
+- Automatic cost per serving from receipt data.
+- "Make this" button: shopping list priced at the viewer's nearby stores.
+- Item recommendations attached to dishes or products, backed by verified purchases ("bought 12×") to resist spam.
+- Mechanics: under-$5-per-serving challenges, remixes, pantry match, "what people are making with this week's deals".
+
+### 8.4 Sharing controls for food posts
+Per item, the poster chooses what to show:
+
+| Field | Options |
+|---|---|
+| Store | show chain / hide |
+| Price | exact / range ("under $3") / hide |
+| Times bought | exact ("7×") / loose ("bought often") / hide |
+
+- User-level defaults, with per-post overrides.
+- Prices always shown with the date paid ("$2.49, Oct 2026").
+- Separate opt-in for contributing hidden prices to anonymous area averages.
+- Never expose the full receipt or the specific store location.
+- Data model: purchase count = count of line items for a normalized product; sharing = `user_share_defaults` table +
+  `post_item_share_overrides` table.
+
+### 8.5 Suggested staging
+1. Finish PriceLens Layers 1–4 (the engine).
+2. Single-user "dish" page: link items, show cost per serving.
+3. Small private friends feed with "make this" lists and sharing controls.
+4. Clubs, basket leaderboards, year-in-review.

@@ -29,7 +29,8 @@
       "line_total_cents": 119,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "TRT CHIP",
@@ -41,7 +42,8 @@
       "line_total_cents": 379,
       "applies_to_line": null,
       "normalized_name": "tortilla chips",
-      "category": "snacks_sweets"
+      "category": "snacks_sweets",
+      "pack_count": null
     },
     {
       "printed": "SALE TRT CHIP",
@@ -53,7 +55,8 @@
       "line_total_cents": -76,
       "applies_to_line": 2,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "BNLS CHIX BRST /   1.87 lb @ 3.79/lb",
@@ -65,7 +68,8 @@
       "line_total_cents": 709,
       "applies_to_line": null,
       "normalized_name": "chicken breast",
-      "category": "meat_seafood"
+      "category": "meat_seafood",
+      "pack_count": null
     },
     {
       "printed": "ORG JCE 52",
@@ -77,7 +81,8 @@
       "line_total_cents": 429,
       "applies_to_line": null,
       "normalized_name": "orange juice",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "CFE GRD 12Z",
@@ -89,7 +94,8 @@
       "line_total_cents": 859,
       "applies_to_line": null,
       "normalized_name": "coffee",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "GR BF 80% /   0.99 lb @ 5.22/lb",
@@ -101,7 +107,8 @@
       "line_total_cents": 517,
       "applies_to_line": null,
       "normalized_name": "ground beef",
-      "category": "meat_seafood"
+      "category": "meat_seafood",
+      "pack_count": null
     }
   ]
 }

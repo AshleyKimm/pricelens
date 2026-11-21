@@ -1,0 +1,62 @@
+{
+  "model": "gemini-3.6-flash",
+  "prompt_version": "extract-v1",
+  "output": {
+    "store_name": "FRESHWAY GROCERY",
+    "date_raw": "11/12/2026 11:39",
+    "date_iso": "2026-11-12",
+    "currency": "USD",
+    "subtotal": "16.86",
+    "tax_lines": [
+      "0.00"
+    ],
+    "total": "16.86",
+    "legibility": "good",
+    "lines": [
+      {
+        "raw_text": "EGGS 1/2 DOZEN 2.49",
+        "description": "EGGS 1/2 DOZEN",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "2.49",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "EGGS 18CT 5.99",
+        "description": "EGGS 18CT",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "5.99",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "MILK 1GAL 3.39",
+        "description": "MILK 1GAL",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "3.39",
+        "applies_to_line": null
+      },
+      {
+        "raw_text": "SOURDOUGH LOAF 4.99",
+        "description": "SOURDOUGH LOAF",
+        "kind": "item",
+        "section": "items",
+        "quantity": null,
+        "unit": null,
+        "unit_price": null,
+        "line_total": "4.99",
+        "applies_to_line": null
+      }
+    ]
+  }
+}

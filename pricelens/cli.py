@@ -252,7 +252,44 @@ def build_parser() -> argparse.ArgumentParser:
     pr = sub.add_parser("prices", help="price history and changes for an item")
     pr.add_argument("query")
     pr.set_defaults(func=cmd_prices)
+
+    sv = sub.add_parser("serve", help="run the web interface")
+    sv.add_argument("--mode", default=_env("PRICELENS_MODE", "local"), choices=["local", "demo"])
+    sv.add_argument("--host", default="127.0.0.1")
+    sv.add_argument("--port", type=int, default=8000)
+    sv.set_defaults(func=cmd_serve)
+
+    dm = sub.add_parser("demo", help="export or rebuild the pre-computed public demo (no API calls)")
+    dm.add_argument("action", choices=["export", "build"])
+    dm.set_defaults(func=cmd_demo)
     return p
+
+
+def cmd_serve(args) -> int:
+    import uvicorn
+    from .web.app import create_app
+    if args.mode == "local" and args.host not in ("127.0.0.1", "localhost", "::1"):
+        print("Local mode can write to your database, so it only listens on this computer (127.0.0.1).",
+              file=sys.stderr)
+        return 2
+    # Demo always uses the rebuilt data/demo.db; local mode honours PRICELENS_DB like every other command.
+    db_path = os.environ.get("PRICELENS_DB") if args.mode == "local" else None
+    app = create_app(mode=args.mode, root=ROOT, db_path=db_path)
+    print(f"PriceLens ({args.mode} mode) on http://{args.host}:{args.port}  (Ctrl+C to stop)")
+    uvicorn.run(app, host=args.host, port=args.port, log_level="warning")
+    return 0
+
+
+def cmd_demo(args) -> int:
+    from . import demo
+    if args.action == "export":
+        src = os.environ.get("PRICELENS_DB", str(ROOT / "data" / "demo.db"))
+        out = demo.export(db.connect(src), ROOT)
+        print(f"Exported {out['images']} redacted images and {out['labels']} labels from {src} to demo/")
+    else:
+        out = demo.build(ROOT, ROOT / "data" / "demo.db")
+        print(f"Built data/demo.db: {out['receipts']} receipts, {out['labels']} labels (0 API calls)")
+    return 0
 
 
 def main(argv=None) -> int:

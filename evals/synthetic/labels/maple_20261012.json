@@ -29,7 +29,8 @@
       "line_total_cents": 289,
       "applies_to_line": null,
       "normalized_name": "flour tortillas",
-      "category": "bakery"
+      "category": "bakery",
+      "pack_count": null
     },
     {
       "printed": "BNLS CHIX BRST /   1.12 lb @ 3.79/lb",
@@ -41,7 +42,8 @@
       "line_total_cents": 424,
       "applies_to_line": null,
       "normalized_name": "chicken breast",
-      "category": "meat_seafood"
+      "category": "meat_seafood",
+      "pack_count": null
     },
     {
       "printed": "ORG BANANAS /   2.11 lb @ 0.56/lb",
@@ -53,7 +55,8 @@
       "line_total_cents": 118,
       "applies_to_line": null,
       "normalized_name": "bananas",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "EGGS GRD A 12",
@@ -65,7 +68,8 @@
       "line_total_cents": 409,
       "applies_to_line": null,
       "normalized_name": "eggs",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "OLV OIL XV",
@@ -77,7 +81,8 @@
       "line_total_cents": 859,
       "applies_to_line": null,
       "normalized_name": "olive oil",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "SPRK WTR 12",
@@ -89,7 +94,8 @@
       "line_total_cents": 469,
       "applies_to_line": null,
       "normalized_name": "sparkling water",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     }
   ]
 }

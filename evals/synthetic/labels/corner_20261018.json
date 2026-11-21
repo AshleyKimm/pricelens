@@ -29,7 +29,8 @@
       "line_total_cents": 867,
       "applies_to_line": null,
       "normalized_name": "chicken breast",
-      "category": "meat_seafood"
+      "category": "meat_seafood",
+      "pack_count": null
     },
     {
       "printed": "SALE CHICKEN BRST B",
@@ -41,7 +42,8 @@
       "line_total_cents": -173,
       "applies_to_line": 1,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "AVOCADO",
@@ -53,7 +55,8 @@
       "line_total_cents": 149,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "LG EGGS 12CT /   2 @ 4.69",
@@ -65,7 +68,8 @@
       "line_total_cents": 938,
       "applies_to_line": null,
       "normalized_name": "eggs",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "WHOLE MILK GAL",
@@ -77,7 +81,8 @@
       "line_total_cents": 379,
       "applies_to_line": null,
       "normalized_name": "milk",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "GRND BEEF /   1.03 lb @ 5.93/lb",
@@ -89,7 +94,8 @@
       "line_total_cents": 611,
       "applies_to_line": null,
       "normalized_name": "ground beef",
-      "category": "meat_seafood"
+      "category": "meat_seafood",
+      "pack_count": null
     },
     {
       "printed": "FLR TORTILLA 10",
@@ -101,7 +107,8 @@
       "line_total_cents": 329,
       "applies_to_line": null,
       "normalized_name": "flour tortillas",
-      "category": "bakery"
+      "category": "bakery",
+      "pack_count": null
     },
     {
       "printed": "COFFEE GRND MED /   2 @ 9.79",
@@ -113,7 +120,8 @@
       "line_total_cents": 1958,
       "applies_to_line": null,
       "normalized_name": "coffee",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "YOGURT GRK",
@@ -125,7 +133,8 @@
       "line_total_cents": 169,
       "applies_to_line": null,
       "normalized_name": "greek yogurt",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "MEMBER SAVINGS",
@@ -137,7 +146,8 @@
       "line_total_cents": -150,
       "applies_to_line": null,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     }
   ]
 }

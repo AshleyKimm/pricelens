@@ -29,7 +29,8 @@
       "line_total_cents": 859,
       "applies_to_line": null,
       "normalized_name": "olive oil",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "CHEDDAR BLK",
@@ -41,7 +42,8 @@
       "line_total_cents": 429,
       "applies_to_line": null,
       "normalized_name": "cheddar cheese",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "TP MINT",
@@ -53,7 +55,8 @@
       "line_total_cents": 349,
       "applies_to_line": null,
       "normalized_name": "toothpaste",
-      "category": "personal_care"
+      "category": "personal_care",
+      "pack_count": null
     },
     {
       "printed": "SALE TP MINT",
@@ -65,7 +68,8 @@
       "line_total_cents": -70,
       "applies_to_line": 3,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "ORG BANANAS /   3.12 lb @ 0.56/lb",
@@ -77,7 +81,8 @@
       "line_total_cents": 175,
       "applies_to_line": null,
       "normalized_name": "bananas",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "TORT FLOUR",
@@ -89,7 +94,8 @@
       "line_total_cents": 329,
       "applies_to_line": null,
       "normalized_name": "flour tortillas",
-      "category": "bakery"
+      "category": "bakery",
+      "pack_count": null
     },
     {
       "printed": "DSH SOAP",
@@ -101,7 +107,8 @@
       "line_total_cents": 339,
       "applies_to_line": null,
       "normalized_name": "dish soap",
-      "category": "household"
+      "category": "household",
+      "pack_count": null
     }
   ]
 }

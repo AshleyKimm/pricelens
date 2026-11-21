@@ -4,7 +4,7 @@ Photograph a store receipt, use a vision AI model to extract the store, date, an
 **verify the result with code** before it enters a price history database. Then search a product
 and compare its price across stores and over time.
 
-> Status: **Layer 1 (extraction, verification) and Layer 2 (categorization) done.** Layers 3-4 and the
+> Status: **Layers 1-3 done** (extraction + verification, categorization, web interface). Layer 4 and the
 > full eval are next.
 > See [PLAN.md](PLAN.md) for the full plan and the reasoning behind each decision.
 
@@ -22,6 +22,23 @@ and compare its price across stores and over time.
   by the AI and are saved as regression test cases.
 - Handles item discounts, coupons, refunds, multi-buys ("2 @ 1.50", "3 for $5"), weighed items,
   missing subtotals, multiple tax lines, many date formats, and currencies with no minor unit (IDR).
+
+## Web interface
+
+```bash
+.venv\Scripts\python -m pricelens demo build              # rebuild data/demo.db from committed files (0 API calls)
+.venv\Scripts\python -m pricelens serve --mode demo       # http://127.0.0.1:8000, fake data, read-only
+.venv\Scripts\python -m pricelens serve                   # local mode: your database, correction forms
+```
+
+- **Products:** search, plus the lowest current price and how many stores sell it.
+- **Product page:** latest price per store (with variety), the price-over-time chart, price changes, and every purchase.
+- **Receipts:** the redacted image next to the extracted lines and the result of each check.
+- **Labels:** AI labels with review flags. In local mode each row has a correction form, and corrections become regression cases.
+
+**Demo mode is read-only twice over:** the write routes aren't registered, *and* the SQLite connection is opened
+`mode=ro`, so even a bug can't write. It needs no API key. It serves only images from `demo/images`, looked up by hash.
+The chart is inline SVG drawn in Python (no JS, strict CSP: `default-src 'none'`).
 
 ## Quick start
 
@@ -99,6 +116,8 @@ accuracy, flag rate, redaction recall, and every failure listed._
 - OCR-based redaction can miss text on crumpled or low-contrast receipts, which is why there's a human preview.
 - Free Gemini tier: **20 requests/day per model**. Categorization batches per store, so 18 receipts take 3 calls.
 - Items from real (private) receipts are not categorized on the free tier, by design.
+- Varieties aren't yet normalized across stores ("boneless" vs "boneless skinless", "80%" vs "80/20").
+  Base names are, which is what comparison uses.
 - Product granularity is a judgment call. "cheese / cheddar block" and "cheddar cheese" are both defensible.
 - Ambiguous numeric dates (03/04/26) are resolved by a configured locale (default US).
 - Tested live on synthetic receipts only so far. Accuracy numbers come with the eval.

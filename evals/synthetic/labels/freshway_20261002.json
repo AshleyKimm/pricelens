@@ -29,7 +29,8 @@
       "line_total_cents": 258,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "SALE AVOCADO HASS",
@@ -41,7 +42,8 @@
       "line_total_cents": -52,
       "applies_to_line": 1,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "SPARKLING WATER 12PK",
@@ -53,7 +55,8 @@
       "line_total_cents": 549,
       "applies_to_line": null,
       "normalized_name": "sparkling water",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "SALE SPARKLING WATE",
@@ -65,7 +68,8 @@
       "line_total_cents": -110,
       "applies_to_line": 3,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "MILK 1GAL /   3 @ 3.49",
@@ -77,7 +81,8 @@
       "line_total_cents": 1047,
       "applies_to_line": null,
       "normalized_name": "milk",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "SALE MILK 1GAL",
@@ -89,7 +94,8 @@
       "line_total_cents": -209,
       "applies_to_line": 5,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "SPAGHETTI 1LB",
@@ -101,7 +107,8 @@
       "line_total_cents": 179,
       "applies_to_line": null,
       "normalized_name": "spaghetti",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "TORTILLA CHIPS",
@@ -113,7 +120,8 @@
       "line_total_cents": 399,
       "applies_to_line": null,
       "normalized_name": "tortilla chips",
-      "category": "snacks_sweets"
+      "category": "snacks_sweets",
+      "pack_count": null
     }
   ]
 }

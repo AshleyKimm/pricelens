@@ -29,7 +29,8 @@
       "line_total_cents": 349,
       "applies_to_line": null,
       "normalized_name": "milk",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "SALE MILK 1GAL",
@@ -41,7 +42,8 @@
       "line_total_cents": -70,
       "applies_to_line": 1,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "COFFEE 12OZ",
@@ -53,7 +55,8 @@
       "line_total_cents": 899,
       "applies_to_line": null,
       "normalized_name": "coffee",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "SALE COFFEE 12OZ",
@@ -65,7 +68,8 @@
       "line_total_cents": -180,
       "applies_to_line": 3,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "FROZEN PIZZA",
@@ -77,7 +81,8 @@
       "line_total_cents": 699,
       "applies_to_line": null,
       "normalized_name": "frozen pizza",
-      "category": "frozen"
+      "category": "frozen",
+      "pack_count": null
     },
     {
       "printed": "JASMINE RICE 2LB",
@@ -89,7 +94,8 @@
       "line_total_cents": 399,
       "applies_to_line": null,
       "normalized_name": "rice",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "GALA APPLES /   0.98 lb @ 2.19/lb",
@@ -101,7 +107,8 @@
       "line_total_cents": 215,
       "applies_to_line": null,
       "normalized_name": "gala apples",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "CHEDDAR 8OZ",
@@ -113,7 +120,8 @@
       "line_total_cents": 549,
       "applies_to_line": null,
       "normalized_name": "cheddar cheese",
-      "category": "dairy_eggs"
+      "category": "dairy_eggs",
+      "pack_count": null
     },
     {
       "printed": "SALE CHEDDAR 8OZ",
@@ -125,7 +133,8 @@
       "line_total_cents": -110,
       "applies_to_line": 8,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "AVOCADO HASS",
@@ -137,7 +146,8 @@
       "line_total_cents": 129,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "DISH SOAP",
@@ -149,7 +159,8 @@
       "line_total_cents": 319,
       "applies_to_line": null,
       "normalized_name": "dish soap",
-      "category": "household"
+      "category": "household",
+      "pack_count": null
     },
     {
       "printed": "SALE DISH SOAP",
@@ -161,7 +172,8 @@
       "line_total_cents": -64,
       "applies_to_line": 11,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     }
   ]
 }

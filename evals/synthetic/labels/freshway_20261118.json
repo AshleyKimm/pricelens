@@ -1,0 +1,62 @@
+{
+  "id": "freshway_20261118",
+  "image": "receipts/freshway_20261118.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-11-18",
+  "date_raw": "11/18/2026 15:48",
+  "currency": "USD",
+  "printed_subtotal_cents": 1207,
+  "tax_cents": 0,
+  "printed_total_cents": 1207,
+  "true_subtotal_cents": 1207,
+  "true_total_cents": 1207,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "0411",
+    "281043",
+    "50212716"
+  ],
+  "lines": [
+    {
+      "printed": "EGGS DOZEN",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 449,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 12
+    },
+    {
+      "printed": "EGGS 18CT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 579,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 18
+    },
+    {
+      "printed": "GREEK YOGURT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 179,
+      "applies_to_line": null,
+      "normalized_name": "greek yogurt",
+      "category": "dairy_eggs",
+      "pack_count": null
+    }
+  ]
+}

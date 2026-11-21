@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Receipt #{{ r.id }} · PriceLens{% endblock %}
+{% block content %}
+<p><a href="/receipts">← All receipts</a></p>
+<h1>Receipt #{{ r.id }} · {{ r.store_name_raw or "?" }}</h1>
+<p><span class="status {{ r.status }}">{{ "✓ verified" if r.status == "verified" else ("⚠ needs review" if r.status == "needs_review" else "✕ rejected") }}</span>
+  <span class="muted">· {{ r.purchase_date or "?" }} (printed “{{ r.date_raw }}”) · read by {{ r.model }} · prompt {{ r.prompt_version }}</span></p>
+
+<div class="split">
+  <figure class="receipt-img">
+    <img src="/receipts/{{ r.id }}/image" alt="Redacted receipt image #{{ r.id }}">
+    <figcaption class="muted">Exactly what was sent to the model: redacted locally first.</figcaption>
+  </figure>
+  <section>
+    <h2>Checks</h2>
+    {% if issues %}
+    <ul class="issues">
+      {% for i in issues %}<li class="{{ 'fail' if i.blocking else 'note' }}"><strong>{{ "FAIL" if i.blocking else "note" }} {{ i.code }}</strong> {{ i.message }}</li>{% endfor %}
+    </ul>
+    {% else %}<p>All checks passed: items = subtotal, subtotal + tax = total, dates and line math agree.</p>{% endif %}
+
+    <h2>Extracted lines</h2>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Printed</th><th>Kind</th><th class="num">Amount</th></tr></thead>
+      <tbody>
+      {% for l in lines %}
+        <tr{% if l.section == "after_subtotal" %} class="after"{% endif %}><td>{{ l.line_no }}</td><td class="mono">{{ l.raw_text }}</td><td>{{ l.kind }}</td><td class="num">{{ l.line_total_cents | money(r.currency) }}</td></tr>
+      {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr><td></td><td>Subtotal (printed)</td><td></td><td class="num">{{ r.subtotal_cents | money(r.currency) }}</td></tr>
+        <tr><td></td><td>Tax (printed)</td><td></td><td class="num">{{ r.tax_cents | money(r.currency) }}</td></tr>
+        <tr><td></td><td><strong>Total (printed)</strong></td><td></td><td class="num"><strong>{{ r.total_cents | money(r.currency) }}</strong></td></tr>
+      </tfoot>
+    </table>
+    </div>
+  </section>
+</div>
+{% endblock %}

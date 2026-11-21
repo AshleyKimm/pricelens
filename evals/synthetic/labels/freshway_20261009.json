@@ -29,7 +29,8 @@
       "line_total_cents": 299,
       "applies_to_line": null,
       "normalized_name": "dark chocolate",
-      "category": "snacks_sweets"
+      "category": "snacks_sweets",
+      "pack_count": null
     },
     {
       "printed": "COFFEE 12OZ /   3 @ 8.99",
@@ -41,7 +42,8 @@
       "line_total_cents": 2697,
       "applies_to_line": null,
       "normalized_name": "coffee",
-      "category": "beverages"
+      "category": "beverages",
+      "pack_count": null
     },
     {
       "printed": "TORTILLA CHIPS",
@@ -53,7 +55,8 @@
       "line_total_cents": 399,
       "applies_to_line": null,
       "normalized_name": "tortilla chips",
-      "category": "snacks_sweets"
+      "category": "snacks_sweets",
+      "pack_count": null
     },
     {
       "printed": "PEANUT BUTTER",
@@ -65,7 +68,8 @@
       "line_total_cents": 349,
       "applies_to_line": null,
       "normalized_name": "peanut butter",
-      "category": "pantry"
+      "category": "pantry",
+      "pack_count": null
     },
     {
       "printed": "AVOCADO HASS",
@@ -77,7 +81,8 @@
       "line_total_cents": 129,
       "applies_to_line": null,
       "normalized_name": "avocado",
-      "category": "produce"
+      "category": "produce",
+      "pack_count": null
     },
     {
       "printed": "SALE AVOCADO HASS",
@@ -89,7 +94,8 @@
       "line_total_cents": -26,
       "applies_to_line": 5,
       "normalized_name": null,
-      "category": null
+      "category": null,
+      "pack_count": null
     },
     {
       "printed": "ICE CREAM VAN 1.5QT",
@@ -101,7 +107,8 @@
       "line_total_cents": 549,
       "applies_to_line": null,
       "normalized_name": "ice cream",
-      "category": "frozen"
+      "category": "frozen",
+      "pack_count": null
     },
     {
       "printed": "TORTILLAS FLOUR /   2 @ 3.49",
@@ -113,7 +120,8 @@
       "line_total_cents": 698,
       "applies_to_line": null,
       "normalized_name": "flour tortillas",
-      "category": "bakery"
+      "category": "bakery",
+      "pack_count": null
     }
   ]
 }

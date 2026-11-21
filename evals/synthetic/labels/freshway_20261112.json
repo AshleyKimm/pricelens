@@ -1,0 +1,75 @@
+{
+  "id": "freshway_20261112",
+  "image": "receipts/freshway_20261112.png",
+  "store": "FRESHWAY GROCERY",
+  "date": "2026-11-12",
+  "date_raw": "11/12/2026 11:39",
+  "currency": "USD",
+  "printed_subtotal_cents": 1686,
+  "tax_cents": 0,
+  "printed_total_cents": 1686,
+  "true_subtotal_cents": 1686,
+  "true_total_cents": 1686,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "6911",
+    "204130",
+    "99295498"
+  ],
+  "lines": [
+    {
+      "printed": "EGGS 1/2 DOZEN",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 249,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 6
+    },
+    {
+      "printed": "EGGS 18CT",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 599,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 18
+    },
+    {
+      "printed": "MILK 1GAL",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 339,
+      "applies_to_line": null,
+      "normalized_name": "milk",
+      "category": "dairy_eggs",
+      "pack_count": null
+    },
+    {
+      "printed": "SOURDOUGH LOAF",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 499,
+      "applies_to_line": null,
+      "normalized_name": "sourdough bread",
+      "category": "bakery",
+      "pack_count": null
+    }
+  ]
+}

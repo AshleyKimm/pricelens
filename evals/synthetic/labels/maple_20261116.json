@@ -1,0 +1,75 @@
+{
+  "id": "maple_20261116",
+  "image": "receipts/maple_20261116.png",
+  "store": "MAPLE LANE FOODS",
+  "date": "2026-11-16",
+  "date_raw": "NOV 16, 2026 7:42PM",
+  "currency": "USD",
+  "printed_subtotal_cents": 1437,
+  "tax_cents": 0,
+  "printed_total_cents": 1437,
+  "true_subtotal_cents": 1437,
+  "true_total_cents": 1437,
+  "expected_status": "verified",
+  "misprint": null,
+  "degradation": "clean",
+  "sensitive_values": [
+    "5989",
+    "946573",
+    "49684179"
+  ],
+  "lines": [
+    {
+      "printed": "EGGS GRD A 6",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 229,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 6
+    },
+    {
+      "printed": "EGGS GRD A 30",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 899,
+      "applies_to_line": null,
+      "normalized_name": "eggs",
+      "category": "dairy_eggs",
+      "pack_count": 30
+    },
+    {
+      "printed": "ORG BANANAS /   1.88 lb @ 0.64/lb",
+      "kind": "item",
+      "section": "items",
+      "quantity": 1.88,
+      "unit": "lb",
+      "unit_price_cents": 64,
+      "line_total_cents": 120,
+      "applies_to_line": null,
+      "normalized_name": "bananas",
+      "category": "produce",
+      "pack_count": null
+    },
+    {
+      "printed": "SPAG 16OZ",
+      "kind": "item",
+      "section": "items",
+      "quantity": null,
+      "unit": null,
+      "unit_price_cents": null,
+      "line_total_cents": 189,
+      "applies_to_line": null,
+      "normalized_name": "spaghetti",
+      "category": "pantry",
+      "pack_count": null
+    }
+  ]
+}
