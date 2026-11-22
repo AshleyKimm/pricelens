@@ -58,3 +58,22 @@ OCR reads each image before and after redaction. Recall counts only values OCR c
 
 **payment section blacked out (TOTAL found)** (1):
 - corner_20261108: heavy_blur: TOTAL not found, image held back for review (not sent automatically)
+
+## CORD-v2 (public real receipt photos, Indonesian rupiah)
+
+Seeded sample, `gemini-3.6-flash`. Source: CORD-v2 (Clova AI / NAVER), https://huggingface.co/datasets/naver-clova-ix/cord-v2, CC BY 4.0. CORD has no store/date labels.
+
+| Field | Result |
+|---|---|
+| receipt extracted | 5/5 = 100% (95% CI 57-100%) |
+| item name | 11/11 = 100% (95% CI 74-100%) |
+| item count | 11/11 = 100% (95% CI 74-100%) |
+| item price | 10/10 = 100% (95% CI 72-100%) |
+| total | 5/5 = 100% (95% CI 57-100%) |
+| subtotal | 3/3 = 100% (95% CI 44-100%) |
+
+**Did the arithmetic checks catch the errors?** Of 0 receipts with any extraction error, 0 were flagged by the totals/line-math checks. False alarms (flagged, but read correctly): 0/5. Separately, 2/5 were flagged for a missing field (V6), usually the store name: CORD photos often crop the header, so the model correctly returned none.
+
+### CORD failures
+
+None.

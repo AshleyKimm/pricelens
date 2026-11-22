@@ -1,0 +1,40 @@
+{
+ "model": "gemini-3.6-flash",
+ "prompt_version": "extract-v2",
+ "output": {
+  "store_name": null,
+  "date_raw": null,
+  "date_iso": null,
+  "currency": "IDR",
+  "subtotal": "85.000",
+  "tax_lines": [
+   "8.500"
+  ],
+  "total": "93.500",
+  "legibility": "partial",
+  "lines": [
+   {
+    "raw_text": "Ash Chick Sambal Matah 5 75.000",
+    "description": "Ash Chick Sambal Matah",
+    "kind": "item",
+    "section": "items",
+    "quantity": 5,
+    "unit": "each",
+    "unit_price": null,
+    "line_total": "75.000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "Jamur Goreng 2 10.000",
+    "description": "Jamur Goreng",
+    "kind": "item",
+    "section": "items",
+    "quantity": 2,
+    "unit": "each",
+    "unit_price": null,
+    "line_total": "10.000",
+    "applies_to_line": null
+   }
+  ]
+ }
+}

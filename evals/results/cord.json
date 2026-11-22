@@ -1,0 +1,43 @@
+{
+ "rows": [
+  [
+   "receipt extracted",
+   5,
+   5
+  ],
+  [
+   "item name",
+   11,
+   11
+  ],
+  [
+   "item count",
+   11,
+   11
+  ],
+  [
+   "item price",
+   10,
+   10
+  ],
+  [
+   "total",
+   5,
+   5
+  ],
+  [
+   "subtotal",
+   3,
+   3
+  ]
+ ],
+ "fail": {},
+ "caught": {
+  "wrong": 0,
+  "wrong_and_flagged": 0,
+  "flagged": 0,
+  "scored": 5,
+  "false_alarm": 0,
+  "missing_field": 2
+ }
+}

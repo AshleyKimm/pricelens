@@ -305,13 +305,18 @@ def eval_cord() -> dict:
         # Does code verification catch the receipts the model got wrong? (V9 currency excluded: CORD is IDR.)
         ext_idr = ext.model_copy(update={"currency": "IDR"})
         res = verify(ext_idr, today=date(2030, 1, 1))  # CORD has no reliable dates: date checks ignored below
-        blocking = [i.code for i in res.issues if i.blocking and i.code not in ("V5", "V9")]
-        flagged = bool(blocking)
+        # Arithmetic checks only (items vs subtotal vs total, line math, discount links). Missing fields (V6),
+        # e.g. no store name in CORD's header-cropped photos, are reported separately: they aren't "errors caught".
+        math_codes = {"V1", "V2", "V3", "V4", "V8"}
+        codes = {i.code for i in res.issues if i.blocking}
+        flagged = bool(codes & math_codes)
         wrong = bool(s.failures)
         caught["scored"] += 1
         caught["flagged"] += flagged
         caught["wrong"] += wrong
         caught["wrong_and_flagged"] += wrong and flagged
+        caught["false_alarm"] = caught.get("false_alarm", 0) + (flagged and not wrong)
+        caught["missing_field"] = caught.get("missing_field", 0) + ("V6" in codes)
     return {"tally": t, "caught": caught}
 
 
@@ -386,8 +391,11 @@ def report() -> str:
         parts.append("## CORD-v2 (public real receipt photos, Indonesian rupiah)\n\nSeeded sample, `gemini-3.6-flash`. "
                      "Source: CORD-v2 (Clova AI / NAVER), https://huggingface.co/datasets/naver-clova-ix/cord-v2, CC BY 4.0. "
                      "CORD has no store/date labels.\n\n" + table(cord["tally"]) +
-                     f"\n\n**Did code verification catch the errors?** Of {c['wrong']} receipts with any extraction error, "
-                     f"{c['wrong_and_flagged']} were flagged by the totals checks ({c['flagged']}/{c['scored']} flagged overall)."
+                     f"\n\n**Did the arithmetic checks catch the errors?** Of {c['wrong']} receipts with any extraction "
+                     f"error, {c['wrong_and_flagged']} were flagged by the totals/line-math checks. False alarms (flagged, "
+                     f"but read correctly): {c.get('false_alarm', 0)}/{c['scored']}. Separately, "
+                     f"{c.get('missing_field', 0)}/{c['scored']} were flagged for a missing field (V6), usually the store "
+                     f"name: CORD photos often crop the header, so the model correctly returned none."
                      "\n\n### CORD failures\n\n" + failures(cord["tally"]))
     text = "\n\n".join(parts) + "\n"
     (ROOT / "evals" / "RESULTS.md").write_text(text, encoding="utf-8")

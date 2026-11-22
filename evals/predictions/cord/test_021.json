@@ -1,0 +1,38 @@
+{
+ "model": "gemini-3.6-flash",
+ "prompt_version": "extract-v2",
+ "output": {
+  "store_name": null,
+  "date_raw": null,
+  "date_iso": null,
+  "currency": "IDR",
+  "subtotal": null,
+  "tax_lines": [],
+  "total": "Rp38.000",
+  "legibility": "partial",
+  "lines": [
+   {
+    "raw_text": "1 35.000 Rp35.000\nNASI GOR SFD TLR",
+    "description": "NASI GOR SFD TLR",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": "35.000",
+    "line_total": "Rp35.000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "1 3.000 Rp3.000\nES TEH TAWAR",
+    "description": "ES TEH TAWAR",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": "3.000",
+    "line_total": "Rp3.000",
+    "applies_to_line": null
+   }
+  ]
+ }
+}

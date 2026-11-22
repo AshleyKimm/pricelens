@@ -1,0 +1,49 @@
+{
+ "model": "gemini-3.6-flash",
+ "prompt_version": "extract-v2",
+ "output": {
+  "store_name": "BAKMI BANGKA",
+  "date_raw": null,
+  "date_iso": null,
+  "currency": "IDR",
+  "subtotal": "Rp 138.000",
+  "tax_lines": [],
+  "total": "Rp 138.000",
+  "legibility": "partial",
+  "lines": [
+   {
+    "raw_text": "Cap Cay\nNasi Cap Cay Porsi B\nesar\n1 65.000 65.000",
+    "description": "Nasi Cap Cay Porsi Besar",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": "65.000",
+    "line_total": "65.000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "Minuman\nTeh Tawar\n2 4.000 8.000",
+    "description": "Teh Tawar",
+    "kind": "item",
+    "section": "items",
+    "quantity": 2,
+    "unit": "each",
+    "unit_price": "4.000",
+    "line_total": "8.000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "Lain-lain\nFu Yung Hai\n1 65.000 65.000",
+    "description": "Fu Yung Hai",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": "65.000",
+    "line_total": "65.000",
+    "applies_to_line": null
+   }
+  ]
+ }
+}

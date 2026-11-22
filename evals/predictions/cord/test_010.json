@@ -1,0 +1,27 @@
+{
+ "model": "gemini-3.6-flash",
+ "prompt_version": "extract-v2",
+ "output": {
+  "store_name": "Auntie Anne's",
+  "date_raw": null,
+  "date_iso": null,
+  "currency": "IDR",
+  "subtotal": "17,000",
+  "tax_lines": [],
+  "total": "17,000",
+  "legibility": "partial",
+  "lines": [
+   {
+    "raw_text": "CINNAMON SUGAR\n1 x 17,000 17,000",
+    "description": "CINNAMON SUGAR",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": "17,000",
+    "line_total": "17,000",
+    "applies_to_line": null
+   }
+  ]
+ }
+}

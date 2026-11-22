@@ -1,0 +1,49 @@
+{
+ "model": "gemini-3.6-flash",
+ "prompt_version": "extract-v2",
+ "output": {
+  "store_name": "Tous Les Jours",
+  "date_raw": null,
+  "date_iso": null,
+  "currency": "IDR",
+  "subtotal": null,
+  "tax_lines": [],
+  "total": "46,000",
+  "legibility": "partial",
+  "lines": [
+   {
+    "raw_text": "1 EGG TART 13,000",
+    "description": "EGG TART",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": null,
+    "line_total": "13,000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "2 CHOCO CUSTARD PASTRY 24,000",
+    "description": "CHOCO CUSTARD PASTRY",
+    "kind": "item",
+    "section": "items",
+    "quantity": 2,
+    "unit": "each",
+    "unit_price": null,
+    "line_total": "24,000",
+    "applies_to_line": null
+   },
+   {
+    "raw_text": "1 REDBEAN BREAD 9,000",
+    "description": "REDBEAN BREAD",
+    "kind": "item",
+    "section": "items",
+    "quantity": 1,
+    "unit": "each",
+    "unit_price": null,
+    "line_total": "9,000",
+    "applies_to_line": null
+   }
+  ]
+ }
+}
