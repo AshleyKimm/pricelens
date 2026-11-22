@@ -18,7 +18,7 @@ from . import errors
 from .categories import CATEGORIES, ItemLabel, LabelBatch
 from .models import strict_json_schema
 
-PROMPT_VERSION = "categorize-v3"  # v3: + pack size (v2: base name + variety, reuse known names)
+PROMPT_VERSION = "categorize-v4"  # v4: scale weight is not a pack size (v3: + pack size; v2: base name + variety)
 
 SYSTEM_PROMPT = (
     "You label items from shopping receipts for a price tracker.\n\n"
@@ -38,6 +38,8 @@ Rules:
   printed: "LG EGGS 24CT" -> 24 count; "EGGS 1/2 DOZEN" -> 0.5 dozen; "EGGS DOZEN" -> 1 dozen;
   "SPAG 16OZ" -> 16 oz; "OJ 52OZ" -> 52 fl oz (liquids use fl oz); "MILK 1GAL" -> 1 gal;
   "PAPER TOWELS 6RL" -> 6 count. Use null for both if no size is printed. Never guess a size.
+  A weight from a scale line in printed_line ("1.07 lb @ 0.59/lb") is NOT a pack size: that item is
+  sold by weight, so use null for both ("BANANAS" + "1.07 lb @ 0.59/lb" -> null, null).
 - If a list of known product names is given, reuse one of them exactly whenever it is the same
   base product, so the same product gets the same name at every store.
 - Expand store abbreviations only when you are confident ("PNT BTR CRMY" -> "peanut butter").

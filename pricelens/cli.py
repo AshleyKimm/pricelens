@@ -216,8 +216,12 @@ def cmd_categorize(args) -> int:
 
 
 def cmd_label(args) -> int:
-    from .labeling import fix_label, list_labels
+    from .labeling import fix_label, list_labels, recheck_pack_sizes
     conn = _conn()
+    if args.action == "recheck":
+        print(f"Re-checked stored pack sizes with the current rules: {recheck_pack_sizes(conn)} label(s) changed "
+              "(0 API calls).")
+        return 0
     if args.action == "list":
         rows = list_labels(conn, needs_review_only=args.review)
         for r in rows:
@@ -285,7 +289,7 @@ def build_parser() -> argparse.ArgumentParser:
     v.set_defaults(func=cmd_verify)
 
     lb = sub.add_parser("label", help="list labels or correct one by hand")
-    lb.add_argument("action", choices=["list", "fix"])
+    lb.add_argument("action", choices=["list", "fix", "recheck"])
     lb.add_argument("store", nargs="?")
     lb.add_argument("description", nargs="?", help="printed item name, e.g. 'TP MINT'")
     lb.add_argument("name", nargs="?", help="correct normalized name, e.g. toothpaste")

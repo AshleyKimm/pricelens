@@ -320,7 +320,7 @@ the demo build being deterministic.
 
 ### Pack sizes and unit prices (approved and built 2026-11-21)
 
-*Decided:* imperial by default (per each / per lb / per fl oz), switchable to metric (per 100 g / 100 ml) with a
+*Decided:* imperial by default (per each / per lb / per gal; per fl oz was tried first, but whole-cent rounding made every milk price "$0.03"), switchable to metric (per 100 g / 100 ml) with a
 cookie in the web app and `--units` / `PRICELENS_UNITS` in the CLI. Internally: count, g, ml.
 *As built:* the live run showed the model taking scale weights ("1.07 lb @ 0.59/lb") as pack sizes. The P1 check
 rejected all 7 (flagged, not used). A prompt fix ("a weight from a scale line is not a pack size") is next, when quota allows.

@@ -20,7 +20,7 @@ and compare its price across stores and over time.
   Results are cached per store and printed name, so the same text is never sent twice.
 - **Unit prices:** the AI reads pack sizes from printed names ("LG EGGS 24CT" -> 24, "EVOO 16.9OZ" -> 16.9 fl oz),
   and code checks that the number is actually printed before using it. Products are compared per egg / per lb /
-  per fl oz (imperial, default) or per 100 g / 100 ml (metric), so a 30-pack and a 6-pack compare fairly, and switching
+  per gal (imperial, default) or per 100 g / 100 ml (metric), so a 30-pack and a 6-pack compare fairly, and switching
   pack size never counts as a price change. In the live run the check rejected 7 made-up sizes (scale weights).
 - `pricelens label list|fix`: review flagged labels and correct them. Human corrections are never overwritten
   by the AI and are saved as regression test cases.

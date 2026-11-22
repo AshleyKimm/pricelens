@@ -18,6 +18,7 @@ TODAY = date(2026, 11, 21)
     ("LG EGGS 24CT", 24, "count"), ("EGGS GRD A 6", 6, "count"), ("EGGS 1/2 DOZEN", 0.5, "dozen"),
     ("EGGS DOZEN", 1, "dozen"), ("HALF DOZEN EGGS", 0.5, "dozen"), ("EVOO 16.9OZ", 16.9, "fl oz"),
     ("MILK 1GAL", 1, "gal"), ("SPAG 16OZ", 16, "oz"), ("AVOCADO", None, None),
+    ("WHOLE MILK GAL", 1, "gal"), ("GROUND BEEF LB", 1, "lb"),
 ])
 def test_pack_sizes_backed_by_printed_text(printed, qty, unit):
     assert pack_problem(printed, qty, unit) is None
@@ -30,6 +31,8 @@ def test_pack_sizes_backed_by_printed_text(printed, qty, unit):
     ("EGGS 1/2 DOZEN", 2, "dozen"),
     ("AVOCADO", 4, None),              # half a pack size
     ("SPAG 16OZ", 16, "ounces"),       # unknown unit
+    ("MILK 2GAL", 1, "gal"),           # a number IS printed, and it isn't 1
+    ("WHOLE MILK GAL", 2, "gal"),      # bare word means 1, not 2
 ])
 def test_unsupported_pack_sizes_are_flagged(printed, qty, unit):
     assert pack_problem(printed, qty, unit).startswith("P1")
@@ -49,7 +52,7 @@ def test_display_units_default_imperial():
     assert label == "lb" and round(per_lb) == 454
     assert display(1.0, "g", "metric") == (100.0, "100 g")
     assert display(1.0, "ml", "metric") == (100.0, "100 ml")
-    assert display(1.0, "ml")[1] == "fl oz"
+    assert display(1.0, "ml")[1] == "gal"
 
 
 # --- end to end with the egg-pack receipts' situation -------------------------------------------
@@ -144,3 +147,16 @@ def test_usd_and_cad_are_never_compared():
 def test_extraction_prompt_tells_cad_from_usd():
     from pricelens.extract import PROMPT_VERSION, SYSTEM_PROMPT
     assert "CAD" in SYSTEM_PROMPT and "GST" in SYSTEM_PROMPT and PROMPT_VERSION == "extract-v2"
+
+
+def test_recheck_applies_improved_rules_without_api_calls():
+    from pricelens.labeling import recheck_pack_sizes
+    c = db.connect(":memory:")
+    add(c, "CORNER", "11/14/2026", ("WHOLE MILK GAL", "3.79"))
+    categorize_all(c, FakeCategorizer({"WHOLE MILK GAL": ("milk", "dairy_eggs", "high", "whole", 1, "gal")}))
+    c.execute("UPDATE item_labels SET pack_base_qty = NULL, pack_base_unit = NULL, needs_review = 1, "
+              "review_reasons = '[\"P1: old rule\"]'")                           # as labeled under the old rule
+    assert recheck_pack_sizes(c) == 1
+    [row] = list_labels(c)
+    assert round(row["pack_base_qty"]) == 3785 and row["needs_review"] == 0
+    assert recheck_pack_sizes(c) == 0                                            # idempotent

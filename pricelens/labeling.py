@@ -182,3 +182,27 @@ def list_labels(conn, needs_review_only: bool = False):
     if needs_review_only:
         sql += " WHERE l.needs_review = 1"
     return conn.execute(sql + " ORDER BY s.name, l.normalized_name, l.description_key").fetchall()
+
+
+def recheck_pack_sizes(conn) -> int:
+    """Re-run the pack-size code check (P1) on the model answers already stored, e.g. after the check changes.
+    Uses no API calls: the model's pack_quantity/pack_unit are kept for audit even when rejected.
+    Returns how many labels changed."""
+    from .units import pack_problem
+    changed = 0
+    rows = conn.execute("""SELECT id, description, pack_quantity, pack_unit, pack_base_qty, review_reasons
+                           FROM item_labels WHERE source = 'ai' AND pack_quantity IS NOT NULL""").fetchall()
+    with conn:
+        for r in rows:
+            problem = pack_problem(r["description"], r["pack_quantity"], r["pack_unit"])
+            base = None if problem else to_base(r["pack_quantity"], r["pack_unit"])
+            reasons = [x for x in json.loads(r["review_reasons"]) if not x.startswith("P1")]
+            if problem:
+                reasons.append(problem)
+            new_base = base[0] if base else None
+            if new_base != r["pack_base_qty"] or reasons != json.loads(r["review_reasons"]):
+                conn.execute("""UPDATE item_labels SET pack_base_qty = ?, pack_base_unit = ?, review_reasons = ?,
+                                needs_review = ?, updated_at = datetime('now') WHERE id = ?""",
+                             (new_base, base[1] if base else None, json.dumps(reasons), int(bool(reasons)), r["id"]))
+                changed += 1
+    return changed

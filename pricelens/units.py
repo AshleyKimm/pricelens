@@ -19,7 +19,8 @@ DEFAULT_SYSTEM = "imperial"
 
 # Display: base unit -> (multiplier from "per base unit", label) for each system
 _DISPLAY = {
-    "imperial": {"count": (1.0, "each"), "g": (453.59237, "lb"), "ml": (29.5735295625, "fl oz")},
+    # Liquids per gallon, not per fl oz: milk is ~2.6c/fl oz, so whole-cent rounding made every store "$0.03".
+    "imperial": {"count": (1.0, "each"), "g": (453.59237, "lb"), "ml": (3785.411784, "gal")},
     "metric": {"count": (1.0, "each"), "g": (100.0, "100 g"), "ml": (100.0, "100 ml")},
 }
 
@@ -62,6 +63,12 @@ def pack_problem(printed: str, quantity: float | None, unit: str | None) -> str 
             if re.search(rf"(?<![\d./]){re.escape(v)}(?![\d./])", text):
                 return None
         return f"P1: {quantity:g} dozen not supported by {printed!r}"
+    # A bare unit word means one of it ("WHOLE MILK GAL" = 1 gal), like "EGGS DOZEN" = 1 dozen. Only when no
+    # other number is printed, so "MILK 2GAL" can't be read as 1 gal.
+    bare = {"gal": r"GAL(LON)?", "lb": r"LBS?", "qt": r"QT|QUART", "pt": r"PT|PINT", "kg": r"KG", "l": r"LTR|LITRE|LITER"}
+    if quantity == 1 and unit in bare and re.search(rf"\b({bare[unit]})\b", text) \
+            and not re.search(r"(?<![\d./])\d", text):
+        return None
     for v in _number_variants(quantity):
         # Not part of a larger number or a fraction: '2' must not match inside '12' or '1/2'.
         if re.search(rf"(?<![\d./]){re.escape(v)}(?![\d./])", text):
@@ -86,7 +93,7 @@ def weighed_to_base(unit: str) -> tuple[float, str] | None:
 
 def format_unit_price(base_price: float | None, base_unit: str | None, system: str = DEFAULT_SYSTEM,
                       currency: str = "USD") -> str:
-    """'$0.30 / each', '$1.49 / lb', '$0.33 / 100 g'; '' if unknown."""
+    """'$0.30 / each', '$1.49 / lb', '$3.39 / gal', '$0.33 / 100 g'; '' if unknown."""
     from .money import format_amount
     if base_price is None or base_unit is None:
         return ""
