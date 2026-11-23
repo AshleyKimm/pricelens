@@ -1,5 +1,7 @@
 # PriceLens
 
+[![tests](https://github.com/AshleyKimm/pricelens/actions/workflows/tests.yml/badge.svg)](https://github.com/AshleyKimm/pricelens/actions/workflows/tests.yml)
+
 Photograph a store receipt, use a vision AI model to extract the store, date, and line items, and
 **verify the result with code** before it enters a price history database. Then search a product
 and compare its price across stores and over time.
@@ -48,7 +50,7 @@ The chart is inline SVG drawn in Python (no JS, strict CSP: `default-src 'none'`
 
 ```bash
 python -m venv .venv
-.venv\Scripts\python -m pip install pillow python-dotenv pytesseract pytest anthropic   # anthropic only for --provider claude
+.venv\Scripts\python -m pip install -r requirements.txt   # pinned; the same file CI installs
 copy .env.example .env          # then add GEMINI_API_KEY (from https://aistudio.google.com/apikey)
 # Install Tesseract OCR (used for local redaction), e.g. on Windows:
 winget install UB-Mannheim.TesseractOCR
